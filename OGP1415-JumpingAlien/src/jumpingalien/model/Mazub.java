@@ -1,6 +1,7 @@
 package jumpingalien.model;
 
 
+import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 
 
@@ -25,11 +26,11 @@ import jumpingalien.util.Sprite;
  */
 public class Mazub {
 
-	
 	public Mazub (int pixelX, int pixelY, Sprite[] sprites) {
 		setPositionX(pixelX);
 		setPositionY(pixelY);
 		this.images = sprites;
+		m = (images.length-10)/2;
 	}
 	
 	public Sprite getImageAtIndex(int index){
@@ -46,8 +47,17 @@ public class Mazub {
 		setPositionX(getPositionX() + formulePositionX(dt));
 		setPositionY(getPositionY() + formulePositionY(dt));
 		setSpeedX(getSpeedX() + getAccelerationX()*dt);
-		setSpeedY(getSpeedY() + getAccelerationY()*dt);	
-		
+		setSpeedY(getSpeedY() + getAccelerationY()*dt);
+		if (System.currentTimeMillis() - changedIndex  >= 75)
+			this.updateIndex();
+	}
+	
+	public void updateIndex(){
+		if (n<m)
+			n+=1;
+		else
+			n=0;
+		changedIndex = System.currentTimeMillis();
 	}
 	
 	public boolean isValidTime(double dt){
@@ -66,9 +76,11 @@ public class Mazub {
 	
 	public void startMove(Direction direction){
 		setSpeedX(100*direction.getDirection());
-		setAccelerationX(90);
+		setAccelerationX(90*direction.getDirection());
 		this.isMovingX = true;
 		this.lastDirection = direction.getDirection();
+		changedIndex = System.currentTimeMillis();
+		n=0;
 	}
 	
 	public void endMove(){
@@ -138,13 +150,13 @@ public class Mazub {
 	}
 	
 	public void setPositionX(int position){
-		assert isValidPosition(position,0);
-		this.positionX = position;
+		if (isValidPosition(position,0))
+			this.positionX = position;
 	}
 	
 	public void setPositionY(int position){
-		assert isValidPosition(0,position);
-		this.positionY = position;
+		if (isValidPosition(0,position))
+			this.positionY = position;
 	}
 	
 	/**
@@ -295,12 +307,21 @@ public class Mazub {
 		if ( (isMovingX() || hasMovedX())  && this.lastDirection == -1 && isDucking())
 			return this.getImageAtIndex(7);
 		if ( isMovingX() && this.lastDirection == 1 && ! isJumping() && ! isDucking())
-			return this.getImageAtIndex(8);
+			return this.getImageAtIndex(8+n);
 		if ( isMovingX() && this.lastDirection == -1 && ! isJumping() && ! isDucking())
-			return this.getImageAtIndex(9);
+			return this.getImageAtIndex(9+m+n);
 		else return this.getImageAtIndex(0);
 			
 	}
+	
+//	public Sprite alternatingImages(int m, int basicIndex) {
+//		if (m<=0)
+//			return this.getImageAtIndex(basicIndex);
+//		else
+//			changedIndex = System.currentTimeMillis();
+//			return this.getImageAtIndex(basicIndex);
+//			if 
+//	}
 	
 
 	
@@ -324,7 +345,9 @@ public class Mazub {
 	private boolean isMovingX = false;
 	private boolean isJumping = false;	
 	private int lastDirection = 0;
-
+	private int m;
+	private int n;
+	private long changedIndex;
 	
 	
 }
