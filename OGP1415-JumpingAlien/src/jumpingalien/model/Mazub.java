@@ -41,15 +41,18 @@ public class Mazub {
 		return this.images;
 	}
 	
-	public Sprite[] images;
 	
 	public void advanceTime(double dt){							//DEFENSIEF
 		setPositionX(getPositionX() + formulePositionX(dt));
 		setPositionY(getPositionY() + formulePositionY(dt));
-		setSpeedX(getSpeedX() + getAccelerationX()*dt);
+		setSpeedX(getSpeedX() + getAccelerationX()*dt); 
 		setSpeedY(getSpeedY() + getAccelerationY()*dt);
+		if (getPositionY() == 0)
+			setSpeedY(0);
 		if (System.currentTimeMillis() - changedIndex  >= 75)
 			this.updateIndex();
+		setWidthMazub(getWidth( getCurrentSprite()));
+		setHeightMazub(images.getHeight());
 	}
 	
 	public void updateIndex(){
@@ -98,15 +101,15 @@ public class Mazub {
 	public void endJump(){
 		if (getSpeedY() > 0)
 			setSpeedY(0);
-		setAccelerationY(-1000);
+		setAccelerationY(gravity);
 		this.isJumping = false;
 	}
 	
-	public void fall(){			// correct????
-		if (getPositionY() > 0)
-			setAccelerationY(-1000);
-	}
-	
+//	public void fall(){			
+//		if (getPositionY() > 0)
+//			setAccelerationY(gravity);
+//	}
+//	
 	public void startDuck(){			//DEFENSIEF
 		maxSpeedX = 100;
 		this.isDucking = true;
@@ -157,6 +160,8 @@ public class Mazub {
 	public void setPositionY(int position){
 		if (isValidPosition(0,position))
 			this.positionY = position;
+		if (position < 0)
+			this.positionY = 0;
 	}
 	
 	/**
@@ -311,7 +316,7 @@ public class Mazub {
 		if ( isMovingX() && this.lastDirection == -1 && ! isJumping() && ! isDucking())
 			return this.getImageAtIndex(9+m+n);
 		else return this.getImageAtIndex(0);
-			
+		
 	}
 	
 //	public Sprite alternatingImages(int m, int basicIndex) {
@@ -348,6 +353,7 @@ public class Mazub {
 	private int m;
 	private int n;
 	private long changedIndex;
+	public Sprite[] images;
 	
 	
 }
