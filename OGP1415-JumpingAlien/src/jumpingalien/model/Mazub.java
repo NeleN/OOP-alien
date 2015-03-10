@@ -277,13 +277,16 @@ public class Mazub {
 	 * Sets the vertical acceleration of the alien to a given acceleration
 	 * 
 	 * @param acc
-	 * @pre		AANNAME: niet groter dan abs(10) NOG UITWERKEN
+	 * AANNAME: versnelling niet groter laten worden dan abs(10), indien ongeldige versnelling zet op standaar gravitatie-waarde.
 	 * @post	The new vertical acceleration of the alien must be equal to the given acceleration
 	 * 			| new.getAccelerationY() == acc
 	 * TOTAAL (BIJ BV FALL GEBRUIK MAKEN VAN EFFECT??)
 	 */
 	public void setAccelerationY(double acc){
-		this.accelerationY = acc; 
+		if (Math.abs(acc) <= 10)
+			this.accelerationY = acc; 
+		else
+			this.accelerationY = gravity;
 	}
 	
 	/**
