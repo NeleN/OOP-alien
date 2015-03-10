@@ -92,6 +92,24 @@ public class Mazub {
 		 return travelledDistanceY;
 	}	
 	
+	/**
+	 * @param direction
+	 * @pre		direction has to be a valid direction
+	 * 			| direction == (RIGHT || LEFT)
+	 * @post	if the direction is left the horizontal speed and acceleration should be negative
+	 * 			| if (direction.getDirection() == -1)
+	 * 				(new.getSpeedX() < 0 || new.getAccelerationX() < 0)
+	 * @post	if the direction is right the horizontal speed and acceleration should be positive
+	 * 			| if (direction.getDirection() == 1)
+	 * 				(new.getSpeedX() > 0 || new.getAccelerationX() > 0)
+	 * @post	The absolute value of the horizontal speed should be 100
+	 * 			| Math.abs(new.getSpeedX()) == 100
+	 * @post	The absolute value of the horizontal acceleration should be 90
+	 * 			| Math.abs(new.getAccelerationX()) == 90
+	 * @post	The alien is moving
+	 * 			new.isMovingX == true
+	 * 
+	 */
 	public void startMove(Direction direction){
 		setSpeedX(100*direction.getDirection());
 		setAccelerationX(90*direction.getDirection());
@@ -101,6 +119,14 @@ public class Mazub {
 		n=0;
 	}
 	
+	/**
+	 * @post	The horizontal speed of the alien is zero
+	 * 			| new.getSpeedX() == 0
+	 * @post	The horizontal acceleration of the alien is zero
+	 * 			new.getAccelerationX() == 0
+	 * @post	The alien isn't moving
+	 * 			| new.isMovingX == false
+	 */
 	public void endMove(){
 		setSpeedX(0);
 		setAccelerationX(0);
@@ -350,6 +376,9 @@ public class Mazub {
 		return (System.currentTimeMillis() - timeLastMovedX < 1000);
 	}
 	
+	/**
+	 * @return
+	 */
 	public Sprite getCurrentSprite() {
 		if (! isMovingX() && ! hasMovedX() && ! isDucking())
 			return this.getImageAtIndex(0);
