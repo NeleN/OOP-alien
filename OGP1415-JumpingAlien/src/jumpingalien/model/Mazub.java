@@ -51,6 +51,8 @@ public class Mazub {
 			setSpeedY(0);
 		if (System.currentTimeMillis() - changedIndex  >= 75)
 			this.updateIndex();
+		getCurrentSprite().getWidth();
+		getCurrentSprite().getHeight();
 	}
 	
 	public void updateIndex(){
