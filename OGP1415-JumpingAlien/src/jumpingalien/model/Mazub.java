@@ -42,6 +42,21 @@ public class Mazub {
 	}
 	
 	
+	/**
+	 * @param dt
+	 * @post 	....
+	 * 			| new.positionX = this.positionX + formulePositionX(dt)
+	 * @post	...
+	 * 			| new.positionY = this.positionY + formulePositionY(dt)
+	 * @post	...
+	 * 			| new.speedX = this.speedX + getAccelerationX()*dt
+	 * @post	...
+	 * 			| new.speedY = this.speedY + getAccelerationY()*dt
+	 * @throws	if mazub is on the ground, speed equals zero
+	 * @throws	isValidTime(double dt)
+	 * @throws	are multipliable, are addable
+	 * VRAAG: moet throwable enkel met gegeven input of gaat dit tot over andere methodes?
+	 */
 	public void advanceTime(double dt){							//DEFENSIEF
 		setPositionX(getPositionX() + formulePositionX(dt));
 		setPositionY(getPositionY() + formulePositionY(dt));
@@ -52,7 +67,7 @@ public class Mazub {
 		if (System.currentTimeMillis() - changedIndex  >= 75)
 			this.updateIndex();
 		widthMazub = getCurrentSprite().getWidth();
-		heightMazub = getCurrentSprite().getHeight();
+		heightMazub =  getCurrentSprite().getHeight();
 	}
 	
 	public void updateIndex(){
@@ -93,11 +108,31 @@ public class Mazub {
 		this.isMovingX = false;
 	}
 	
+	/**
+	 * This method initiates a jump of the alien Mazub.
+	 * 
+	 * @post	the boolean isJumping is true.
+	 * 			| new.isJumping = true
+	 * @post	the vertical speed of Mazub equals 800 pixel/s.
+	 * 			| new.getSpeedY() = 800
+	 * @throws	???
+	 * 
+	 */
 	public void startJump(){
 		setSpeedY(800);				//pixel/s
 		this.isJumping = true;
 	}
 	
+	/**
+	 * This method terminates a jump of the alien Mazub.
+	 * 
+	 * @post	the boolean isJumping is false.
+	 * 			| new.isJumping = false
+	 * @post	the vertical acceleration of Mazub equals gravity.
+	 * 			| new.getAccelerationY() = gravity
+	 * @throws 	???
+	 * 
+	 */
 	public void endJump(){
 		if (getSpeedY() > 0)
 			setSpeedY(0);
@@ -110,11 +145,29 @@ public class Mazub {
 //			setAccelerationY(gravity);
 //	}
 //	
+	/**
+	 * This method initiates the alien Mazub's duck.
+	 * 
+	 * @post	the maximum value of the horizontal speed equals 100 pixel/s.
+	 * 			| maxSpeedX = 100
+	 * @post	the boolean isDucking is true.
+	 * 			| new.isDucking = true 
+	 * 
+	 */
 	public void startDuck(){			//DEFENSIEF
 		maxSpeedX = 100;
 		this.isDucking = true;
 	}
 	
+	/**
+	 * This method end the alien Mazub's duck.
+	 * 
+	 * @post	the maximum value of the horizontal speed equals 300 pixel/s.
+	 * 			| maxSpeedX = 300
+	 * @post	the boolean isDucking is false.
+	 * 			| new.isDucking = false 
+	 * 
+	 */
 	public void endDuck(){
 		maxSpeedX = 300;
 		this.isDucking = false;
