@@ -71,7 +71,7 @@ public class Mazub {
 	}
 	
 	public void updateIndex(){
-		if (n<m)
+		if (n<=m)
 			n+=1;
 		else
 			n=0;
@@ -408,12 +408,10 @@ public class Mazub {
 	private double speedY = 0;
 	private double accelerationX = 0;
 	private double accelerationY = 0;
-	private int heightMazub = 11;
-	private int widthMazub = 6;
+	private int heightMazub;
+	private int widthMazub;
 	private int positionX = 0;
 	private int positionY = 0;
-	private int pixelX = 0;
-	private int pixelY = 0;
 	private int travelledDistanceX = 0;
 	private int travelledDistanceY = 0;
 	private long timeLastMovedX = -1001;
