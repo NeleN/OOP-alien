@@ -53,7 +53,7 @@ public class Mazub {
 	 * @post	...
 	 * 			| new.speedY = this.speedY + getAccelerationY()*dt
 	 * @throws	if mazub is on the ground, speed equals zero
-	 * @throws	isValidTime(double dt)
+	 * @throws	isValidTime(double dt), valid argument
 	 * @throws	are multipliable, are addable
 	 * VRAAG: moet throwable enkel met gegeven input of gaat dit tot over andere methodes?
 	 */
@@ -166,11 +166,6 @@ public class Mazub {
 		this.isJumping = false;
 	}
 	
-//	public void fall(){			
-//		if (getPositionY() > 0)
-//			setAccelerationY(gravity);
-//	}
-//	
 	/**
 	 * This method initiates the alien Mazub's duck.
 	 * 
@@ -403,15 +398,6 @@ public class Mazub {
 		else return this.getImageAtIndex(0);
 		
 	}
-	
-//	public Sprite alternatingImages(int m, int basicIndex) {
-//		if (m<=0)
-//			return this.getImageAtIndex(basicIndex);
-//		else
-//			changedIndex = System.currentTimeMillis();
-//			return this.getImageAtIndex(basicIndex);
-//			if 
-//	}
 	
 
 	
