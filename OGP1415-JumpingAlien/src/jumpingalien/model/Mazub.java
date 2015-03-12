@@ -90,8 +90,6 @@ public class Mazub {
 	 * 			| new.speedY = this.speedY + getAccelerationY()*dt
 	 * @throws	if mazub is on the ground, speed equals zero
 	 * @throws	isValidTime(double dt), valid argument
-	 * @throws	are multipliable, are addable
-	 * VRAAG: moet throwable enkel met gegeven input of gaat dit tot over andere methodes?
 	 */
 	public void advanceTime(double dt){							//DEFENSIEF
 		formulePositionX(dt);
@@ -519,7 +517,7 @@ public class Mazub {
 	}
 	
 	/**
-	 * Returns a sprite corresponding to the defined state of Mazub.
+	 * Returns a sprite corresponding to the defined state of Mazub.UITGEBREIDER UITLEGGEN
 	 */
 	public Sprite getCurrentSprite() {
 		if (! isMovingX() && ! hasMovedX() && ! isDucking())
@@ -624,7 +622,7 @@ public class Mazub {
 	/**
 	 * An integer that alternates from zero to m.
 	 */
-	private int alternatingIndex;
+	public int alternatingIndex;
 	/**
 	 * The moment alternatingIndex was updated for the last time.
 	 */
