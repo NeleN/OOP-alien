@@ -39,7 +39,7 @@ public class Facade implements IFacade {
 	}
 	
 	public int[] getSize(Mazub alien){
-		int[] array = {alien.getHeightMazub(),alien.getWidthMazub()};
+		int[] array = {alien.getWidthMazub(),alien.getHeightMazub()};
 		return array;
 	}
 	

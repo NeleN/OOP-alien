@@ -91,7 +91,7 @@ public class Mazub {
 	 * @throws	if mazub is on the ground, speed equals zero
 	 * @throws	isValidTime(double dt), valid argument
 	 */
-	public void advanceTime(double dt){							//DEFENSIEF
+	public void advanceTime(double dt) throws IllegalDeltaTimeException{							
 		formulePositionX(dt);
 		formulePositionY(dt);
 		setPositionX(getPositionX() + getTravelledDistanceX());
@@ -590,15 +590,15 @@ public class Mazub {
 	/**
 	 * The distance Mazub has covered in horizontal direction after a short period of time dt.
 	 */
-	private int travelledDistanceX = 0;
+	public int travelledDistanceX = 0;
 	/**
 	 * The distance Mazub has covered in vertical direction after a short period of time dt.
 	 */
-	private int travelledDistanceY = 0;
+	public int travelledDistanceY = 0;
 	/**
 	 * The moment Mazub was moving for the last time.
 	 */
-	private long timeLastMovedX = -1001;
+	public int timeLastMovedX = 0;
 	/**
 	 * A boolean which shows whether Mazub is ducking or not.
 	 */
@@ -614,7 +614,7 @@ public class Mazub {
 	/**
 	 * The last direction Mazub has moved in.
 	 */
-	private int lastDirection = 0;
+	public int lastDirection = 0;
 	/**
 	 * The number of alternating images for the cases 8 and 9 in the method getCurrentSprite.
 	 */
@@ -626,7 +626,7 @@ public class Mazub {
 	/**
 	 * The moment alternatingIndex was updated for the last time.
 	 */
-	private double changedIndex;
+	public double changedIndex;
 	/**
 	 * An array of images that represent Mazub in its different states.
 	 */
