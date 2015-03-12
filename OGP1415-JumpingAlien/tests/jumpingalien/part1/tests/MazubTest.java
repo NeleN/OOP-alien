@@ -4,8 +4,6 @@
 package jumpingalien.part1.tests;
 
 import static org.junit.Assert.*;
-import jumpingalien.part1.facade.Facade;
-import jumpingalien.part1.facade.IFacade;
 import jumpingalien.model.Mazub;
 import jumpingalien.tests.util.TestUtils;
 import jumpingalien.util.*;
@@ -66,13 +64,23 @@ public class MazubTest {
 		assertTrue (alien.isValidPosition(27,489));
 	}
 	
-	@Test	//  verschillende gevallen 
-	public final void isValidPosition_FalsePosX(){
+	@Test
+	public final void isValidPosition_FalsePosX_outOfRange(){
 		assertFalse (alien.isValidPosition(2000, 5));
 	}
 	
 	@Test
-	public final void isValidPosition_FalsePosY(){
+	public final void isValidPosition_FalsePosX_negative(){
+		assertFalse (alien.isValidPosition(-5, 5));
+	}
+	
+	@Test
+	public final void isValidPosition_FalsePosY_outOfRange(){
+		assertFalse (alien.isValidPosition(2, 1000));
+	}
+	
+	@Test
+	public final void isValidPosition_FalsePosY_negative(){
 		assertFalse (alien.isValidPosition(5,-200));
 	}
 	
@@ -93,6 +101,7 @@ public class MazubTest {
 		else
 			assertFalse (alien.isValidSpeedX(-400));
 	}
+	
 	
 
 }

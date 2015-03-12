@@ -94,8 +94,10 @@ public class Mazub {
 	 * VRAAG: moet throwable enkel met gegeven input of gaat dit tot over andere methodes?
 	 */
 	public void advanceTime(double dt){							//DEFENSIEF
-		setPositionX(getPositionX() + formulePositionX(dt));
-		setPositionY(getPositionY() + formulePositionY(dt));
+		formulePositionX(dt);
+		formulePositionY(dt);
+		setPositionX(getPositionX() + getTravelledDistanceX());
+		setPositionY(getPositionY() + getTravelledDistanceY());
 		setSpeedX(getSpeedX() + getAccelerationX()*dt); 
 		setSpeedY(getSpeedY() + getAccelerationY()*dt);
 		if (getPositionY() == 0)
@@ -141,29 +143,24 @@ public class Mazub {
 	 * 
 	 * @param 	dt
 	 * 			an infinitesimally small period of time
-	 * @return	the horizontal distance travelled during a period of time dt.
-	 * 			| new.travelledDistanceX
 	 * @post	the new travelled distance is calculated given the speed and acceleration during a period of time dt.
 	 * 			| new.travelledDistanceX = getSpeedX()*dt  + (1/2)*getAccelerationX()*Math.pow(dt, 2)
 	 */
-	public int formulePositionX(double dt){
+	public void formulePositionX(double dt){
 		 travelledDistanceX = (int) (getSpeedX()*dt  + (1/2)*getAccelerationX()*Math.pow(dt, 2));
-		 return travelledDistanceX;
 	}
+	
 	
 	/**
 	 * This method calculates the vertical travelled distance.
 	 * 
 	 * @param 	dt
 	 * 			an infinitesimally small period of time
-	 * @return	the vertical distance travelled during a period of time dt.
-	 * 			| new.travelledDistanceY
 	 * @post	the new travelled distance is calculated given the speed and acceleration during a period of time dt.
 	 * 			| new.travelledDistanceY = getSpeedX()*dt  + (1/2)*getAccelerationY()*Math.pow(dt, 2)
 	 */
-	public int formulePositionY(double dt){
+	public void formulePositionY(double dt){
 		 travelledDistanceY = (int) (getSpeedY()*dt  + (1/2)*getAccelerationY()*Math.pow(dt, 2));
-		 return travelledDistanceY;
 	}	
 	
 	/**
@@ -493,6 +490,22 @@ public class Mazub {
 	 */
 	public void setAccelerationY(double acc){
 		this.accelerationY = acc; 
+	}
+	
+	/**
+	 * @return	the horizontal distance travelled during a period of time dt.
+	 * 			| new.travelledDistanceX
+	 */
+	public int getTravelledDistanceX(){
+		return travelledDistanceX;
+	}
+	
+	/**
+	 * @return	the vertical distance travelled during a period of time dt.
+	 * 			| new.travelledDistanceY
+	 */
+	public int getTravelledDistanceY(){
+		return travelledDistanceY;
 	}
 	
 	/**
