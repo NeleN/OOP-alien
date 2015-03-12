@@ -1,16 +1,16 @@
 /**
  * 
  */
-package jumpingalien.model;
+package jumpingalien.part1.tests;
 
 import static org.junit.Assert.*;
+import jumpingalien.part1.facade.Facade;
+import jumpingalien.part1.facade.IFacade;
 import jumpingalien.model.Mazub;
+import jumpingalien.tests.util.TestUtils;
+import jumpingalien.util.*;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * @author 	Nele Nauwelaers and Melanie Nijs
@@ -46,7 +46,14 @@ public class MazubTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
+	
+	
+////////////////////////////////////////////////////////////////////////////////
+	
+	Sprite[] sprites = TestUtils.spriteArrayForSize(2, 2);
+	Mazub alien = new Mazub(0, 0, sprites);
+	
+	
 	@Test
 	public final void constructor_SingleCase() {
 		Mazub alien = new Mazub(0, 0, sprites);
@@ -56,35 +63,35 @@ public class MazubTest {
 	
 	@Test
 	public final void isValidPosition_TrueCase(){
-		assertTrue (Mazub.isValidPosition(27,489));
+		assertTrue (alien.isValidPosition(27,489));
 	}
 	
 	@Test	//  verschillende gevallen 
 	public final void isValidPosition_FalsePosX(){
-		assertFalse (Mazub.isValidPosition(2000, 5));
+		assertFalse (alien.isValidPosition(2000, 5));
 	}
 	
 	@Test
 	public final void isValidPosition_FalsePosY(){
-		assertFalse (Mazub.isValidPosition(5,-200));
+		assertFalse (alien.isValidPosition(5,-200));
 	}
 	
 	@Test
 	public final void isValidPosition_FalseBoth(){
-		assertFalse (Mazub.isValidPosition(-9,9000));
+		assertFalse (alien.isValidPosition(-9,9000));
 	}
 	
 	@Test
 	public final void isValidSpeedX_TrueCase(){
-		assertTrue (Mazub.isValidSpeedX(20));
+		assertTrue (alien.isValidSpeedX(20));
 	}
 	
 	@Test
 	public final void isValidSpeedX_falseCase(){
-		if (isDucking)
-			assertFalse (Mazub.isValidSpeedX(200);
+		if (alien.isDucking())
+			assertFalse (alien.isValidSpeedX(200));
 		else
-			assertFalse (Mazub.isValidSpeedX(-400));
+			assertFalse (alien.isValidSpeedX(-400));
 	}
 	
 

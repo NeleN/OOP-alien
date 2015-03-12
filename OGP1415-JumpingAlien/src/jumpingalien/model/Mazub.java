@@ -21,7 +21,7 @@ import jumpingalien.util.Sprite;
  * @author Melanie Nijs and Nele Nauwelaers
  * @version 11/03
  * 
- * @assumptions		we calculate everything in pixel, pixel/s, pixel/s²
+ * @assumptions		we calculate everything in pixel, pixel/s, pixel/s�
  *
  */
 public class Mazub {
@@ -55,6 +55,7 @@ public class Mazub {
 		this.images = sprites;
 		m = (images.length-10)/2;
 	}
+	
 	
 	/**
 	 * Returns an image corresponding to the current index.
@@ -99,8 +100,10 @@ public class Mazub {
 		setSpeedY(getSpeedY() + getAccelerationY()*dt);
 		if (getPositionY() == 0)
 			setSpeedY(0);
-		if (System.currentTimeMillis() - changedIndex  >= 75)
-			this.updateIndex();
+		timeLastMovedX += dt;
+		changedIndex += dt;
+		if (changedIndex >= 0.075)
+			this.updateIndex(dt);
 		widthMazub = getCurrentSprite().getWidth();
 		heightMazub =  getCurrentSprite().getHeight();
 	}
@@ -113,12 +116,12 @@ public class Mazub {
 	 * @post	changedIndex must be set to current time
 	 * 			| new.changedIndex = System.currentTimeMillis()
 	 */
-	public void updateIndex(){
-		if (n<m)
-			n+=1;
+	public void updateIndex(double dt){
+		if (alternatingIndex<m)
+			alternatingIndex+=1;
 		else
-			n=0;
-		changedIndex = System.currentTimeMillis();
+			alternatingIndex=0;
+		changedIndex = 0;
 	}
 	
 	/**
@@ -185,16 +188,16 @@ public class Mazub {
 	 * 			| new.lastDirection == direction
 	 * @post	changedIndex is set to the current time
 	 * 			| new.changedIndex == System.currentTimeMillis()
-	 * @post	n is zero
-	 * 			| n == 0
+	 * @post	alternatingIndex is zero
+	 * 			| alternatingIndex == 0
 	 */
 	public void startMove(Direction direction){
 		setSpeedX(100*direction.getDirection());
 		setAccelerationX(90*direction.getDirection());
 		this.isMovingX = true;
 		this.lastDirection = direction.getDirection();
-		changedIndex = System.currentTimeMillis();
-		n=10;
+		changedIndex = 0;
+		alternatingIndex = 0;
 	}
 	
 	/**
@@ -212,7 +215,7 @@ public class Mazub {
 	public void endMove(){
 		setSpeedX(0);
 		setAccelerationX(0);
-		timeLastMovedX = System.currentTimeMillis();
+		timeLastMovedX = 0;
 		this.isMovingX = false;
 	}
 	
@@ -499,7 +502,7 @@ public class Mazub {
 	 * 			| (System.currentTimeMillis() - timeLastMovedX < 1000)
 	 */
 	public boolean hasMovedX(){
-		return (System.currentTimeMillis() - timeLastMovedX < 1000);
+		return (timeLastMovedX < 1);
 	}
 	
 	/**
@@ -523,9 +526,9 @@ public class Mazub {
 		if ( (isMovingX() || hasMovedX())  && this.lastDirection == -1 && isDucking())
 			return this.getImageAtIndex(7);
 		if ( isMovingX() && this.lastDirection == 1 && ! isJumping() && ! isDucking())
-			return this.getImageAtIndex(8+n);
+			return this.getImageAtIndex(8+alternatingIndex);
 		if ( isMovingX() && this.lastDirection == -1 && ! isJumping() && ! isDucking())
-			return this.getImageAtIndex(9+m+n);
+			return this.getImageAtIndex(9+m+alternatingIndex);
 		else return this.getImageAtIndex(0);
 		
 	}
@@ -533,26 +536,89 @@ public class Mazub {
 
 	
  
+	/**
+	 * The gravitational constant we assume equal to earth's.
+	 */
 	private int gravity = -1000;					// -10m/s --> pixel = 0,01m --> 1000 pixels/s²
+	/**
+	 * The maximum speed the alien may have.
+	 */
 	private double maxSpeedX = 300;					//	3 m/s --> pixel = 0,01m --> 300 pixel/s 
-	private double speedX = 0;
+	/**
+	 * The current speed in horizontal direction of the alien Mazub.
+	 */
+	private double speedX = 0; 
+	/**
+	 * The current speed in vertical direction of the alien Mazub.
+	 */
 	private double speedY = 0;
+	/**
+	 * The current acceleration in horizontal direction of the alien Mazub.
+	 */
 	private double accelerationX = 0;
+	/**
+	 * The current acceleration in vertical direction of the alien Mazub.
+	 */
 	private double accelerationY = 0;
+	/**
+	 * The current height of the alien Mazub.
+	 */
 	private int heightMazub;
+	/**
+	 * The current width of the alien Mazub.
+	 */
 	private int widthMazub;
+	/**
+	 * The current position of the alien Mazub in horizontal direction.
+	 */
 	private int positionX = 0;
+	/**
+	 * The current position of the alien Mazub in vertical direction.
+	 */
 	private int positionY = 0;
+	/**
+	 * The distance Mazub has covered in horizontal direction after a short period of time dt.
+	 */
 	private int travelledDistanceX = 0;
+	/**
+	 * The distance Mazub has covered in vertical direction after a short period of time dt.
+	 */
 	private int travelledDistanceY = 0;
+	/**
+	 * The moment Mazub was moving for the last time.
+	 */
 	private long timeLastMovedX = -1001;
+	/**
+	 * A boolean which shows whether Mazub is ducking or not.
+	 */
 	private boolean isDucking = false;
+	/**
+	 * A boolean which shows whether Mazub is moving or not.
+	 */
 	private boolean isMovingX = false;
+	/**
+	 * A boolean which shows whether Mazub is jumping or not.
+	 */
 	private boolean isJumping = false;	
+	/**
+	 * The last direction Mazub has moved in.
+	 */
 	private int lastDirection = 0;
+	/**
+	 * The number of alternating images for the cases 8 and 9 in the method getCurrentSprite.
+	 */
 	private int m;
-	private int n;
-	private long changedIndex;
+	/**
+	 * An integer that alternates from zero to m.
+	 */
+	private int alternatingIndex;
+	/**
+	 * The moment alternatingIndex was updated for the last time.
+	 */
+	private double changedIndex;
+	/**
+	 * An array of images that represent Mazub in its different states.
+	 */
 	public Sprite[] images;
 	
 	
