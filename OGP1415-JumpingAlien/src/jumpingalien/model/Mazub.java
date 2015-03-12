@@ -124,17 +124,6 @@ public class Mazub {
 		changedIndex = 0;
 	}
 	
-	/**
-	 * Checks if dt is a valid time span.
-	 * 
-	 * @param 	dt
-	 * 			an infinitesimally small period of time
-	 * @return	True if and only if the given dt is positive and smaller than 0.2
-	 * 			| (dt>=0) && (dt<0.2)
-	 */
-	public boolean isValidTime(double dt){
-		return (dt>=0) && (dt<0.2);	// dt in seconds
-	}
 		
 	/**
 	 * This method calculates the horizontal travelled distance.
