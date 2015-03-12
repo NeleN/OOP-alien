@@ -125,21 +125,7 @@ public class MazubTest {
 		alien.updateIndex();
 		assertEquals(0, alien.alternatingIndex);
 	}
-	
-	@Test
-	public final void isValidTime_TrueCase(){
-		assertTrue(alien.isValidTime(0.12));
-	}
-	
-	@Test
-	public final void isValidTime_FalseCase_Negative(){
-		assertFalse(alien.isValidTime(-0.12));
-	}
-	
-	@Test
-	public final void isValidTime_FalseCase_OutOfRange(){
-		assertFalse(alien.isValidTime(0.3));
-	}
+
 	
 	@Test
 	public final void formulePositionX_NormalCase(){
