@@ -102,6 +102,7 @@ public class MazubTest {
 			assertFalse (alien.isValidSpeedX(-400));
 	}
 	
-	
+	@Test
+	public final void update
 
 }

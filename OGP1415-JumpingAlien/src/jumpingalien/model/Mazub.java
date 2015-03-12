@@ -105,7 +105,7 @@ public class Mazub {
 		timeLastMovedX += dt;
 		changedIndex += dt;
 		if (changedIndex >= 0.075)
-			this.updateIndex(dt);
+			this.updateIndex();
 		widthMazub = getCurrentSprite().getWidth();
 		heightMazub =  getCurrentSprite().getHeight();
 	}
@@ -118,7 +118,7 @@ public class Mazub {
 	 * @post	changedIndex must be set to current time
 	 * 			| new.changedIndex = System.currentTimeMillis()
 	 */
-	public void updateIndex(double dt){
+	public void updateIndex(){
 		if (alternatingIndex<m)
 			alternatingIndex+=1;
 		else
