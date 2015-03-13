@@ -134,7 +134,7 @@ public class Mazub {
 	 * 			| new.travelledDistanceX = getSpeedX()*dt  + (1/2)*getAccelerationX()*Math.pow(dt, 2)
 	 */
 	public void formulePositionX(double dt){
-		 travelledDistanceX = (int) (getSpeedX()*dt  + (1/2)*getAccelerationX()*Math.pow(dt, 2));
+		 travelledDistanceX = (int) (getSpeedX()*dt  + 0.5*getAccelerationX()*Math.pow(dt, 2));
 	}
 	
 	
@@ -147,7 +147,7 @@ public class Mazub {
 	 * 			| new.travelledDistanceY = getSpeedX()*dt  + (1/2)*getAccelerationY()*Math.pow(dt, 2)
 	 */
 	public void formulePositionY(double dt){
-		 travelledDistanceY = (int) (getSpeedY()*dt  + (1/2)*getAccelerationY()*Math.pow(dt, 2));
+		 travelledDistanceY = (int) (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2));
 	}	
 	
 	/**

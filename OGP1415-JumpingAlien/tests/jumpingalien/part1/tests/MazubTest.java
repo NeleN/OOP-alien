@@ -79,10 +79,10 @@ public class MazubTest {
 	public final void advanceTime_PositionY(){
 		alien.setPositionY(100);
 		alien.setSpeedY(80);
-		alien.setAccelerationX(100);
+		alien.setAccelerationY(100);
 		alien.advanceTime(0.2);
 		final double DELTA = 1e-15;
-		assertEquals(18,alien.getPositionY(),DELTA);
+		assertEquals(118,alien.getPositionY(),DELTA);
 	}
 	
 	@Test
