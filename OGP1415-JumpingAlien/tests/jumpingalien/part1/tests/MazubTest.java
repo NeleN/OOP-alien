@@ -61,49 +61,91 @@ public class MazubTest {
 	}
 	
 	@Test
-	public final void isValidPosition_TrueCase(){
-		assertTrue (alien.isValidPosition(27,489));
+	public final void getImageAtIndex(){
+		assertEquals(sprites[1],alien.getImageAtIndex(1));
 	}
 	
 	@Test
-	public final void isValidPosition_FalsePosX_OutOfRange(){
-		assertFalse (alien.isValidPosition(2000, 5));
+	public final void advanceTime_PositionX(){
+		alien.setPositionX(5);
+		alien.setSpeedX(100);
+		alien.setAccelerationX(800);
+		alien.advanceTime(0.1);
+		final double DELTA = 1e-15;
+		assertEquals(19,alien.getPositionX(),DELTA);
 	}
 	
 	@Test
-	public final void isValidPosition_FalsePosX_Negative(){
-		assertFalse (alien.isValidPosition(-5, 5));
+	public final void advanceTime_PositionY(){
+		alien.setPositionY(100);
+		alien.setSpeedY(80);
+		alien.setAccelerationX(100);
+		alien.advanceTime(0.2);
+		final double DELTA = 1e-15;
+		assertEquals(18,alien.getPositionY(),DELTA);
 	}
 	
 	@Test
-	public final void isValidPosition_FalsePosY_OutOfRange(){
-		assertFalse (alien.isValidPosition(2, 1000));
+	public final void advanceTime_SpeedX(){
+		alien.setSpeedX(50);
+		alien.setAccelerationX(100);
+		alien.advanceTime(0.2);
+		final double DELTA = 1e-15;
+		assertEquals(70,alien.getSpeedX(),DELTA);
 	}
 	
 	@Test
-	public final void isValidPosition_FalsePosY_Negative(){
-		assertFalse (alien.isValidPosition(5,-200));
+	public final void advanceTime_SpeedY(){
+		alien.setPositionY(22);
+		alien.setSpeedY(500);
+		alien.setAccelerationY(-200);
+		alien.advanceTime(0.05);
+		final double DELTA = 1e-15;
+		assertEquals(490,alien.getSpeedY(),DELTA);
 	}
 	
 	@Test
-	public final void isValidPosition_FalseBoth(){
-		assertFalse (alien.isValidPosition(-9,9000));
+	public final void advanceTime_SpeedYZero(){
+		alien.advanceTime(0.1);
+		final double DELTA = 1e-15;
+		assertEquals(0,alien.getSpeedY(),DELTA);
 	}
 	
 	@Test
-	public final void isValidSpeedX_TrueCase(){
-		assertTrue (alien.isValidSpeedX(20));
+	public final void advanceTime_timeLastMoved(){
+		alien.timeLastMovedX = 0.5;
+		alien.advanceTime(0.15);
+		final double DELTA = 1e-15;
+		assertEquals(0.65,alien.timeLastMovedX,DELTA);
 	}
 	
 	@Test
-	public final void isValidSpeedX_FalseCase(){
-		if (alien.isDucking())
-			assertFalse (alien.isValidSpeedX(200));
-		else
-			assertFalse (alien.isValidSpeedX(-400));
+	public final void advanceTime_changedIndex(){
+		alien.changedIndex = 0.03;
+		alien.advanceTime(0.02);
+		final double DELTA = 1e-15;
+		assertEquals(0.05, alien.changedIndex,DELTA);
 	}
 	
-	// Test advanceTime
+	@Test
+	public final void advanceTime_updateIndex(){
+		alien.alternatingIndex = 5;
+		alien.changedIndex = 0.1;
+		alien.advanceTime(0.2);
+		assertEquals(6,alien.alternatingIndex);
+	}
+	
+	@Test
+	public final void advanceTime_Width(){
+		alien.advanceTime(0);
+		assertEquals(alien.widthMazub, alien.getCurrentSprite().getWidth());
+	}
+	
+	@Test
+	public final void advanceTime_Height(){
+		alien.advanceTime(0);
+		assertEquals(alien.heightMazub, alien.getCurrentSprite().getHeight());
+	}
 	
 	@Test
 	public final void updateIndex_NormalCase(){
@@ -219,7 +261,8 @@ public class MazubTest {
 	@Test
 	public final void endMove_timeLastMoved(){
 		alien.endMove();
-		assertEquals(0,alien.timeLastMovedX);
+		final double DELTA = 1e-15;
+		assertEquals(0,alien.timeLastMovedX,DELTA);
 	}
 	
 	@Test
@@ -232,7 +275,7 @@ public class MazubTest {
 	public final void startJump_Speed(){
 		alien.startJump();
 		final double DELTA = 1e-15;
-		assertEquals(800, alien.getSpeedX(),DELTA);
+		assertEquals(800, alien.getSpeedY(),DELTA);
 	}
 	
 	@Test
@@ -241,5 +284,268 @@ public class MazubTest {
 		assertTrue(alien.isJumping());
 	}
 	
+	@Test
+	public final void endJump_PositiveSpeed(){
+		alien.setSpeedY(500);
+		alien.endJump();
+		final double DELTA = 1e-15;
+		assertEquals(0,alien.getSpeedY(),DELTA);
+	}
+	
+	@Test
+	public final void endJump_NegativeSpeed(){
+		alien.setSpeedY(-500);
+		alien.endJump();
+		final double DELTA = 1e-15;
+		assertEquals(-500,alien.getSpeedY(),DELTA);
+	}
+	
+	@Test
+	public final void endJump_Acceleration(){
+		alien.endJump();
+		final double DELTA = 1e-15;
+		assertEquals(-1000,alien.getAccelerationY(),DELTA);
+	}
+	
+	@Test
+	public final void endJump_isJumping(){
+		alien.endJump();
+		assertFalse(alien.isJumping());
+	}
+	
+	@Test
+	public final void startDuck_MaxSpeed(){
+		alien.startDuck();
+		final double DELTA = 1e-15;
+		assertEquals(100,alien.maxSpeedX,DELTA);
+	}
+	
+	@Test
+	public final void startDuck_isDucking(){
+		alien.startDuck();
+		assertTrue(alien.isDucking());
+	}
+	
+	@Test
+	public final void endDuck_MaxSpeed(){
+		alien.endDuck();
+		final double DELTA = 1e-15;
+		assertEquals(300,alien.maxSpeedX,DELTA);
+	}
+	
+	@Test
+	public final void endDuck_isDucking(){
+		alien.endDuck();
+		assertFalse(alien.isDucking());
+	}
+	
+	@Test
+	public final void isValidPosition_TrueCase(){
+		assertTrue (alien.isValidPosition(27,489));
+	}
+	
+	@Test
+	public final void isValidPosition_FalsePosX_OutOfRange(){
+		assertFalse (alien.isValidPosition(2000, 5));
+	}
+	
+	@Test
+	public final void isValidPosition_FalsePosX_Negative(){
+		assertFalse (alien.isValidPosition(-5, 5));
+	}
+	
+	@Test
+	public final void isValidPosition_FalsePosY_OutOfRange(){
+		assertFalse (alien.isValidPosition(2, 1000));
+	}
+	
+	@Test
+	public final void isValidPosition_FalsePosY_Negative(){
+		assertFalse (alien.isValidPosition(5,-200));
+	}
+	
+	@Test
+	public final void isValidPosition_FalseBoth(){
+		assertFalse (alien.isValidPosition(-9,9000));
+	}
+	
+	@Test
+	public final void isValidSpeedX_TrueCase(){
+		assertTrue (alien.isValidSpeedX(20));
+	}
+	
+	@Test
+	public final void isValidSpeedX_FalseCase(){
+		if (alien.isDucking())
+			assertFalse (alien.isValidSpeedX(200));
+		else
+			assertFalse (alien.isValidSpeedX(-400));
+	}
+	
+	@Test
+	public final void setPositionX_ValidCase(){
+		alien.setPositionX(1000);
+		assertEquals(1000, alien.getPositionX());
+	}
+	
+	@Test
+	public final void setPositionX_FalseCase_Negative(){
+		alien.setPositionX(-500);
+		assertEquals(0, alien.getPositionX());		
+	}
+	
+	@Test
+	public final void setPositionX_FalseCase_OutOfRange(){
+		alien.setPositionX(1500);
+		assertEquals(0, alien.getPositionX());		
+	}
+	
+	@Test
+	public final void setPositionY_ValidCase(){
+		alien.setPositionY(400);
+		assertEquals(400, alien.getPositionY());
+	}
+	
+	@Test
+	public final void setPositionY_ValidCase_Negative(){
+		alien.setPositionY(-500);
+		assertEquals(0, alien.getPositionY());		
+	}
+	
+	@Test
+	public final void setPositionY_FalseCase_OutOfRange(){
+		alien.setPositionY(800);
+		assertEquals(0, alien.getPositionY());		
+	}
+	
+	@Test
+	public final void setHeight(){
+		alien.setHeightMazub(20);
+		assertEquals(20,alien.getHeightMazub());
+	}
+	
+	@Test
+	public final void setWidth(){
+		alien.setWidthMazub(10);
+		assertEquals(10,alien.getWidthMazub());
+	}
+	
+	@Test
+	public final void setSpeedX_ValidCase(){
+		alien.setSpeedX(55);
+		final double DELTA = 1e-15;
+		assertEquals(55,alien.getSpeedX(),DELTA);
+	}
+	
+	@Test
+	public final void setSpeedX_FalseCase(){
+		alien.setSpeedX(500);
+		final double DELTA = 1e-15;
+		assertEquals(0,alien.getSpeedX(),DELTA);
+	}
+	
+	@Test
+	public final void setSpeedY(){
+		alien.setSpeedY(400);
+		final double DELTA = 1e-15;
+		assertEquals(400,alien.getSpeedY(),DELTA);
+	}
+	
+	@Test
+	public final void setAccelerationX(){
+		alien.setAccelerationX(-200);
+		final double DELTA = 1e-15;
+		assertEquals(-200,alien.getAccelerationX(),DELTA);
+	}
+	
+	@Test
+	public final void setAccelerationY(){
+		alien.setAccelerationY(100);
+		final double DELTA = 1e-15;
+		assertEquals(100,alien.getAccelerationY(),DELTA);
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case0(){
+		assertEquals(alien.getImageAtIndex(0),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case1(){
+		alien.startDuck();
+		assertEquals(alien.getImageAtIndex(1),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case2(){
+		alien.timeLastMovedX = 0.5;
+		alien.lastDirection = 1;
+		assertEquals(alien.getImageAtIndex(2),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case3(){
+		alien.timeLastMovedX = 0.5;
+		alien.lastDirection = -1;
+		assertEquals(alien.getImageAtIndex(3),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case4(){
+		alien.startMove(Direction.RIGHT);
+		alien.startJump();
+		assertEquals(alien.getImageAtIndex(4),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case5(){
+		alien.startMove(Direction.LEFT);
+		alien.startJump();
+		assertEquals(alien.getImageAtIndex(5),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case6A(){
+		alien.startMove(Direction.RIGHT);
+		alien.startDuck();
+		assertEquals(alien.getImageAtIndex(6),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case6B(){
+		alien.timeLastMovedX = 0.3;
+		alien.lastDirection = 1;
+		alien.startDuck();
+		assertEquals(alien.getImageAtIndex(6),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case7A(){
+		alien.startMove(Direction.LEFT);
+		alien.startDuck();
+		assertEquals(alien.getImageAtIndex(7),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case7B(){
+		alien.timeLastMovedX = 0.7;
+		alien.lastDirection = -1;
+		alien.startDuck();
+		assertEquals(alien.getImageAtIndex(7),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case8(){
+		alien.startMove(Direction.RIGHT);
+		alien.alternatingIndex = 4;
+		assertEquals(alien.getImageAtIndex(12),alien.getCurrentSprite());
+	}
+	
+	@Test
+	public final void getCurrentSprite_Case9(){
+		alien.startMove(Direction.LEFT);
+		alien.alternatingIndex = 9;
+		assertEquals(alien.getImageAtIndex(28),alien.getCurrentSprite());
+	}
 	
 }

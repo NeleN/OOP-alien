@@ -91,7 +91,7 @@ public class Mazub {
 	 * @throws	if mazub is on the ground, speed equals zero
 	 * @throws	isValidTime(double dt), valid argument
 	 */
-	public void advanceTime(double dt) throws IllegalDeltaTimeException{							
+	public void advanceTime(double dt) throws IllegalDeltaTimeException {							
 		formulePositionX(dt);
 		formulePositionY(dt);
 		setPositionX(getPositionX() + getTravelledDistanceX());
@@ -442,8 +442,8 @@ public class Mazub {
 	 * 
 	 */
 	public void setSpeedX(double speed){
-		assert isValidSpeedX(speed);
-		this.speedX = speed;
+		if (isValidSpeedX(speed))
+			this.speedX = speed;
 	}
 	
 	/**
@@ -543,7 +543,7 @@ public class Mazub {
 	/**
 	 * The maximum speed the alien may have.
 	 */
-	private double maxSpeedX = 300;					//	3 m/s --> pixel = 0,01m --> 300 pixel/s 
+	public double maxSpeedX = 300;					//	3 m/s --> pixel = 0,01m --> 300 pixel/s 
 	/**
 	 * The current speed in horizontal direction of the alien Mazub.
 	 */
@@ -563,11 +563,11 @@ public class Mazub {
 	/**
 	 * The current height of the alien Mazub.
 	 */
-	private int heightMazub;
+	public int heightMazub;
 	/**
 	 * The current width of the alien Mazub.
 	 */
-	private int widthMazub;
+	public int widthMazub;
 	/**
 	 * The current position of the alien Mazub in horizontal direction.
 	 */
@@ -587,7 +587,7 @@ public class Mazub {
 	/**
 	 * The moment Mazub was moving for the last time.
 	 */
-	public int timeLastMovedX = 0;
+	public double timeLastMovedX = 0;
 	/**
 	 * A boolean which shows whether Mazub is ducking or not.
 	 */
