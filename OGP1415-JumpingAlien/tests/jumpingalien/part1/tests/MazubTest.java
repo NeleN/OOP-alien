@@ -472,6 +472,7 @@ public class MazubTest {
 	
 	@Test
 	public final void getCurrentSprite_Case1(){
+		alien.timeLastMovedX = 5;
 		alien.startDuck();
 		assertEquals(alien.getImageAtIndex(1),alien.getCurrentSprite());
 	}
