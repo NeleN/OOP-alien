@@ -19,7 +19,7 @@ import jumpingalien.util.Sprite;
  * 			| isValidPosition(getPositionX(),getPositionY())
  * 
  * @author Melanie Nijs and Nele Nauwelaers
- * @version 11/03
+ * @version 1.7
  * 
  * @assumptions		we calculate everything in pixel, pixel/s, pixel/s²
  *
