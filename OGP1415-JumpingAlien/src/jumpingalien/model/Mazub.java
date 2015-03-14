@@ -90,26 +90,31 @@ public class Mazub {
 	 * 			| new.speedY = this.speedY + getAccelerationY()*dt
 	 * @throws	IllegalDeltaTimeException
 	 * 			The given period of time is an invalid input.
-	 * 			| !(dt>=0) && (dt<0.2)
+	 * 			| !(dt>=0) || !(dt<0.2)
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
-		if (!(dt>=0) && (dt<0.2))
-			throw new IllegalDeltaTimeException("Input dt is invalid!");
-		else
-			formulePositionX(dt);
-			formulePositionY(dt);
-			setPositionX(getPositionX() + getTravelledDistanceX());
-			setPositionY(getPositionY() + getTravelledDistanceY());
-			setSpeedX(getSpeedX() + getAccelerationX()*dt); 
-			setSpeedY(getSpeedY() + getAccelerationY()*dt);
-			if (getPositionY() == 0)
-				setSpeedY(0);
-			timeLastMovedX += dt;
-			changedIndex += dt;
-			if (changedIndex >= 0.075)
-				this.updateIndex();
-			widthMazub = getCurrentSprite().getWidth();
-			heightMazub =  getCurrentSprite().getHeight();
+		try{ 
+			if (dt<0 || dt>=0.2)
+				throw new IllegalDeltaTimeException("Input dt is invalid!");
+			else
+				formulePositionX(dt);
+				formulePositionY(dt);
+				setPositionX(getPositionX() + getTravelledDistanceX());
+				setPositionY(getPositionY() + getTravelledDistanceY());
+				setSpeedX(getSpeedX() + getAccelerationX()*dt); 
+				setSpeedY(getSpeedY() + getAccelerationY()*dt);
+				if (getPositionY() == 0)
+					setSpeedY(0);
+				timeLastMovedX += dt;
+				changedIndex += dt;
+				if (changedIndex >= 0.075)
+					this.updateIndex();
+				widthMazub = getCurrentSprite().getWidth();
+				heightMazub =  getCurrentSprite().getHeight();
+		}
+		catch (IllegalDeltaTimeException e){
+			
+		}
 	}
 	
 	
@@ -449,6 +454,8 @@ public class Mazub {
 	public void setSpeedX(double speed){
 		if (isValidSpeedX(speed))
 			this.speedX = speed;
+		else
+			this.speedX = (this.lastDirection*maxSpeedX);
 	}
 	
 	/**
