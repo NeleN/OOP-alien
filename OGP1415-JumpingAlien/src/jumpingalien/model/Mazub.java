@@ -49,33 +49,14 @@ public class Mazub {
 	 * @post	The parameter m is used to define the number of possible images for cases 8 and 9.
 	 * 			| m == (images.length-10)/2
 	 */
+	@Raw
 	public Mazub (int positionX, int positionY, Sprite[] sprites) {
 		setPositionX(positionX);
 		setPositionY(positionY);
 		this.images = sprites;
 		m = (images.length-10)/2;
 	}
-	
-	
-	/**
-	 * Returns an image corresponding to the current index.
-	 * 
-	 * @param 	index
-	 * 			An integer number that represents the current state of Mazub.
-	 * @pre		The index should be positive and may not exceed the length of the array images.
-	 * 			| (index >= 0) && (index < images.length)
-	 */
-	public Sprite getImageAtIndex(int index){
-		assert (index >= 0) && (index < images.length);
-		return this.images[index];
-	}
-	
-	/**
-	 * Returns an array of sprites called images.
-	 */
-	public Sprite[] getImages(){
-		return this.images;
-	}
+
 	
 	
 	/**
@@ -94,7 +75,7 @@ public class Mazub {
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 		if (! isValidTime(dt))
-			throw new IllegalDeltaTimeException("Input dt is invalid!");
+			throw new IllegalDeltaTimeException(dt);
 		else
 			formulePositionX(dt);
 			formulePositionY(dt);
@@ -120,6 +101,7 @@ public class Mazub {
 	 * @return	True if and only if the given dt is positive and smaller than 0.2
 	 * 			| (dt>=0) && (dt<0.2)
 	 */
+	@Raw
 	public boolean isValidTime(double dt){
 		return (dt>=0) && (dt<0.2);	
 	}
@@ -282,6 +264,7 @@ public class Mazub {
 	 * @return	true if and only if Mazub is ducking.
 	 * 			| this.isDucking
 	 */
+	@Basic
 	public boolean isDucking(){
 		return this.isDucking;
 	}
@@ -292,6 +275,7 @@ public class Mazub {
 	 * @return	true if and only if Mazub is moving horizontally.
 	 * 			| this.isMovingX
 	 */
+	@Basic
 	public boolean isMovingX(){
 		return this.isMovingX;
 	}
@@ -302,6 +286,7 @@ public class Mazub {
 	 * @return	true if and only if Mazub is jumping.
 	 * 			| this.isJumping
 	 */
+	@Basic
 	public boolean isJumping(){
 		return this.isJumping;
 	}
@@ -316,6 +301,7 @@ public class Mazub {
 	 * @return	true if and only if x is an element of [0, 1023] and y an element of [0, 767]
 	 * 			| (positionX>=xMin && positionX<=xMax) && (positionY>=yMin && positionY<=yMax)
 	 */
+	@Raw
 	public boolean isValidPosition(int positionX, int positionY){
 		return (positionX>=xMin && positionX<=xMax) && (positionY>=yMin && positionY<=yMax);
 	}
@@ -328,14 +314,27 @@ public class Mazub {
 	 * @return	True if and only if speed is smaller than or equal to the maximum horizontal speed.
 	 * 			| Math.abs(speed) <= this.maxSpeedX
 	 */
+	@Raw
 	public boolean isValidSpeedX(double speed){
 		return Math.abs(speed) <= this.maxSpeedX;
+	}
+	
+	/**
+	 * Checks whether Mazub has moved horizontally within the last second.
+	 * 
+	 * @return	True if and only if Mazub has moved whithin the last second.
+	 * 			| (System.currentTimeMillis() - timeLastMovedX < 1000)
+	 */
+	@Basic
+	public boolean hasMovedX(){
+		return (timeLastMovedX < 1);
 	}
 	
 	
 	/**
 	 * Returns the horizontal position of the alien Mazub.
 	 */
+	@Basic
 	public int getPositionX(){
 		return this.positionX;
 	}
@@ -343,6 +342,7 @@ public class Mazub {
 	/**
 	 * Returns the vertical position of the alien Mazub.
 	 */
+	@Basic
 	public int getPositionY() {
 		return this.positionY;
 	}
@@ -383,6 +383,7 @@ public class Mazub {
 	 * Return the current height of the alien
 	 * @return
 	 */
+	@Basic
 	public int getHeightMazub(){
 		return this.heightMazub;
 	}
@@ -391,6 +392,7 @@ public class Mazub {
 	 * Return the current width of the alien
 	 * @return
 	 */
+	@Basic
 	public int getWidthMazub(){
 		return this.widthMazub;
 	}
@@ -422,6 +424,7 @@ public class Mazub {
 	/**
 	 * Return the current speed in horizontal direction of the alien.
 	 */
+	@Basic
 	public double getSpeedX(){
 		return this.speedX;
 	}
@@ -429,6 +432,7 @@ public class Mazub {
 	/**
 	 * Return the current speed in vertical direction of the alien.
 	 */
+	@Basic
 	public double getSpeedY(){
 		return this.speedY;
 	}
@@ -436,6 +440,7 @@ public class Mazub {
 	/**
 	 * Return the current acceleration in horizontal direction of the alien.
 	 */
+	@Basic
 	public double getAccelerationX(){
 		return this.accelerationX;
 	}
@@ -443,6 +448,7 @@ public class Mazub {
 	/**
 	 * Return the current acceleration in vertical direction of the alien.
 	 */
+	@Basic
 	public double getAccelerationY(){
 		return this.accelerationY;
 	}
@@ -512,15 +518,28 @@ public class Mazub {
 	public int getTravelledDistanceY(){
 		return travelledDistanceY;
 	}
+		
 	
 	/**
-	 * Checks whether Mazub has moved horizontally within the last second.
+	 * Returns an image corresponding to the current index.
 	 * 
-	 * @return	True if and only if Mazub has moved whithin the last second.
-	 * 			| (System.currentTimeMillis() - timeLastMovedX < 1000)
+	 * @param 	index
+	 * 			An integer number that represents the current state of Mazub.
+	 * @pre		The index should be positive and may not exceed the length of the array images.
+	 * 			| (index >= 0) && (index < images.length)
 	 */
-	public boolean hasMovedX(){
-		return (timeLastMovedX < 1);
+	@Basic
+	public Sprite getImageAtIndex(int index){
+		assert (index >= 0) && (index < images.length);
+		return this.images[index];
+	}
+	
+	/**
+	 * Returns an array of sprites called images.
+	 */
+	@Basic @Immutable
+	public Sprite[] getImages(){
+		return this.images;
 	}
 	
 	/**
@@ -639,10 +658,26 @@ public class Mazub {
 	 */
 	public Sprite[] images;
 	
+	/**
+	 * The minimum x value of the field of the game.
+	 */
 	private int xMin = 0;
+	
+	/**
+	 * The minimum y value of the field of the game 
+	 */
 	private int yMin = 0;
+	
+	/**
+	 * The maximum x value of the field of the game.
+	 */
 	private int xMax = 1024 - 1;
+	
+	/**
+	 * The maximum y value of the field of the game. 
+	 */
 	private int yMax = 786 - 1;
+	
 	
 	
 }

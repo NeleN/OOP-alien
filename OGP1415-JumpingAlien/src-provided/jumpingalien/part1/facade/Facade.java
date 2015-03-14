@@ -80,10 +80,13 @@ public class Facade implements IFacade {
 		alien.endDuck();
 	}
 	
-	public void advanceTime(Mazub alien, double dt) {
-		alien.advanceTime(dt);
+	public void advanceTime(Mazub alien, double dt) throws jumpingalien.util.ModelException {
+		try {
+			alien.advanceTime(dt);
+		} catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
 	}
-	
+}
 
 }
 

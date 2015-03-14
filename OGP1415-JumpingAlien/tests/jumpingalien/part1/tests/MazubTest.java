@@ -5,6 +5,7 @@ package jumpingalien.part1.tests;
 
 import static org.junit.Assert.*;
 import jumpingalien.model.Direction;
+import jumpingalien.model.IllegalDeltaTimeException;
 import jumpingalien.model.Mazub;
 import jumpingalien.tests.util.TestUtils;
 import jumpingalien.util.*;
@@ -66,85 +67,125 @@ public class MazubTest {
 	}
 	
 	@Test
-	public final void advanceTime_PositionX(){
-		alien.setPositionX(5);
-		alien.setSpeedX(100);
-		alien.setAccelerationX(800);
-		alien.advanceTime(0.1);
-		final double DELTA = 1e-15;
-		assertEquals(19,alien.getPositionX(),DELTA);
+	public final void advanceTime_PositionX() throws jumpingalien.util.ModelException {
+		try{
+			alien.setPositionX(5);
+			alien.setSpeedX(100);
+			alien.setAccelerationX(800);
+			alien.advanceTime(0.1);
+			final double DELTA = 1e-15;
+			assertEquals(19,alien.getPositionX(),DELTA);
+		} catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
+		}
 	}
 	
 	@Test
-	public final void advanceTime_PositionY(){
-		alien.setPositionY(100);
-		alien.setSpeedY(80);
-		alien.setAccelerationY(100);
-		alien.advanceTime(0.2);
-		final double DELTA = 1e-15;
-		assertEquals(118,alien.getPositionY(),DELTA);
+	public final void advanceTime_PositionY() throws jumpingalien.util.ModelException {
+		try{
+			alien.setPositionY(100);
+			alien.setSpeedY(80);
+			alien.setAccelerationY(100);
+			alien.advanceTime(0.1);
+			final double DELTA = 1e-15;
+			assertEquals((int)108.5,alien.getPositionY(),DELTA);
+		}catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
+		}
 	}
 	
 	@Test
-	public final void advanceTime_SpeedX(){
-		alien.setSpeedX(50);
-		alien.setAccelerationX(100);
-		alien.advanceTime(0.2);
-		final double DELTA = 1e-15;
-		assertEquals(70,alien.getSpeedX(),DELTA);
+	public final void advanceTime_SpeedX() throws jumpingalien.util.ModelException {
+		try{
+			alien.setSpeedX(50);
+			alien.setAccelerationX(100);
+			alien.advanceTime(0.1);
+			final double DELTA = 1e-15;
+			assertEquals(60,alien.getSpeedX(),DELTA);
+		}catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
+		}
 	}
 	
 	@Test
-	public final void advanceTime_SpeedY(){
-		alien.setPositionY(22);
-		alien.setSpeedY(500);
-		alien.setAccelerationY(-200);
-		alien.advanceTime(0.05);
-		final double DELTA = 1e-15;
-		assertEquals(490,alien.getSpeedY(),DELTA);
+	public final void advanceTime_SpeedY() throws jumpingalien.util.ModelException {
+		try{
+			alien.setPositionY(22);
+			alien.setSpeedY(500);
+			alien.setAccelerationY(-200);
+			alien.advanceTime(0.05);
+			final double DELTA = 1e-15;
+			assertEquals(490,alien.getSpeedY(),DELTA);
+		}catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
+		}
 	}
 	
 	@Test
-	public final void advanceTime_SpeedYZero(){
-		alien.advanceTime(0.1);
-		final double DELTA = 1e-15;
-		assertEquals(0,alien.getSpeedY(),DELTA);
+	public final void advanceTime_SpeedYZero() throws jumpingalien.util.ModelException {
+		try{
+			alien.advanceTime(0.1);
+			final double DELTA = 1e-15;
+			assertEquals(0,alien.getSpeedY(),DELTA);
+		}catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
+		}
 	}
 	
 	@Test
-	public final void advanceTime_timeLastMoved(){
-		alien.timeLastMovedX = 0.5;
-		alien.advanceTime(0.15);
-		final double DELTA = 1e-15;
-		assertEquals(0.65,alien.timeLastMovedX,DELTA);
+	public final void advanceTime_timeLastMoved() throws jumpingalien.util.ModelException {
+		try{
+			alien.timeLastMovedX = 0.5;
+			alien.advanceTime(0.15);
+			final double DELTA = 1e-15;
+			assertEquals(0.65,alien.timeLastMovedX,DELTA);
+		}catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
+		}
 	}
 	
 	@Test
-	public final void advanceTime_changedIndex(){
-		alien.changedIndex = 0.03;
-		alien.advanceTime(0.02);
-		final double DELTA = 1e-15;
-		assertEquals(0.05, alien.changedIndex,DELTA);
+	public final void advanceTime_changedIndex() throws jumpingalien.util.ModelException {
+		try{
+			alien.changedIndex = 0.03;
+			alien.advanceTime(0.02);
+			final double DELTA = 1e-15;
+			assertEquals(0.05, alien.changedIndex,DELTA);
+		}catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
+		}
 	}
 	
 	@Test
-	public final void advanceTime_updateIndex(){
-		alien.alternatingIndex = 5;
-		alien.changedIndex = 0.1;
-		alien.advanceTime(0.2);
-		assertEquals(6,alien.alternatingIndex);
+	public final void advanceTime_updateIndex() throws jumpingalien.util.ModelException {
+		try{
+			alien.alternatingIndex = 5;
+			alien.changedIndex = 0.1;
+			alien.advanceTime(0.1);
+			assertEquals(6,alien.alternatingIndex);
+		}catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
+		}
 	}
 	
 	@Test
-	public final void advanceTime_Width(){
-		alien.advanceTime(0);
-		assertEquals(alien.widthMazub, alien.getCurrentSprite().getWidth());
+	public final void advanceTime_Width() throws jumpingalien.util.ModelException {
+		try{
+			alien.advanceTime(0);
+			assertEquals(alien.widthMazub, alien.getCurrentSprite().getWidth());
+		}catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
+		}
 	}
 	
 	@Test
-	public final void advanceTime_Height(){
-		alien.advanceTime(0);
-		assertEquals(alien.heightMazub, alien.getCurrentSprite().getHeight());
+	public final void advanceTime_Height() throws jumpingalien.util.ModelException {
+		try{
+			alien.advanceTime(0);
+			assertEquals(alien.heightMazub, alien.getCurrentSprite().getHeight());
+		}catch (IllegalDeltaTimeException exc) {
+			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
+		}
 	}
 	
 	@Test
