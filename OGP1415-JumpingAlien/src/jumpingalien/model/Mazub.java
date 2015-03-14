@@ -88,25 +88,30 @@ public class Mazub {
 	 * 			| new.speedX = this.speedX + getAccelerationX()*dt
 	 * @post	The new vertical speed of Mazub achieved in a period of time dt
 	 * 			| new.speedY = this.speedY + getAccelerationY()*dt
-	 * @throws	if mazub is on the ground, speed equals zero
-	 * @throws	isValidTime(double dt), valid argument
+	 * @throws	IllegalDeltaTimeException
+	 * 			The given period of time is an invalid input.
+	 * 			| !(dt>=0) && (dt<0.2)
 	 */
-	public void advanceTime(double dt) throws IllegalDeltaTimeException {							
-		formulePositionX(dt);
-		formulePositionY(dt);
-		setPositionX(getPositionX() + getTravelledDistanceX());
-		setPositionY(getPositionY() + getTravelledDistanceY());
-		setSpeedX(getSpeedX() + getAccelerationX()*dt); 
-		setSpeedY(getSpeedY() + getAccelerationY()*dt);
-		if (getPositionY() == 0)
-			setSpeedY(0);
-		timeLastMovedX += dt;
-		changedIndex += dt;
-		if (changedIndex >= 0.075)
-			this.updateIndex();
-		widthMazub = getCurrentSprite().getWidth();
-		heightMazub =  getCurrentSprite().getHeight();
+	public void advanceTime(double dt) throws IllegalDeltaTimeException {
+		if (!(dt>=0) && (dt<0.2))
+			throw new IllegalDeltaTimeException("Input dt is invalid!");
+		else
+			formulePositionX(dt);
+			formulePositionY(dt);
+			setPositionX(getPositionX() + getTravelledDistanceX());
+			setPositionY(getPositionY() + getTravelledDistanceY());
+			setSpeedX(getSpeedX() + getAccelerationX()*dt); 
+			setSpeedY(getSpeedY() + getAccelerationY()*dt);
+			if (getPositionY() == 0)
+				setSpeedY(0);
+			timeLastMovedX += dt;
+			changedIndex += dt;
+			if (changedIndex >= 0.075)
+				this.updateIndex();
+			widthMazub = getCurrentSprite().getWidth();
+			heightMazub =  getCurrentSprite().getHeight();
 	}
+	
 	
 	/**
 	 * Changes index of the sprite for the cases 8+n and 9+n+m.
@@ -153,7 +158,8 @@ public class Mazub {
 	/**
 	 * This method initiates a movement of the alien Mazub.
 	 * 
-	 * @param direction
+	 * @param 	direction
+	 * 			the direction of Mazub
 	 * @pre		direction has to be a valid direction
 	 * 			| direction == (RIGHT || LEFT)
 	 * @post	if the direction is left the horizontal speed and acceleration should be negative
@@ -187,13 +193,13 @@ public class Mazub {
 	/**
 	 * This method terminates a movement of the alien Mazub.
 	 * 
-	 * @post	The horizontal speed of the alien is zero
+	 * @post	The horizontal speed of the alien is zero.
 	 * 			| new.getSpeedX() == 0
-	 * @post	The horizontal acceleration of the alien is zero
+	 * @post	The horizontal acceleration of the alien is zero.
 	 * 			new.getAccelerationX() == 0
-	 * @post	The alien isn't moving
+	 * @post	The alien isn't moving.
 	 * 			| new.isMovingX == false
-	 * @post	timeLastMovedX is set to the current time
+	 * @post	timeLastMovedX is set to the current time.
 	 * 			| new.timeLastMovedX == System.currentTimeMillis()
 	 */
 	public void endMove(){
@@ -210,11 +216,9 @@ public class Mazub {
 	 * 			| new.isJumping = true
 	 * @post	the vertical speed of Mazub equals 800 pixel/s.
 	 * 			| new.getSpeedY() = 800
-	 * @throws	???
-	 * 
 	 */
 	public void startJump(){
-		setSpeedY(800);				//pixel/s
+		setSpeedY(800);				
 		this.isJumping = true;
 	}
 	
@@ -225,8 +229,8 @@ public class Mazub {
 	 * 			| new.isJumping = false
 	 * @post	the vertical acceleration of Mazub equals gravity.
 	 * 			| new.getAccelerationY() = gravity
-	 * @throws 	???
-	 * 
+	 * @post	the vertical speed equals zero or is negative.
+	 * 			| new.getSpeedY() <= 0
 	 */
 	public void endJump(){
 		if (getSpeedY() > 0)
@@ -242,9 +246,8 @@ public class Mazub {
 	 * 			| maxSpeedX = 100
 	 * @post	the boolean isDucking is true.
 	 * 			| new.isDucking = true 
-	 * 
 	 */
-	public void startDuck(){			//DEFENSIEF
+	public void startDuck(){			
 		maxSpeedX = 100;
 		this.isDucking = true;
 	}
@@ -256,7 +259,6 @@ public class Mazub {
 	 * 			| maxSpeedX = 300
 	 * @post	the boolean isDucking is false.
 	 * 			| new.isDucking = false 
-	 * 
 	 */
 	public void endDuck(){
 		maxSpeedX = 300;
@@ -295,13 +297,16 @@ public class Mazub {
 	
 	
 	/**
-	 * ijhfipui /////////////////////////////////// WE GAAN DEES DEFENSIEF DOEN
-	 * @param positionX
-	 * @param positionY
-	 * @return
+	 * Checks whether the (x, y) position of the alien Mazub is valid.
+	 * @param 	positionX
+	 * 			The horizontal position of Mazub's bottom left.
+	 * @param 	positionY
+	 * 			The vertical position of Mazub's bottom left.
+	 * @return	true if and only if x is an element of [0, 1023] and y an element of [0, 767]
+	 * 			| (positionX>=xMin && positionX<=xMax) && (positionY>=yMin && positionY<=yMax)
 	 */
 	public boolean isValidPosition(int positionX, int positionY){
-		return (positionX>=0 && positionX<=1024-1) && (positionY>=0 && positionY<=768-1);
+		return (positionX>=xMin && positionX<=xMax) && (positionY>=yMin && positionY<=yMax);
 	}
 	
 	/**
@@ -620,6 +625,11 @@ public class Mazub {
 	 * An array of images that represent Mazub in its different states.
 	 */
 	public Sprite[] images;
+	
+	private int xMin = 0;
+	private int yMin = 0;
+	private int xMax = 1024 - 1;
+	private int yMax = 786 - 1;
 	
 	
 }

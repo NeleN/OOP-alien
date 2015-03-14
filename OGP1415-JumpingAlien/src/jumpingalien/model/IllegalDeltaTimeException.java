@@ -10,25 +10,14 @@ package jumpingalien.model;
  */
 public class IllegalDeltaTimeException extends Exception {
 	
+	public IllegalDeltaTimeException(String message ){
+		super (message);
+		
+	}
 	
 	/**
 	 * An error suggested this, but in our exercises we're told not to worry about this.
 	 */
 	private static final long serialVersionUID = 1L;
-
-	public IllegalDeltaTimeException(String e){
-		
-	}
-	/**
-	 * Checks if dt is a valid time span.
-	 * 
-	 * @param 	dt
-	 * 			an infinitesimally small period of time
-	 * @return	True if and only if the given dt is positive and smaller than 0.2
-	 * 			| (dt>=0) && (dt<0.2)
-	 */
-//	public void IllegalDeltaTimeException(double dt){
-//		return (dt>=0) && (dt<0.2);	
-//	}
 
 }
