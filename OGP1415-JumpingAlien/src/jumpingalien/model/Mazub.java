@@ -93,30 +93,36 @@ public class Mazub {
 	 * 			| !(dt>=0) || !(dt<0.2)
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
-		try{ 
-			if (dt<0 || dt>=0.2)
-				throw new IllegalDeltaTimeException("Input dt is invalid!");
-			else
-				formulePositionX(dt);
-				formulePositionY(dt);
-				setPositionX(getPositionX() + getTravelledDistanceX());
-				setPositionY(getPositionY() + getTravelledDistanceY());
-				setSpeedX(getSpeedX() + getAccelerationX()*dt); 
-				setSpeedY(getSpeedY() + getAccelerationY()*dt);
-				if (getPositionY() == 0)
-					setSpeedY(0);
-				timeLastMovedX += dt;
-				changedIndex += dt;
-				if (changedIndex >= 0.075)
-					this.updateIndex();
-				widthMazub = getCurrentSprite().getWidth();
-				heightMazub =  getCurrentSprite().getHeight();
-		}
-		catch (IllegalDeltaTimeException e){
-			
-		}
+		if (! isValidTime(dt))
+			throw new IllegalDeltaTimeException("Input dt is invalid!");
+		else
+			formulePositionX(dt);
+			formulePositionY(dt);
+			setPositionX(getPositionX() + getTravelledDistanceX());
+			setPositionY(getPositionY() + getTravelledDistanceY());
+			setSpeedX(getSpeedX() + getAccelerationX()*dt); 
+			setSpeedY(getSpeedY() + getAccelerationY()*dt);
+			if (getPositionY() == 0)
+				setSpeedY(0);
+			timeLastMovedX += dt;
+			changedIndex += dt;
+			if (changedIndex >= 0.075)
+				this.updateIndex();
+			widthMazub = getCurrentSprite().getWidth();
+			heightMazub =  getCurrentSprite().getHeight();
 	}
 	
+	/**
+	 * Checks if dt is a valid time span.
+	 * 
+	 * @param 	dt
+	 * 			an infinitesimally small period of time
+	 * @return	True if and only if the given dt is positive and smaller than 0.2
+	 * 			| (dt>=0) && (dt<0.2)
+	 */
+	public boolean isValidTime(double dt){
+		return (dt>=0) && (dt<0.2);	
+	}
 	
 	/**
 	 * Changes index of the sprite for the cases 8+n and 9+n+m.
