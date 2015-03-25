@@ -25,7 +25,7 @@ public class Facade implements IFacade {
 	}
 	
 	public int[] getLocation(Mazub alien){
-		int[] array = {alien.getPositionX(),alien.getPositionY()};
+		int[] array = {(int)alien.getPositionX(),(int)alien.getPositionY()};
 		return array;
 	}
 	

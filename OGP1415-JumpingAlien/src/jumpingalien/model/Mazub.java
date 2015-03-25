@@ -39,11 +39,11 @@ public class Mazub {
 	 * @pre		The current position of the alien should be in the given field.
 	 * 			|  isValidPosition(positionX,positionY)
 	 * @pre		sprites should contain at least 10 images.
-	 * 			| sprites.length >= 10
-	 * @post	Mazub's new horizontal position equals positionX.
-	 * 			| new.getPositionX() == positionX
-	 * @post	Mazub's new vertical position equals positionY.
-	 * 			| new.getPositionY() == positionY
+	 * 			| sprites.length != null && sprites.length >= 10
+	 * @effect	Mazub's new horizontal position equals positionX.
+	 * 			| setPositionX(positionX)
+	 * @effect	Mazub's new vertical position equals positionY.
+	 * 			| setPositionY(positionY)
 	 * @post	Mazub's images equal the given sprites.
 	 * 			| new.images == sprites
 	 * @post	The parameter m is used to define the number of possible images for cases 8 and 9.
@@ -54,6 +54,7 @@ public class Mazub {
 		setPositionX(positionX);
 		setPositionY(positionY);
 		this.images = sprites;
+		assert ((!(images == null)) && (images.length >= 10));
 		m = (images.length-10)/2;
 	}
 
@@ -61,14 +62,14 @@ public class Mazub {
 	
 	/**
 	 * @param dt
-	 * @post 	The new horizontal position of Mazub achieved in a period of time dt
-	 * 			| new.positionX = this.positionX + formulePositionX(dt)
-	 * @post	The new vertical position of Mazub achieved in a period of time dt
-	 * 			| new.positionY = this.positionY + formulePositionY(dt)
-	 * @post	The new horizontal speed of Mazub achieved in a period of time dt
-	 * 			| new.speedX = this.speedX + getAccelerationX()*dt
-	 * @post	The new vertical speed of Mazub achieved in a period of time dt
-	 * 			| new.speedY = this.speedY + getAccelerationY()*dt
+	 * @effect 	The new horizontal position of Mazub achieved in a period of time dt
+	 * 			| setPositionX(this.positionX + formulePositionX(dt))
+	 * @effect	The new vertical position of Mazub achieved in a period of time dt
+	 * 			| setPositionY(this.positionY + formulePositionY(dt))
+	 * @effect	The new horizontal speed of Mazub achieved in a period of time dt
+	 * 			| setSpeedX(this.speedX + getAccelerationX()*dt)
+	 * @effect	The new vertical speed of Mazub achieved in a period of time dt
+	 * 			| setSpeedY(this.speedY + getAccelerationY()*dt)
 	 * @throws	IllegalDeltaTimeException
 	 * 			The given period of time is an invalid input.
 	 * 			| !(dt>=0) || !(dt<0.2)
@@ -77,10 +78,8 @@ public class Mazub {
 		if (! isValidTime(dt))
 			throw new IllegalDeltaTimeException(dt);
 		else
-			formulePositionX(dt);
-			formulePositionY(dt);
-			setPositionX(getPositionX() + getTravelledDistanceX());
-			setPositionY(getPositionY() + getTravelledDistanceY());
+			setPositionX(getPositionX() + getTravelledDistanceX(dt));
+			setPositionY(getPositionY() + getTravelledDistanceY(dt));
 			setSpeedX(getSpeedX() + getAccelerationX()*dt); 
 			setSpeedY(getSpeedY() + getAccelerationY()*dt);
 			if (getPositionY() == 0)
@@ -114,7 +113,7 @@ public class Mazub {
 	 * @post	changedIndex must be set to current time
 	 * 			| new.changedIndex = System.currentTimeMillis()
 	 */
-	public void updateIndex(){
+	private void updateIndex(){
 		if (alternatingIndex<m)
 			alternatingIndex+=1;
 		else
@@ -128,11 +127,9 @@ public class Mazub {
 	 * 
 	 * @param 	dt
 	 * 			an infinitesimally small period of time
-	 * @post	the new travelled distance is calculated given the speed and acceleration during a period of time dt.
-	 * 			| new.travelledDistanceX = getSpeedX()*dt  + (1/2)*getAccelerationX()*Math.pow(dt, 2)
 	 */
-	public void formulePositionX(double dt){
-		 travelledDistanceX = (int) (getSpeedX()*dt  + 0.5*getAccelerationX()*Math.pow(dt, 2));
+	public double getTravelledDistanceX(double dt){
+		 return (getSpeedX()*dt  + 0.5*getAccelerationX()*Math.pow(dt, 2));
 	}
 	
 	
@@ -141,11 +138,9 @@ public class Mazub {
 	 * 
 	 * @param 	dt
 	 * 			an infinitesimally small period of time
-	 * @post	the new travelled distance is calculated given the speed and acceleration during a period of time dt.
-	 * 			| new.travelledDistanceY = getSpeedX()*dt  + (1/2)*getAccelerationY()*Math.pow(dt, 2)
 	 */
-	public void formulePositionY(double dt){
-		 travelledDistanceY = (int) (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2));
+	public double getTravelledDistanceY(double dt){
+		 return (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2));
 	}	
 	
 	/**
@@ -162,7 +157,7 @@ public class Mazub {
 	 * 			| if (direction.getDirection() == 1)
 	 * 				(new.getSpeedX() > 0 || new.getAccelerationX() > 0)
 	 * @post	The absolute value of the horizontal speed should be 100
-	 * 			| Math.abs(new.getSpeedX()) == 100
+	 * 			| Math.abs(new.getSpeedX()) == 100									EFFECT????????????????????????????
 	 * @post	The absolute value of the horizontal acceleration should be 90
 	 * 			| Math.abs(new.getAccelerationX()) == 90
 	 * @post	The alien is moving
@@ -302,7 +297,7 @@ public class Mazub {
 	 * 			| (positionX>=xMin && positionX<=xMax) && (positionY>=yMin && positionY<=yMax)
 	 */
 	@Raw
-	public boolean isValidPosition(int positionX, int positionY){
+	public boolean isValidPosition(double positionX, double positionY){
 		return (positionX>=xMin && positionX<=xMax) && (positionY>=yMin && positionY<=yMax);
 	}
 	
@@ -335,7 +330,7 @@ public class Mazub {
 	 * Returns the horizontal position of the alien Mazub.
 	 */
 	@Basic
-	public int getPositionX(){
+	public double getPositionX(){
 		return this.positionX;
 	}
 	
@@ -343,7 +338,7 @@ public class Mazub {
 	 * Returns the vertical position of the alien Mazub.
 	 */
 	@Basic
-	public int getPositionY() {
+	public double getPositionY() {
 		return this.positionY;
 	}
 	
@@ -357,9 +352,9 @@ public class Mazub {
 	 * @post	The horizontal position of mazub is position.
 	 * 			| new.positionX == position
 	 */
-	public void setPositionX(int position){
-		if (isValidPosition(position,0))
-			this.positionX = position;
+	private void setPositionX(double position){
+		assert isValidPosition(position,0);
+		this.positionX = position;
 	}
 	
 	/**
@@ -372,9 +367,9 @@ public class Mazub {
 	 * @post	The vertical position of mazub is position.
 	 * 			| new.positionY == position
 	 */
-	public void setPositionY(int position){
-		if (isValidPosition(0,position))
-			this.positionY = position;
+	private void setPositionY(double position){
+		assert isValidPosition(0,position);
+		this.positionY = position;
 		if (position < 0)
 			this.positionY = 0;
 	}
@@ -463,7 +458,7 @@ public class Mazub {
 	 * 			new.getSpeedX() == speed
 	 * 
 	 */
-	public void setSpeedX(double speed){
+	private void setSpeedX(double speed){
 		if (isValidSpeedX(speed))
 			this.speedX = speed;
 		else
@@ -477,7 +472,7 @@ public class Mazub {
 	 * @post	The new vertical speed of the alien must be equal to the given speed
 	 * 			| new.getSpeedY() == speed
 	 */
-	public void setSpeedY(double speed){
+	private void setSpeedY(double speed){
 		this.speedY = speed;
 	}
 	
@@ -488,7 +483,7 @@ public class Mazub {
 	 * @post	The new horizontal acceleration of the alien must be equal to the given acceleration
 	 * 			| new.getAccelerationX() = acc
 	 */
-	public void setAccelerationX(double acc){
+	private void setAccelerationX(double acc){
 		this.accelerationX = acc;
 	}
 	
@@ -499,25 +494,10 @@ public class Mazub {
 	 * @post	The new vertical acceleration of the alien must be equal to the given acceleration
 	 * 			| new.getAccelerationY() == acc
 	 */
-	public void setAccelerationY(double acc){
+	private void setAccelerationY(double acc){
 		this.accelerationY = acc; 
 	}
 	
-	/**
-	 * @return	the horizontal distance travelled during a period of time dt.
-	 * 			| new.travelledDistanceX
-	 */
-	public int getTravelledDistanceX(){
-		return travelledDistanceX;
-	}
-	
-	/**
-	 * @return	the vertical distance travelled during a period of time dt.
-	 * 			| new.travelledDistanceY
-	 */
-	public int getTravelledDistanceY(){
-		return travelledDistanceY;
-	}
 		
 	
 	/**
@@ -608,11 +588,11 @@ public class Mazub {
 	/**
 	 * The current position of the alien Mazub in horizontal direction.
 	 */
-	private int positionX = 0;
+	private double positionX = 0;
 	/**
 	 * The current position of the alien Mazub in vertical direction.
 	 */
-	private int positionY = 0;
+	private double positionY = 0;
 	/**
 	 * The distance Mazub has covered in horizontal direction after a short period of time dt.
 	 */

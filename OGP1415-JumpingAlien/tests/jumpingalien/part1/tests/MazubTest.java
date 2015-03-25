@@ -57,8 +57,9 @@ public class MazubTest {
 	@Test
 	public final void constructor_SingleCase() {
 		Mazub alien = new Mazub(0, 0, sprites);
-		assertEquals(0, alien.getPositionX());
-		assertEquals(0, alien.getPositionY());
+		final double DELTA = 1e-15;
+		assertEquals(0, alien.getPositionX(),DELTA);
+		assertEquals(0, alien.getPositionY(),DELTA);
 	}
 	
 	@Test
@@ -88,7 +89,7 @@ public class MazubTest {
 			alien.setAccelerationY(100);
 			alien.advanceTime(0.1);
 			final double DELTA = 1e-15;
-			assertEquals((int)108.5,alien.getPositionY(),DELTA);
+			assertEquals(108.5,alien.getPositionY(),DELTA);
 		}catch (IllegalDeltaTimeException exc) {
 			throw new jumpingalien.util.ModelException("Illegal time interval", exc);
 		}
@@ -211,19 +212,19 @@ public class MazubTest {
 
 	
 	@Test
-	public final void formulePositionX_NormalCase(){
+	public final void getTravelledDistanceX_NormalCase(){
 		alien.setSpeedX(200);
 		alien.setAccelerationX(90);
-		alien.formulePositionX(0.1);
-		assertEquals((int)(20.45),alien.travelledDistanceX);
+		final double DELTA = 1e-15;
+		assertEquals((20.45),alien.getTravelledDistanceX(0.1), DELTA);
 	}
 	
 	@Test
-	public final void formulePositionY_NormalCase(){
+	public final void getTravelledDistanceY_NormalCase(){
 		alien.setSpeedY(0);
 		alien.setAccelerationY(-1000);
-		alien.formulePositionY(0.1);
-		assertEquals((int)(-5),alien.travelledDistanceY);
+		final double DELTA = 1e-15;
+		assertEquals((int)(-5),alien.getTravelledDistanceY(0.1), DELTA);
 	}
 	
 	@Test
@@ -426,37 +427,43 @@ public class MazubTest {
 	@Test
 	public final void setPositionX_ValidCase(){
 		alien.setPositionX(1000);
-		assertEquals(1000, alien.getPositionX());
+		final double DELTA = 1e-15;
+		assertEquals(1000, alien.getPositionX(),DELTA);
 	}
 	
 	@Test
 	public final void setPositionX_FalseCase_Negative(){
 		alien.setPositionX(-500);
-		assertEquals(0, alien.getPositionX());		
+		final double DELTA = 1e-15;
+		assertEquals(0, alien.getPositionX(),DELTA);		
 	}
 	
 	@Test
 	public final void setPositionX_FalseCase_OutOfRange(){
 		alien.setPositionX(1500);
-		assertEquals(0, alien.getPositionX());		
+		final double DELTA = 1e-15;
+		assertEquals(0, alien.getPositionX(),DELTA);		
 	}
 	
 	@Test
 	public final void setPositionY_ValidCase(){
 		alien.setPositionY(400);
-		assertEquals(400, alien.getPositionY());
+		final double DELTA = 1e-15;
+		assertEquals(400, alien.getPositionY(),DELTA);
 	}
 	
 	@Test
 	public final void setPositionY_ValidCase_Negative(){
 		alien.setPositionY(-500);
-		assertEquals(0, alien.getPositionY());		
+		final double DELTA = 1e-15;
+		assertEquals(0, alien.getPositionY(),DELTA);		
 	}
 	
 	@Test
 	public final void setPositionY_FalseCase_OutOfRange(){
 		alien.setPositionY(800);
-		assertEquals(0, alien.getPositionY());		
+		final double DELTA = 1e-15;
+		assertEquals(0, alien.getPositionY(),DELTA);		
 	}
 	
 	@Test
