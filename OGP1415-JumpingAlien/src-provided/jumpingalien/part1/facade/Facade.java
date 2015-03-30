@@ -20,8 +20,8 @@ public class Facade implements IFacade {
 		
 	}
 	
-	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
-		return new Mazub(pixelLeftX,pixelBottomY,sprites);
+	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites, double maxSpeedX) {
+		return new Mazub(pixelLeftX,pixelBottomY,sprites, maxSpeedX);
 	}
 	
 	public int[] getLocation(Mazub alien){
@@ -40,7 +40,7 @@ public class Facade implements IFacade {
 	}
 	
 	public int[] getSize(Mazub alien){
-		int[] array = {alien.getWidthMazub(),alien.getHeightMazub()};
+		int[] array = {alien.getWidthSprite(),alien.getHeightSprite()};
 		return array;
 	}
 	
