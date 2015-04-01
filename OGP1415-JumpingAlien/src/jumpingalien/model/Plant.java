@@ -13,7 +13,7 @@ import be.kuleuven.cs.som.annotate.Raw;
 public class Plant extends Creature {
 	
 	@Raw
-	public Plant (int positionX, int positionY, Sprite[] sprites, double maxSpeed, int hitpoints) {
+	public Plant (int positionX, int positionY, Sprite[] sprites) {
 		super (positionX, positionY, sprites, 50, 1);
 	}
 
@@ -24,4 +24,5 @@ public class Plant extends Creature {
 	public void startJump(){
 		super.startJump(0);
 	}
+	
 }

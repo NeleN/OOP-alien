@@ -12,7 +12,8 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @author Nele
  *
  */
-public class Creature extends World {
+public class Creature{
+	
 	
 	/**
 	 * Initializes the creature at a given position and its sprites.
@@ -113,6 +114,11 @@ public class Creature extends World {
 		changedIndex = 0;
 	}
 	
+	
+	public int getHitpoints(){
+		return this.hitpoints;
+	}
+	
 	private void gainHitpoints(int points){
 		hitpoints+=points;
 	}
@@ -142,6 +148,7 @@ public class Creature extends World {
 	public double getTravelledDistanceY(double dt){
 		 return (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2));
 	}	
+
 	
 	/**
 	 * This method initiates a movement of  the creature.
@@ -470,6 +477,10 @@ public class Creature extends World {
 		this.accelerationY = acc; 
 	}
 	
+	public int[] getLocation(){
+		int[] array = {(int)this.getPositionX(), (int)this.getPositionY()};
+		return array;
+	}	
 		
 	
 	/**
@@ -606,9 +617,11 @@ public class Creature extends World {
 	 */
 	public Sprite[] images;
 	
-	public int hitpoints;
+	int hitpoints;
 	
+	boolean isAlive = true;
 	
+	double lastCollisionEnemy;
 	
 }
 

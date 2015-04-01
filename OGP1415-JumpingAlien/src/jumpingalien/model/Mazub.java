@@ -76,6 +76,12 @@ public class Mazub extends Creature{
 		return this.isDucking;
 	}
 	
+	public boolean isImmune(){
+		if (lastCollisionEnemy <= 0.6)
+				return true;
+		return false;
+	}
+	
 	/**
 	 * A boolean which shows whether the creature is ducking or not.
 	 */

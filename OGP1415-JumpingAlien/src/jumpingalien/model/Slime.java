@@ -16,7 +16,7 @@ public class Slime extends Creature {
 	 * 
 	 */
 	@Raw
-	public Slime (int positionX, int positionY, Sprite[] sprites, double maxSpeed, int hitpoints) {
+	public Slime (int positionX, int positionY, Sprite[] sprites) {
 		super (positionX, positionY, sprites, 250, 100);
 	}
 	

@@ -13,7 +13,7 @@ import be.kuleuven.cs.som.annotate.Raw;
 public class Shark extends Creature {
 	
 	@Raw
-	public Shark (int positionX, int positionY, Sprite[] sprites, double maxSpeed, int hitpoints) {
+	public Shark (int positionX, int positionY, Sprite[] sprites) {
 		super (positionX, positionY, sprites, 400, 100);
 	}
 	
