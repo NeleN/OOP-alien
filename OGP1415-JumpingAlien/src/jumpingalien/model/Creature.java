@@ -12,7 +12,7 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @author Nele
  *
  */
-public class Creature{
+public abstract class Creature{
 	
 	
 	/**
@@ -270,7 +270,7 @@ public class Creature{
 	 */
 	@Raw
 	public boolean isValidPosition(double positionX, double positionY){
-		return (positionX>=getXMin() && positionX<=getXMax()) && (positionY>=getYMin() && positionY<=getYMax());
+		return (positionX>=World.getXMin() && positionX<=World.getXMax()) && (positionY>=World.getYMin() && positionY<=World.getYMax());
 	}
 	
 	/**

@@ -87,19 +87,19 @@ public class World {
 	}
 		
 	
-	public int getXMin(){
+	public static int getXMin(){
 		return xMin;
 	}
 	
-	public int getYMin(){
+	public static int getYMin(){
 		return yMin;
 	}
 	
-	public int getXMax(){
+	public static int getXMax(){
 		return xMax;
 	}
 	
-	public int getYMax(){
+	public static int getYMax(){
 		return yMax;
 	}
 	
@@ -115,24 +115,24 @@ public class World {
 	/**
 	 * The minimum x value of the field of the game.
 	 */
-	private int xMin = 0;
+	private static int xMin = 0;
 	
 	/**
 	 * The minimum y value of the field of the game 
 	 */
-	private int yMin = 0;
-	private int X;
-	private int Y;
+	private static int yMin = 0;
+	private static int X;
+	private static int Y;
 	
 	/**
 	 * The maximum x value of the field of the game.
 	 */
-	private int xMax = X - 1;
+	private static int xMax = X - 1;
 	
 	/**
 	 * The maximum y value of the field of the game. 
 	 */
-	private int yMax = Y - 1;
+	private static int yMax = Y - 1;
 	
 	private int xTMax;
 	
