@@ -25,4 +25,7 @@ public class Plant extends Creature {
 		super.startJump(0);
 	}
 	
+	public Sprite getCurrentSprite() {
+		return this.getImageAtIndex(0);
+	}
 }

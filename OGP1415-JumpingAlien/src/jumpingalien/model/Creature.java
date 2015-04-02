@@ -119,11 +119,11 @@ public class Creature{
 		return this.hitpoints;
 	}
 	
-	private void gainHitpoints(int points){
+	void gainHitpoints(int points){
 		hitpoints+=points;
 	}
 	
-	private void loseHitpoints(int points){
+	void loseHitpoints(int points){
 		hitpoints-=points;
 	}
 	
@@ -505,35 +505,8 @@ public class Creature{
 		return this.images;
 	}
 	
-	/**
-	 * Returns a sprite corresponding to the defined state of the creature.UITGEBREIDER UITLEGGEN
-	 */
-	public Sprite getCurrentSprite() {
-		if (! isMovingX() && ! hasMovedX() && ! isDucking())
-			return this.getImageAtIndex(0);
-		if (! isMovingX() && ! hasMovedX() && isDucking())
-			return this.getImageAtIndex(1);
-		if (! isMovingX() && hasMovedX() && this.lastDirection == 1 && ! isDucking())
-			return this.getImageAtIndex(2);
-		if (! isMovingX() && hasMovedX() && this.lastDirection == -1 && ! isDucking())
-			return this.getImageAtIndex(3);
-		if ( isMovingX() && this.lastDirection == 1 && isJumping() && ! isDucking())
-			return this.getImageAtIndex(4);
-		if ( isMovingX() && this.lastDirection == -1 && isJumping() && ! isDucking())
-			return this.getImageAtIndex(5);
-		if ( (isMovingX() || hasMovedX())  && this.lastDirection == 1 && isDucking())
-			return this.getImageAtIndex(6);
-		if ( (isMovingX() || hasMovedX())  && this.lastDirection == -1 && isDucking())
-			return this.getImageAtIndex(7);
-		if ( isMovingX() && this.lastDirection == 1 && ! isJumping() && ! isDucking())
-			return this.getImageAtIndex(8+alternatingIndex);
-		if ( isMovingX() && this.lastDirection == -1 && ! isJumping() && ! isDucking())
-			return this.getImageAtIndex(9+m+alternatingIndex);
-		else return this.getImageAtIndex(0);
-		
-	}
+	public abstract Sprite getCurrentSprite();
 	
-
 	
  
 	/**
@@ -603,7 +576,7 @@ public class Creature{
 	/**
 	 * The number of alternating images for the cases 8 and 9 in the method getCurrentSprite.
 	 */
-	private int m;
+	public int m;
 	/**
 	 * An integer that alternates from zero to m.
 	 */

@@ -87,10 +87,12 @@ public class FacadePart2 implements IFacadePart2 {
 			plant.getLocation();
 		}
 
-		public Sprite getCurrentSprite(Plant plant);
+		public Sprite getCurrentSprite(Plant plant){
+			plant.getCurrentSprite();
+		}
 
 		public Shark createShark(int x, int y, Sprite[] sprites){
-			return new Shark (x,y, sprites);
+			return new Shark (x, y, sprites);
 		}
 
 		public void addShark(World world, Shark shark){
@@ -103,13 +105,21 @@ public class FacadePart2 implements IFacadePart2 {
 			shark.getLocation();
 		}
 
-		public Sprite getCurrentSprite(Shark shark);
+		public Sprite getCurrentSprite(Shark shark){
+			shark.getCurrentSprite();
+		}
 
-		public School createSchool();
+		public School createSchool(){
+			return new School();
+		}
 
-		public Slime createSlime(int x, int y, Sprite[] sprites, School school);
+		public Slime createSlime(int x, int y, Sprite[] sprites, School school){
+			return new Slime(x, y, sprites, school);
+		}
 
-		public void addSlime(World world, Slime slime);
+		public void addSlime(World world, Slime slime){
+			world.setCreatureInWorld(slime);
+		}
 
 		public Collection<Slime> getSlimes(World world);
 
@@ -117,9 +127,13 @@ public class FacadePart2 implements IFacadePart2 {
 			slime.getLocation();
 		}
 
-		public Sprite getCurrentSprite(Slime slime);
+		public Sprite getCurrentSprite(Slime slime){
+			slime.getCurrentSprite();
+		}
 
-		public School getSchool(Slime slime);
+		public School getSchool(Slime slime){
+			slime.getSchool();
+		}
 
 	}
 

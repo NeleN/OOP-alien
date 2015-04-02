@@ -86,5 +86,33 @@ public class Mazub extends Creature{
 	 * A boolean which shows whether the creature is ducking or not.
 	 */
 	private boolean isDucking = false;
+	
+	/**
+	 * Returns a sprite corresponding to the defined state of the creature.UITGEBREIDER UITLEGGEN
+	 */
+	public Sprite getCurrentSprite() {
+		if (! isMovingX() && ! hasMovedX() && ! isDucking())
+			return this.getImageAtIndex(0);
+		if (! isMovingX() && ! hasMovedX() && isDucking())
+			return this.getImageAtIndex(1);
+		if (! isMovingX() && hasMovedX() && this.lastDirection == 1 && ! isDucking())
+			return this.getImageAtIndex(2);
+		if (! isMovingX() && hasMovedX() && this.lastDirection == -1 && ! isDucking())
+			return this.getImageAtIndex(3);
+		if ( isMovingX() && this.lastDirection == 1 && isJumping() && ! isDucking())
+			return this.getImageAtIndex(4);
+		if ( isMovingX() && this.lastDirection == -1 && isJumping() && ! isDucking())
+			return this.getImageAtIndex(5);
+		if ( (isMovingX() || hasMovedX())  && this.lastDirection == 1 && isDucking())
+			return this.getImageAtIndex(6);
+		if ( (isMovingX() || hasMovedX())  && this.lastDirection == -1 && isDucking())
+			return this.getImageAtIndex(7);
+		if ( isMovingX() && this.lastDirection == 1 && ! isJumping() && ! isDucking())
+			return this.getImageAtIndex(8+alternatingIndex);
+		if ( isMovingX() && this.lastDirection == -1 && ! isJumping() && ! isDucking())
+			return this.getImageAtIndex(9+m+alternatingIndex);
+		else return this.getImageAtIndex(0);
+		
+	}
 
 }

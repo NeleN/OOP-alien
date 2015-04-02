@@ -24,5 +24,9 @@ public class Shark extends Creature {
 	public void startJump(){
 		super.startJump(200);
 	}
+	
+	public Sprite getCurrentSprite() {
+		return this.getImageAtIndex(0);
+	}
 
 }
