@@ -25,6 +25,7 @@ public class World {
 		this.Y = tileSize*(nbTilesY+1);	
 		this.targetTileX = targetTileX;
 		this.targetTileY = targetTileY;
+		this.inWorldTiles = new Tile[nbTilesX][nbTilesY];
 	}
 	
 	/**
@@ -42,6 +43,47 @@ public class World {
 		}
 	}
 	
+	private Tile getTile(int xt, int yt){
+		return inWorldTiles[xt][yt];
+	}
+	
+	public int getGeologicalFeature(int pixelX, int pixelY){
+		tile = getTile(pixelX, pixelY);
+		return tile.getGeologicalFeature();
+	}
+	
+	public void setGeologicalFeature(int pixelX, int pixelY, int feature){
+		tile = getTile(pixelX, pixelY);
+		tile.setGeologicalFeature(feature);
+	}
+	
+	public Collection<Slime> getSlimesInWorld(){
+		this.slimesInWorld = new ArrayList<Creature>();
+		for (Creature creature: inWorldCreatures){
+			if (creature instanceof Slime)
+				this.slimesInWorld.add(creature);
+		}
+		return (Collection)slimesInWorld;
+	}
+	
+	public Collection<Plant> getPlantsInWorld(){
+		this.plantsInWorld = new ArrayList<Creature>();
+		for (Creature creature: inWorldCreatures){
+			if (creature instanceof Plant )
+				this.plantsInWorld.add(creature);
+		}
+		return (Collection)plantsInWorld;
+	}
+	
+	public Collection<Shark> getSharksInWorld(){
+		this.sharksInWorld = new ArrayList<Creature>();
+		for (Creature creature: inWorldCreatures){
+			if (creature instanceof Shark )
+				this.sharksInWorld.add(creature);
+		}
+		return (Collection)sharksInWorld;
+	}
+	
 	public int[] getVisibleWindow(){
 		int[] array = {leftWindow, bottomWindow, rightWindow, topWindow};
 		return array;
@@ -57,13 +99,18 @@ public class World {
 	
 	
 	public int [][] getTilePositions(int pixelLeft, int pixelBottom, int pixelRight, int pixelTop){
+		int matrixLength = ((pixelTop - pixelBottom)/tileLength) * ((pixelRight - pixelLeft)/tileLength);
+		int [][] tilePositions = new int [matrixLength][2];
 		for (int i=pixelLeft; i <= (pixelRight-tileLength); i+=tileLength){
 			for (int j=pixelBottom; j <= (pixelTop - tileLength); j+=tileLength){
-				int [] array = {i,j};
-				tilePositions.add(array);
+				for (int k=1; k<= matrixLength ; k++){
+				tilePositions [k][1] = i;
+			    tilePositions [k][2] = j;
+				}
 			}
 		}	
 		
+		return tilePositions;
 	}
 	
 	private boolean isPassable(String TileType){
@@ -133,18 +180,24 @@ public class World {
 	 * The maximum y value of the field of the game. 
 	 */
 	private static int yMax = Y - 1;
+
+	public Tile[][] inWorldTiles;
 	
 	private int xTMax;
 	
 	private int yTMax;
-	
-	private String TileType = "air";
 	
 	private int visibleWindowWidth;
 	
 	private int visibleWindowHeight;
 	
 	public List<Creature> inWorldCreatures = new ArrayList<Creature>();
+	
+	private List<Creature> slimesInWorld = new ArrayList<Creature>(); 
+	
+	private List<Creature> plantsInWorld = new ArrayList<Creature>(); 
+	
+	private List<Creature> sharksInWorld = new ArrayList<Creature>(); 
 	
 	private int leftWindow = 0;
 	
@@ -164,8 +217,6 @@ public class World {
 	
 	private boolean alienOnTargetTile;
 	
-	private List tilePositions = new ArrayList();
-	
-	private Collection plantsInWorld;
+	private Tile tile;
 
 }

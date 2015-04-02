@@ -38,7 +38,10 @@ public class Slime extends Creature {
 	}
 	
 	public Sprite getCurrentSprite() {
-		return this.getImageAtIndex(0);
+		if ( this.lastDirection == 1 )
+			return this.getImageAtIndex(1);
+		else
+			return this.getImageAtIndex(0);
 	}
 	
 	private School belongsToSchool;
