@@ -25,7 +25,7 @@ public class World {
 		this.Y = tileSize*(nbTilesY+1);	
 		this.targetTileX = targetTileX;
 		this.targetTileY = targetTileY;
-		this.inWorldTiles = new Tile[nbTilesX][nbTilesY];
+		this.inWorldTiles = new int [nbTilesX][nbTilesY];
 	}
 	
 	/**
@@ -43,18 +43,17 @@ public class World {
 		}
 	}
 	
-	private Tile getTile(int xt, int yt){
-		return inWorldTiles[xt][yt];
-	}
 	
 	public int getGeologicalFeature(int pixelX, int pixelY){
-		tile = getTile(pixelX, pixelY);
-		return tile.getGeologicalFeature();
+		int tileX = this.getTileNbX(pixelX);
+		int tileY = this.getTileNbY(pixelY);
+		return inWorldTiles[tileX+1][tileY+1];
 	}
 	
 	public void setGeologicalFeature(int pixelX, int pixelY, int feature){
-		tile = getTile(pixelX, pixelY);
-		tile.setGeologicalFeature(feature);
+		int tileX = this.getTileNbX(pixelX);
+		int tileY = this.getTileNbY(pixelY);
+		inWorldTiles[tileX][tileY] = feature;
 	}
 	
 	public Collection<Slime> getSlimesInWorld(){
@@ -158,6 +157,13 @@ public class World {
 		this.inWorldCreatures.add(creature);
 	}
 	
+	private int getTileNbX(int pixelX){
+		return (pixelX/this.tileLength);
+	}
+	
+	private int getTileNbY(int pixelY){
+		return (pixelY/this.tileLength);
+	}
 	
 	/**
 	 * The minimum x value of the field of the game.
@@ -181,7 +187,7 @@ public class World {
 	 */
 	private static int yMax = Y - 1;
 
-	public Tile[][] inWorldTiles;
+	public int[][] inWorldTiles;
 	
 	private int xTMax;
 	
@@ -216,7 +222,5 @@ public class World {
 	private boolean alienAlive;
 	
 	private boolean alienOnTargetTile;
-	
-	private Tile tile;
 
 }
