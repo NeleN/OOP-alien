@@ -23,6 +23,8 @@ public class World {
 		yTMax = nbTilesY;
 		this.X = tileSize*(nbTilesX+1);
 		this.Y = tileSize*(nbTilesY+1);	
+		this.xMax = this.X - 1;
+		this.yMax = this.Y - 1;
 		this.targetTileX = targetTileX;
 		this.targetTileY = targetTileY;
 		this.inWorldTiles = new int [nbTilesX][nbTilesY];
@@ -102,9 +104,9 @@ public class World {
 		int [][] tilePositions = new int [matrixLength][2];
 		for (int i=pixelLeft; i <= (pixelRight-tileLength); i+=tileLength){
 			for (int j=pixelBottom; j <= (pixelTop - tileLength); j+=tileLength){
-				for (int k=1; k<= matrixLength ; k++){
-				tilePositions [k][1] = i;
-			    tilePositions [k][2] = j;
+				for (int k=1; k < matrixLength ; k++){
+				tilePositions [k][0] = i;
+			    tilePositions [k][1] = j;
 				}
 			}
 		}	
@@ -180,12 +182,12 @@ public class World {
 	/**
 	 * The maximum x value of the field of the game.
 	 */
-	private static int xMax = X - 1;
+	private static int xMax;
 	
 	/**
 	 * The maximum y value of the field of the game. 
 	 */
-	private static int yMax = Y - 1;
+	private static int yMax;
 
 	public int[][] inWorldTiles;
 	
