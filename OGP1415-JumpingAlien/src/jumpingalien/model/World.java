@@ -21,12 +21,12 @@ public class World {
 		this.visibleWindowHeight = visibleWindowHeight;
 		xTMax = nbTilesX;
 		yTMax = nbTilesY;
-		this.X = tileSize*(nbTilesX+1);
-		this.Y = tileSize*(nbTilesY+1);	
+		this.X = tileSize*(nbTilesX);
+		this.Y = tileSize*(nbTilesY);	
 		this.xMax = this.X - 1;
 		this.yMax = this.Y - 1;
-		this.targetTileX = targetTileX;
-		this.targetTileY = targetTileY;
+		this.targetTileX = targetTileX*tileSize;
+		this.targetTileY = targetTileY*tileSize;
 		this.inWorldTiles = new int [nbTilesX][nbTilesY];
 	}
 	
@@ -102,11 +102,11 @@ public class World {
 	public int [][] getTilePositions(int pixelLeft, int pixelBottom, int pixelRight, int pixelTop){
 		int matrixLength = ((pixelTop - pixelBottom)/tileLength) * ((pixelRight - pixelLeft)/tileLength);
 		int [][] tilePositions = new int [matrixLength][2];
-		for (int i=pixelLeft; i <= (pixelRight-tileLength); i+=tileLength){
-			for (int j=pixelBottom; j <= (pixelTop - tileLength); j+=tileLength){
-				for (int k=1; k < matrixLength ; k++){
-				tilePositions [k][0] = i;
-			    tilePositions [k][1] = j;
+		for (int j=pixelBottom; j <= (pixelTop - tileLength); j+=tileLength){
+			for (int i=pixelLeft; i <= (pixelRight-tileLength); i+=tileLength){
+				for (int k=1; k< matrixLength ; k++){
+				tilePositions [k][0] = getTileNbX(i);
+			    tilePositions [k][1] = getTileNbY(j);
 				}
 			}
 		}	
@@ -114,8 +114,8 @@ public class World {
 		return tilePositions;
 	}
 	
-	private boolean isPassable(String TileType){
-		if ((TileType == "air") || (TileType == "water") || (TileType == "magma"))
+	private boolean isPassable(int TileType){
+		if ((TileType == 0) || (TileType == 2) || (TileType == 3))
 			return true;
 		else
 			return false;

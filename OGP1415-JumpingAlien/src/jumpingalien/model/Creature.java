@@ -438,10 +438,10 @@ public abstract class Creature{
 	 * 
 	 */
 	private void setSpeedX(double speed){
-		if (isValidSpeedX(speed))
+//		if (isValidSpeedX(speed))				VERVANGEN DOOR EXCEPTION
 			this.speedX = speed;
-		else
-			this.speedX = (this.lastDirection*maxSpeedX);
+//		else
+//			this.speedX = (this.lastDirection*maxSpeedX);
 	}
 	
 	/**
