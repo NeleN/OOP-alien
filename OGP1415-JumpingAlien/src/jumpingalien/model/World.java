@@ -5,6 +5,8 @@ package jumpingalien.model;
 
 import java.util.*;
 
+import be.kuleuven.cs.som.annotate.Raw;
+
 
 
 /**
@@ -21,10 +23,10 @@ public class World {
 		this.visibleWindowHeight = visibleWindowHeight;
 		xTMax = nbTilesX;
 		yTMax = nbTilesY;
-		this.X = tileSize*(nbTilesX);
-		this.Y = tileSize*(nbTilesY);	
-		this.xMax = this.X - 1;
-		this.yMax = this.Y - 1;
+		X = tileSize*(nbTilesX);
+		Y = tileSize*(nbTilesY);	
+		xMax = X - 1;
+		yMax = Y - 1;
 		this.targetTileX = targetTileX*tileSize;
 		this.targetTileY = targetTileY*tileSize;
 		this.inWorldTiles = new int [nbTilesX][nbTilesY];
@@ -35,6 +37,7 @@ public class World {
 	 * @throws IllegalDeltaTimeException 
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException{
+		this.inWorldCreatures.addAll(addCreatures);
 		for (Creature creature: inWorldCreatures){
 			creature.advanceTime(dt);
 			if (creature instanceof Mazub)
@@ -43,9 +46,13 @@ public class World {
 				alienOnTargetTile = isOnTargetTile(creature);
 				creature.lastCollisionEnemy += dt;
 		}
+		
+		this.inWorldCreatures.remove(removeCreatures);
+		this.addCreatures.removeAll(addCreatures);
+		this.removeCreatures.removeAll(removeCreatures);
 	}
-	
-	
+
+
 	public int getGeologicalFeature(int pixelX, int pixelY){
 		int tileX = this.getTileNbX(pixelX);
 		int tileY = this.getTileNbY(pixelY);
@@ -85,6 +92,15 @@ public class World {
 		return (Collection)sharksInWorld;
 	}
 	
+	public Collection<Mazub> getMazubsInWorld(){
+		this.mazubsInWorld = new ArrayList<Creature>();
+		for (Creature creature: inWorldCreatures){
+			if (creature instanceof Mazub )
+				this.mazubsInWorld.add(creature);
+		}
+		return (Collection)mazubsInWorld;
+	}
+	
 	public int[] getVisibleWindow(){
 		int[] array = {leftWindow, bottomWindow, rightWindow, topWindow};
 		return array;
@@ -97,7 +113,9 @@ public class World {
 	public boolean playerOnTargetTile(){
 		return alienOnTargetTile;
 	}
+
 	
+
 	
 	public int [][] getTilePositions(int pixelLeft, int pixelBottom, int pixelRight, int pixelTop){
 		int matrixLength = ((pixelTop - pixelBottom)/tileLength) * ((pixelRight - pixelLeft)/tileLength);
@@ -128,10 +146,10 @@ public class World {
 	
 	
 	private void setVisibleWindow(Creature creature){
-		leftWindow = Math.max(xMin, (int)creature.getPositionX()-(visibleWindowWidth/2));
-		bottomWindow = Math.max(yMin, (int)creature.getPositionY()-(visibleWindowHeight/2));
-		rightWindow = Math.min(xMax, (int)creature.getPositionX()+(visibleWindowWidth/2));
-		topWindow = Math.min(yMax, (int)creature.getPositionY()+(visibleWindowHeight/2));
+		this.leftWindow = Math.max(xMin, (int)creature.getPositionX()-(visibleWindowWidth/2));
+		this.bottomWindow = Math.max(yMin, (int)creature.getPositionY()-(visibleWindowHeight/2));
+		this.rightWindow =  Math.min(xMax, (int)creature.getPositionX()+(visibleWindowWidth/2));
+		this.topWindow = Math.min(yMax, (int)creature.getPositionY()+(visibleWindowHeight/2));
 	}
 		
 	
@@ -156,13 +174,13 @@ public class World {
 	}
 	
 	public void setCreatureInWorld(Creature creature){
-		this.inWorldCreatures.add(creature);
+		 this.addCreatures.add(creature);
 	}
 	
 	private int getTileNbX(int pixelX){
 		return (pixelX/this.tileLength);
 	}
-	
+
 	private int getTileNbY(int pixelY){
 		return (pixelY/this.tileLength);
 	}
@@ -207,13 +225,19 @@ public class World {
 	
 	private List<Creature> sharksInWorld = new ArrayList<Creature>(); 
 	
-	private int leftWindow = 0;
+	private List<Creature> mazubsInWorld = new ArrayList <Creature> ();
 	
-	private int bottomWindow = 0;
+	private List<Creature> addCreatures = new ArrayList <Creature> ();
 	
-	private int rightWindow = visibleWindowWidth;
+	public List<Creature> removeCreatures = new ArrayList <Creature> ();
 	
-	private int topWindow = visibleWindowHeight;
+	private int leftWindow;
+	
+	private int bottomWindow ;
+	
+	private int rightWindow ;
+	
+	private int topWindow ;
 	
 	private int tileLength;
 	
@@ -221,7 +245,7 @@ public class World {
 	
 	private int targetTileY;
 	
-	private boolean alienAlive;
+	private boolean alienAlive = true;
 	
 	private boolean alienOnTargetTile;
 

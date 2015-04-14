@@ -46,6 +46,7 @@ public abstract class Creature{
 		this.images = sprites;
 		assert ((!(images == null)) && (images.length >= 10));
 		m = (images.length-10)/2;
+		this.hitpoints = hitpoints;
 	}
 
 	
@@ -83,6 +84,49 @@ public abstract class Creature{
 				this.updateIndex();
 			widthSprite = getCurrentSprite().getWidth();
 			heightSprite =  getCurrentSprite().getHeight();
+			for (Slime slime: world.getSlimesInWorld()){
+				if (this.collisionDetection( slime))
+					this.effectCollision( slime);
+			}
+			for (Shark shark: world.getSharksInWorld()){
+				if (this.collisionDetection( shark))
+					this.effectCollision( shark);
+			}
+			for (Plant plant: world.getPlantsInWorld()){
+				if (this.collisionDetection( plant))
+					this.effectCollision( plant);
+			}
+			for (Mazub alien: world.getMazubsInWorld()){
+				if (this.collisionDetection( alien))
+					this.effectCollision( alien);
+			}
+			
+			
+	}
+	
+	public void effectCollision(Creature creature){
+		if (this instanceof Mazub)
+			if (creature instanceof Slime)
+				creature.loseHitpoints(50);
+				this.loseHitpoints(50);
+//				School school = ((Slime) creature).getSchool();
+//				school.losePoints();
+				// TODO kan even niet bewegen
+				
+			if (creature instanceof Shark)
+				this.loseHitpoints(50);
+				// TODO kan even niet bewegen
+				
+			if (creature instanceof Plant)
+				this.gainHitpoints(50);
+				
+		if (this instanceof Slime)
+			//if (creature instanceof Slime)
+								
+				
+			if (creature instanceof Shark)
+				this.loseHitpoints(50);
+		
 	}
 	
 	/**
@@ -95,17 +139,24 @@ public abstract class Creature{
 	 */
 	@Raw
 	public boolean isValidTime(double dt){
-		return (dt>=0) && (dt<0.2);	
+		return (dt>=0) && (dt<=0.2);	
 	}
 	
-	/**
-	 * Changes index of the sprite for the cases 8+n and 9+n+m.
-	 * 
-	 * @post	n should be smaller than or equal to m
-	 * 			| n<=m
-	 * @post	changedIndex must be set to current time
-	 * 			| new.changedIndex = System.currentTimeMillis()
-	 */
+	public boolean collisionDetection(Creature creature){
+		if (( this.getPositionX() + (this.getWidthSprite() - 1) < creature.getPositionX() )
+				|| (creature.getPositionX() + (creature.getWidthSprite() - 1) < this.getPositionX())
+				|| (this.getPositionY() + (this.getHeightSprite() - 1) < creature.getPositionY())
+				|| (creature.getPositionY() + (creature.getHeightSprite() - 1) < this.getPositionY()))
+			return false;
+		else 
+			return true;
+	}
+	
+	public boolean tileCollisionDetection(Creature creature){
+		if 
+	}
+
+	
 	private void updateIndex(){
 		if (alternatingIndex<m)
 			alternatingIndex+=1;
@@ -125,8 +176,13 @@ public abstract class Creature{
 	
 	void loseHitpoints(int points){
 		hitpoints-=points;
+		if (hitpoints <= 0)
+			this.dies();
 	}
 	
+	void dies(){
+		world.removeCreatures.add(this);
+	}
 		
 	/**
 	 * This method calculates the horizontal travelled distance.
@@ -312,6 +368,16 @@ public abstract class Creature{
 	@Basic
 	public double getPositionY() {
 		return this.positionY;
+	}
+	
+	@Basic 
+	public double getRightSideOfRectangle(){
+		return (this.positionX + this.getWidthSprite());
+	}
+	
+	@Basic
+	public double getTopSideOfRectangle(){
+		return (this.positionY + this.getHeightSprite());
 	}
 	
 	/**
@@ -595,6 +661,8 @@ public abstract class Creature{
 	boolean isAlive = true;
 	
 	double lastCollisionEnemy;
+	
+	public World world;
 	
 }
 

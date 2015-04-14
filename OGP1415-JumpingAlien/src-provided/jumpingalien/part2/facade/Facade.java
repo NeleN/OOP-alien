@@ -81,6 +81,7 @@ public class Facade implements IFacadePart2 {
 
 		public void setMazub(World world, Mazub alien){
 			world.setCreatureInWorld(alien);
+			alien.world = world;
 		}
 
 		public boolean isImmune(Mazub alien){
@@ -93,6 +94,7 @@ public class Facade implements IFacadePart2 {
 
 		public void addPlant(World world, Plant plant){
 			world.setCreatureInWorld(plant);
+			plant.world = world;
 		}
 
 		public Collection<Plant> getPlants(World world){
@@ -113,6 +115,7 @@ public class Facade implements IFacadePart2 {
 
 		public void addShark(World world, Shark shark){
 			world.setCreatureInWorld(shark);
+			shark.world = world;
 		}
 
 		public Collection<Shark> getSharks(World world){
@@ -137,6 +140,7 @@ public class Facade implements IFacadePart2 {
 
 		public void addSlime(World world, Slime slime){
 			world.setCreatureInWorld(slime);
+			slime.world = world;
 		}
 
 		public Collection<Slime> getSlimes(World world){
