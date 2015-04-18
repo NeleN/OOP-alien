@@ -86,48 +86,49 @@ public abstract class Creature{
 			heightSprite =  getCurrentSprite().getHeight();
 			for (Slime slime: world.getSlimesInWorld()){
 				if (this.collisionDetection( slime))
-					this.effectCollision( slime);
+					this.slimeCollision( slime);
 			}
 			for (Shark shark: world.getSharksInWorld()){
 				if (this.collisionDetection( shark))
-					this.effectCollision( shark);
+					this.sharkCollision( shark);
 			}
 			for (Plant plant: world.getPlantsInWorld()){
 				if (this.collisionDetection( plant))
-					this.effectCollision( plant);
+					this.plantCollision( plant);
 			}
 			for (Mazub alien: world.getMazubsInWorld()){
 				if (this.collisionDetection( alien))
 					this.effectCollision( alien);
+				// TODO Werken met instanceof om zo de verschillende collisions op te roepen?? (bv if this instanceof slime alien.slimeCollision(this)
+				// We kunnen ook werken met Override en per creature alleen de collisions die er toe doen in rekening brengen)
 			}
 			
 			
 	}
 	
-	public void effectCollision(Creature creature){
+	private void slimeCollision(Slime slime){
 		if (this instanceof Mazub)
-			if (creature instanceof Slime)
-				creature.loseHitpoints(50);
-				this.loseHitpoints(50);
-//				School school = ((Slime) creature).getSchool();
-//				school.losePoints();
-				// TODO kan even niet bewegen
-				
-			if (creature instanceof Shark)
-				this.loseHitpoints(50);
-				// TODO kan even niet bewegen
-				
-			if (creature instanceof Plant)
-				this.gainHitpoints(50);
-				
-		if (this instanceof Slime)
-			//if (creature instanceof Slime)
-								
-				
-			if (creature instanceof Shark)
-				this.loseHitpoints(50);
+			slime.loseHitpoints(50);
+			this.loseHitpoints(50);
+			// TODO kan even niet bewegen
+		if (this instanceof Slime)		
 		
+			
 	}
+	
+	private void sharkCollision(Shark shark){
+		if (this instanceof Mazub)
+			this.loseHitpoints(50);
+			// TODO kan even niet bewegen
+		if (this instanceof Slime)
+			this.loseHitpoints(50);
+	}
+	
+	private void plantCollision(Plant plant){
+		if (this instanceof Mazub)
+			this.gainHitpoints(50);
+	}
+		
 	
 	/**
 	 * Checks if dt is a valid time span.

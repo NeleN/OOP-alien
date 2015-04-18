@@ -44,6 +44,12 @@ public class Slime extends Creature {
 			return this.getImageAtIndex(0);
 	}
 	
+	@Override
+	void loseHitpoints(int points){
+		super.loseHitpoints(points-1);
+		getSchool().losePoints();
+	}
+	
 	private School belongsToSchool;
 
 }

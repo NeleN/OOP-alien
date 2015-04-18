@@ -20,6 +20,10 @@ public class School {
 			slime.loseHitpoints(1);
 		}
 	}
+	
+	public int getNbSlimesInSchool(){
+		return slimesInSchool.size();
+	}
 
 	public List<Slime> slimesInSchool = new ArrayList<Slime>();
 	
