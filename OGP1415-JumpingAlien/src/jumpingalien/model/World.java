@@ -56,7 +56,7 @@ public class World {
 	public int getGeologicalFeature(int pixelX, int pixelY){
 		int tileX = this.getTileNbX(pixelX);
 		int tileY = this.getTileNbY(pixelY);
-		return inWorldTiles[tileX+1][tileY+1];
+		return inWorldTiles[tileX][tileY];
 	}
 	
 	public void setGeologicalFeature(int pixelX, int pixelY, int feature){
@@ -118,6 +118,8 @@ public class World {
 
 	
 	public int [][] getTilePositions(int pixelLeft, int pixelBottom, int pixelRight, int pixelTop){
+		pixelBottom = pixelBottom - tileLength +1; //???????????????????????????????????????????????????????????????????????
+		pixelLeft = pixelLeft - tileLength +1;
 		int matrixLength = ((pixelTop - pixelBottom)/tileLength) * ((pixelRight - pixelLeft)/tileLength);
 		int [][] tilePositions = new int [matrixLength][2];
 		for (int j=pixelBottom; j <= (pixelTop - tileLength); j+=tileLength){
@@ -146,10 +148,10 @@ public class World {
 	
 	
 	private void setVisibleWindow(Creature creature){
-		this.leftWindow = Math.max(xMin, (int)creature.getPositionX()-(visibleWindowWidth/2));
-		this.bottomWindow = Math.max(yMin, (int)creature.getPositionY()-(visibleWindowHeight/2));
-		this.rightWindow =  Math.min(xMax, (int)creature.getPositionX()+(visibleWindowWidth/2));
-		this.topWindow = Math.min(yMax, (int)creature.getPositionY()+(visibleWindowHeight/2));
+		this.leftWindow = Math.max(xMin, (int)(creature.getPositionX()-(visibleWindowWidth/2)));
+		this.bottomWindow = Math.max(yMin, (int)(creature.getPositionY()-(visibleWindowHeight/2)));
+		this.rightWindow = Math.min(xMax, (int)(creature.getPositionX()+(visibleWindowWidth/2)));
+		this.topWindow = Math.min(yMax, (int)(creature.getPositionY()+(visibleWindowHeight/2)));
 	}
 		
 	
@@ -200,12 +202,12 @@ public class World {
 	/**
 	 * The maximum x value of the field of the game.
 	 */
-	private static int xMax;
+	private static int xMax = 1024;
 	
 	/**
 	 * The maximum y value of the field of the game. 
 	 */
-	private static int yMax;
+	private static int yMax = 768;
 
 	public int[][] inWorldTiles;
 	

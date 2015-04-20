@@ -84,6 +84,7 @@ public abstract class Creature{
 				this.updateIndex();
 			widthSprite = getCurrentSprite().getWidth();
 			heightSprite =  getCurrentSprite().getHeight();
+			
 			for (Slime slime: world.getSlimesInWorld()){
 				if (this.collisionDetection( slime))
 					this.slimeCollision( slime);
@@ -97,8 +98,9 @@ public abstract class Creature{
 					this.plantCollision( plant);
 			}
 			for (Mazub alien: world.getMazubsInWorld()){
-				if (this.collisionDetection( alien))
-					this.effectCollision( alien);
+				creatureOnTile();
+				//if (this.collisionDetection( alien))
+					//this.effectCollision( alien);
 				// TODO Werken met instanceof om zo de verschillende collisions op te roepen?? (bv if this instanceof slime alien.slimeCollision(this)
 				// We kunnen ook werken met Override en per creature alleen de collisions die er toe doen in rekening brengen)
 			}
@@ -111,7 +113,7 @@ public abstract class Creature{
 			slime.loseHitpoints(50);
 			this.loseHitpoints(50);
 			// TODO kan even niet bewegen
-		if (this instanceof Slime)		
+		//if (this instanceof Slime)		
 		
 			
 	}
@@ -152,11 +154,28 @@ public abstract class Creature{
 		else 
 			return true;
 	}
+	private boolean blockMovementX = false;
+	private boolean blockMovementY = false;
 	
-	public boolean tileCollisionDetection(Creature creature){
-		if 
+	public void creatureOnTile(){
+		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
+				((int)this.getPositionY() - world.getTileLength() +1)) == 0)
+			this.blockMovementY = false;
+			this.blockMovementX = false;
+			
+			
+		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
+				((int)this.getPositionY() - world.getTileLength() +1)) == 1)
+			this.blockMovementY = true;
+					
+//		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
+//				((int)this.getPositionY() - world.getTileLength() +1)) == 2)
+//		
+//		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
+//				((int)this.getPositionY() - world.getTileLength() +1)) == 3)
+//			
+			
 	}
-
 	
 	private void updateIndex(){
 		if (alternatingIndex<m)
@@ -412,12 +431,15 @@ public abstract class Creature{
 	 * 			(positionY>=yMin && positionY<=yMax)
 	 */
 	private void setPositionY(double position) throws IllegalArgumentException {
-		if (position < 0)
-			position = 0;
-		if ( ! isValidPosition(0,position))
-			throw new IllegalArgumentException();
-		else
-			this.positionY = position;
+		if (blockMovementY == false)
+			if (position < 0)
+				position = 0;
+			if ( ! isValidPosition(0,position))
+				throw new IllegalArgumentException();
+			else
+				this.positionY = position;
+		
+		
 	}
 	
 	/**
@@ -504,7 +526,7 @@ public abstract class Creature{
 	 * 			new.getSpeedX() == speed
 	 * 
 	 */
-	private void setSpeedX(double speed){
+	void setSpeedX(double speed){
 //		if (isValidSpeedX(speed))				VERVANGEN DOOR EXCEPTION
 			this.speedX = speed;
 //		else
@@ -518,7 +540,7 @@ public abstract class Creature{
 	 * @post	The new vertical speed of  must be equal to the given speed
 	 * 			| new.getSpeedY() == speed
 	 */
-	private void setSpeedY(double speed){
+	void setSpeedY(double speed){
 		this.speedY = speed;
 	}
 	
