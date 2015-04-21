@@ -65,9 +65,10 @@ public abstract class Creature{
 	 * 			| !(dt>=0) || !(dt<0.2)
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
-		if (! isValidTime(dt))
+		if (! isValidTime(dt)){
 			throw new IllegalDeltaTimeException(dt);
-		else
+		}
+		else {
 			try {
 				setPositionX(getPositionX() + getTravelledDistanceX(dt));
 				setPositionY(getPositionY() + getTravelledDistanceY(dt));
@@ -76,59 +77,52 @@ public abstract class Creature{
 			}
 			setSpeedX(getSpeedX() + getAccelerationX()*dt); 
 			setSpeedY(getSpeedY() + getAccelerationY()*dt);
-			if (getPositionY() == 0)
+			if (getPositionY() == 0){
 				setSpeedY(0);
+			}
 			timeLastMovedX += dt;
 			changedIndex += dt;
-			if (changedIndex >= 0.075)
+			if (changedIndex >= 0.075){
 				this.updateIndex();
+			}
 			widthSprite = getCurrentSprite().getWidth();
 			heightSprite =  getCurrentSprite().getHeight();
-			
-			for (Slime slime: world.getSlimesInWorld()){
-				if (this.collisionDetection( slime))
-					this.slimeCollision( slime);
-			}
-			for (Shark shark: world.getSharksInWorld()){
-				if (this.collisionDetection( shark))
-					this.sharkCollision( shark);
-			}
-			for (Plant plant: world.getPlantsInWorld()){
-				if (this.collisionDetection( plant))
-					this.plantCollision( plant);
-			}
-			for (Mazub alien: world.getMazubsInWorld()){
-				creatureOnTile();
-				//if (this.collisionDetection( alien))
-					//this.effectCollision( alien);
-				// TODO Werken met instanceof om zo de verschillende collisions op te roepen?? (bv if this instanceof slime alien.slimeCollision(this)
-				// We kunnen ook werken met Override en per creature alleen de collisions die er toe doen in rekening brengen)
-			}
-			
-			
+		}
 	}
 	
-	private void slimeCollision(Slime slime){
-		if (this instanceof Mazub)
-			slime.loseHitpoints(50);
-			this.loseHitpoints(50);
-			// TODO kan even niet bewegen
-		//if (this instanceof Slime)		
-		
-			
+	void collisionMazubPlant(Mazub alien, Plant plant){
+		alien.gainHitpoints(50);
+		plant.dies();
 	}
 	
-	private void sharkCollision(Shark shark){
-		if (this instanceof Mazub)
-			this.loseHitpoints(50);
-			// TODO kan even niet bewegen
-		if (this instanceof Slime)
-			this.loseHitpoints(50);
+	void collisionMazubSlime(Mazub alien, Slime slime){
+		alien.loseHitpoints(50);
+		slime.loseHitpoints(50);
+		alien.lastCollisionEnemy = 0;
 	}
 	
-	private void plantCollision(Plant plant){
-		if (this instanceof Mazub)
-			this.gainHitpoints(50);
+	void collisionMazubShark(Mazub alien, Shark shark){
+		alien.loseHitpoints(50);
+		shark.loseHitpoints(50);
+		alien.lastCollisionEnemy = 0;
+	}
+	
+	void collisionSharkShark(Shark shark1, Shark shark2){
+		// TODO block movement
+	}
+	
+	void collisionSharkSlime(Shark shark, Slime slime){
+		slime.loseHitpoints(50);
+		shark.loseHitpoints(50);
+	}
+	
+	void collisionSlimeSlime(Slime slime1, Slime slime2){
+		if (slime1.getSchool().getNbSlimesInSchool() > slime2.getSchool().getNbSlimesInSchool()){
+			slime2.changeSchool(slime1.getSchool());
+		}
+		if (slime1.getSchool().getNbSlimesInSchool() < slime2.getSchool().getNbSlimesInSchool()){
+			slime1.changeSchool(slime2.getSchool()); 
+		}
 	}
 		
 	
@@ -149,39 +143,47 @@ public abstract class Creature{
 		if (( this.getPositionX() + (this.getWidthSprite() - 1) < creature.getPositionX() )
 				|| (creature.getPositionX() + (creature.getWidthSprite() - 1) < this.getPositionX())
 				|| (this.getPositionY() + (this.getHeightSprite() - 1) < creature.getPositionY())
-				|| (creature.getPositionY() + (creature.getHeightSprite() - 1) < this.getPositionY()))
+				|| (creature.getPositionY() + (creature.getHeightSprite() - 1) < this.getPositionY())){
 			return false;
-		else 
+		}
+		else {
 			return true;
+		}
 	}
 	private boolean blockMovementX = false;
 	private boolean blockMovementY = false;
 	
 	public void creatureOnTile(){
 		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-				((int)this.getPositionY() - world.getTileLength() +1)) == 0)
+				((int)this.getPositionY() - world.getTileLength() +1)) == 0){
 			this.blockMovementY = false;
 			this.blockMovementX = false;
+		}
 			
 			
 		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-				((int)this.getPositionY() - world.getTileLength() +1)) == 1)
+				((int)this.getPositionY() - world.getTileLength() +1)) == 1){
 			this.blockMovementY = true;
+		}
 					
 //		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-//				((int)this.getPositionY() - world.getTileLength() +1)) == 2)
+//				((int)this.getPositionY() - world.getTileLength() +1)) == 2){
+//		}
 //		
 //		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-//				((int)this.getPositionY() - world.getTileLength() +1)) == 3)
+//				((int)this.getPositionY() - world.getTileLength() +1)) == 3){
+//		}
 //			
 			
 	}
 	
 	private void updateIndex(){
-		if (alternatingIndex<m)
+		if (alternatingIndex<m){
 			alternatingIndex+=1;
-		else
+		}
+		else{
 			alternatingIndex=0;
+		}
 		changedIndex = 0;
 	}
 	
@@ -196,8 +198,9 @@ public abstract class Creature{
 	
 	void loseHitpoints(int points){
 		hitpoints-=points;
-		if (hitpoints <= 0)
+		if (hitpoints <= 0){
 			this.dies();
+		}
 	}
 	
 	void dies(){
@@ -304,8 +307,9 @@ public abstract class Creature{
 	 * 			| new.getSpeedY() <= 0
 	 */
 	public void endJump(){
-		if (getSpeedY() > 0)
+		if (getSpeedY() > 0){
 			setSpeedY(0);
+		}
 		setAccelerationY(gravity);
 		this.isJumping = false;
 	}
@@ -413,10 +417,12 @@ public abstract class Creature{
 	 * 
 	 */
 	private void setPositionX(double position) throws IllegalArgumentException {
-		if (! isValidPosition(position,0))
+		if (! isValidPosition(position,0)){
 			throw new IllegalArgumentException();
-		else
+		}
+		else {
 			this.positionX = position;
+		}
 	}
 	
 	/**
@@ -431,14 +437,17 @@ public abstract class Creature{
 	 * 			(positionY>=yMin && positionY<=yMax)
 	 */
 	private void setPositionY(double position) throws IllegalArgumentException {
-		if (blockMovementY == false)
-			if (position < 0)
+		if (blockMovementY == false) {
+			if (position < 0){
 				position = 0;
-			if ( ! isValidPosition(0,position))
+			}
+			if ( ! isValidPosition(0,position)){
 				throw new IllegalArgumentException();
-			else
+			}
+			else {
 				this.positionY = position;
-		
+			}
+		}
 		
 	}
 	

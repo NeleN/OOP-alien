@@ -15,16 +15,32 @@ public class School {
 		
 	}
 	
-	public void losePoints(){
+	void losePoints(){
 		for (Slime slime: slimesInSchool){
 			slime.loseHitpoints(1);
 		}
 	}
 	
-	public int getNbSlimesInSchool(){
+	void gainPoints(){
+		for (Slime slime: slimesInSchool){
+			slime.gainHitpoints(1);
+		}
+	}
+	
+	void pointsSlimeToSchool(Slime slime){
+		slime.loseHitpoints(this.getNbSlimesInSchool());
+		this.gainPoints();
+	}
+	
+	void pointsSchoolToSlime(Slime slime){
+		slime.gainHitpoints(this.getNbSlimesInSchool());
+		this.losePoints();
+	}
+	
+	int getNbSlimesInSchool(){
 		return slimesInSchool.size();
 	}
 
-	public List<Slime> slimesInSchool = new ArrayList<Slime>();
+	List<Slime> slimesInSchool = new ArrayList<Slime>();
 	
 }

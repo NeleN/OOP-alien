@@ -30,6 +30,26 @@ public class Mazub extends Creature{
 	public Mazub (int positionX, int positionY, Sprite[] sprites, double maxSpeedX, int hitpoints) {
 		super (positionX, positionY, sprites, 300,100);
 	}
+	
+	@Override
+	public void advanceTime(double dt) throws IllegalDeltaTimeException {
+		super.advanceTime(dt);
+		for (Slime slime: world.getSlimesInWorld()){
+			if (this.collisionDetection( slime)){
+				collisionMazubSlime(this, slime);
+			}
+		}
+		for (Shark shark: world.getSharksInWorld()){
+			if (this.collisionDetection( shark)){
+				collisionMazubShark(this, shark);
+			}
+		}
+		for (Plant plant: world.getPlantsInWorld()){
+			if (this.collisionDetection( plant)){
+				collisionMazubPlant(this, plant);
+			}
+		}
+	}
 
 	public void startMove(Direction direction){
 		super.startMove(direction, 100, 90);
@@ -77,8 +97,9 @@ public class Mazub extends Creature{
 	}
 	
 	public boolean isImmune(){
-		if (lastCollisionEnemy <= 0.6)
+		if (lastCollisionEnemy <= 0.6) {
 				return true;
+		}
 		return false;
 	}
 	

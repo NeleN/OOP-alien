@@ -22,11 +22,16 @@ public class Plant extends Creature {
 	@Override
 	public void advanceTime(double dt) throws IllegalDeltaTimeException{
 		super.advanceTime(dt);
+		for (Mazub alien: world.getMazubsInWorld()){
+			if (this.collisionDetection(alien)){
+				collisionMazubPlant(alien, this);
+			}
+		}
 		timeLastSwitch += dt;
-		if (timeLastSwitch > 0.05)
-			this.setSpeedX(this.getSpeedX() * (-1));
-		timeLastSwitch = 0;
-		
+		if (timeLastSwitch > 0.5){
+			this.setSpeedX(-this.getSpeedX());	
+			timeLastSwitch = 0;
+		}
 	}
 	
 	private double timeLastSwitch=0 ;

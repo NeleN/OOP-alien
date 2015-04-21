@@ -21,6 +21,26 @@ public class Slime extends Creature {
 		belongsToSchool = school;
 	}
 	
+	@Override
+	public void advanceTime(double dt) throws IllegalDeltaTimeException {
+		super.advanceTime(dt);
+		for (Mazub alien: world.getMazubsInWorld()){
+			if (this.collisionDetection(alien)){
+				collisionMazubSlime(alien, this);
+			}
+		}
+		for (Shark shark: world.getSharksInWorld()){
+			if (this.collisionDetection(shark)){
+				collisionSharkSlime(shark,this);
+			}
+		}
+		for (Slime slime: world.getSlimesInWorld()){
+			if (this.collisionDetection(slime)){
+				collisionSlimeSlime(this,slime);
+			}
+		}
+	}
+	
 	public void startMove(Direction direction){
 		super.startMove(direction, 100, 70);
 	}
@@ -29,8 +49,12 @@ public class Slime extends Creature {
 		super.startJump(0);
 	}
 	
-	private void changeSchool(School school){
-		this.belongsToSchool = school;
+	void changeSchool(School newSchool){
+		School oldSchool = this.getSchool();
+		newSchool.pointsSchoolToSlime(this);
+		this.belongsToSchool = newSchool;
+		oldSchool.pointsSlimeToSchool(this);
+		// TODO hitpoints
 	}
 	
 	public School getSchool(){
