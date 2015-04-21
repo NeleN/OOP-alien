@@ -205,6 +205,7 @@ public abstract class Creature{
 	
 	void dies(){
 		world.removeCreatures.add(this);
+		isAlive=false;
 	}
 		
 	/**
