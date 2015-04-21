@@ -3,7 +3,7 @@
  */
 package jumpingalien.model;
 
-import jumpingalien.util.Sprite;
+import jumpingalien.util.*;
 import be.kuleuven.cs.som.annotate.Raw;
 
 /**
@@ -41,9 +41,11 @@ public class Plant extends Creature {
 	}
 	
 	public Sprite getCurrentSprite() {
-		if ( this.lastDirection == 1 )
+		if ( this.getSpeedX() > 1 ){
 			return this.getImageAtIndex(1);
-		else
+		}
+		else {
 			return this.getImageAtIndex(0);
+		}
 	}
 }
