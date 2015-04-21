@@ -1,6 +1,3 @@
-/**
- * 
- */
 package jumpingalien.model;
 
 import jumpingalien.util.Sprite;
@@ -9,7 +6,8 @@ import be.kuleuven.cs.som.annotate.Immutable;
 import be.kuleuven.cs.som.annotate.Raw;
 
 /**
- * @author Nele
+ * A class of creatures.
+ * @author Nele Nauwelaers, Melanie Nijs
  *
  */
 public abstract class Creature{
@@ -24,6 +22,10 @@ public abstract class Creature{
 	 * 			The vertical position of  the creature.
 	 * @param 	sprites
 	 * 			An array of images of the type Sprite.
+	 * @param	maxSpeedX
+	 * 			The maximum horizontal velocity.
+	 * @param	hitpoints
+	 * 			The number of hitpoints of a creature. 
 	 * @pre		sprites should contain at least 10 images.
 	 * 			| sprites.length != null && sprites.length >= 10
 	 * @effect	the creature's new horizontal position equals positionX.
@@ -48,7 +50,6 @@ public abstract class Creature{
 		m = (images.length-10)/2;
 		this.hitpoints = hitpoints;
 	}
-
 	
 	/**
 	 * @param dt
@@ -65,6 +66,7 @@ public abstract class Creature{
 	 * 			| !(dt>=0) || !(dt<0.2)
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
+
 		if (! isValidTime(dt)){
 			throw new IllegalDeltaTimeException(dt);
 		}
@@ -89,7 +91,7 @@ public abstract class Creature{
 			heightSprite =  getCurrentSprite().getHeight();
 		}
 	}
-	
+		
 	void collisionMazubPlant(Mazub alien, Plant plant){
 		alien.gainHitpoints(50);
 		plant.dies();
@@ -124,35 +126,7 @@ public abstract class Creature{
 			slime1.changeSchool(slime2.getSchool()); 
 		}
 	}
-		
-	
-	/**
-	 * Checks if dt is a valid time span.
-	 * 
-	 * @param 	dt
-	 * 			an infinitesimally small period of time
-	 * @return	True if and only if the given dt is positive and smaller than 0.2
-	 * 			| (dt>=0) && (dt<0.2)
-	 */
-	@Raw
-	public boolean isValidTime(double dt){
-		return (dt>=0) && (dt<=0.2);	
-	}
-	
-	public boolean collisionDetection(Creature creature){
-		if (( this.getPositionX() + (this.getWidthSprite() - 1) < creature.getPositionX() )
-				|| (creature.getPositionX() + (creature.getWidthSprite() - 1) < this.getPositionX())
-				|| (this.getPositionY() + (this.getHeightSprite() - 1) < creature.getPositionY())
-				|| (creature.getPositionY() + (creature.getHeightSprite() - 1) < this.getPositionY())){
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
-	private boolean blockMovementX = false;
-	private boolean blockMovementY = false;
-	
+
 	public void creatureOnTile(){
 		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
 				((int)this.getPositionY() - world.getTileLength() +1)) == 0){
@@ -188,6 +162,54 @@ public abstract class Creature{
 	}
 	
 	
+/****************************************************************************************************
+ * 																									*
+ * 									     BOOLEANS													*
+ * 																									*										
+ ****************************************************************************************************/	
+	
+	/**
+	 * Checks if dt is a valid time span.
+	 * 
+	 * @param 	dt
+	 * 			an infinitesimally small period of time
+	 * @return	True if and only if the given dt is positive and smaller than 0.2
+	 * 			| (dt>=0) && (dt<0.2)
+	 */
+	@Raw
+	public boolean isValidTime(double dt){
+		return (dt>=0) && (dt<=0.2);	
+	}
+	
+	public boolean collisionDetection(Creature creature){
+		if (( this.getPositionX() + (this.getWidthSprite() - 1) < creature.getPositionX() )
+				|| (creature.getPositionX() + (creature.getWidthSprite() - 1) < this.getPositionX())
+				|| (this.getPositionY() + (this.getHeightSprite() - 1) < creature.getPositionY())
+				|| (creature.getPositionY() + (creature.getHeightSprite() - 1) < this.getPositionY())){
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	
+	
+/****************************************************************************************************
+ * 																									*
+ * 									     GETTERS AND SETTERS										*
+ * 																									*										
+ ****************************************************************************************************/
+		
+
+	
+
+	
+	
+	private boolean blockMovementY = false;
+	
+
+	
 	public int getHitpoints(){
 		return this.hitpoints;
 	}
@@ -217,8 +239,7 @@ public abstract class Creature{
 	public double getTravelledDistanceX(double dt){
 		 return (getSpeedX()*dt  + 0.5*getAccelerationX()*Math.pow(dt, 2));
 	}
-	
-	
+		
 	/**
 	 * This method calculates the vertical travelled distance.
 	 * 
@@ -229,7 +250,6 @@ public abstract class Creature{
 		 return (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2));
 	}	
 
-	
 	/**
 	 * This method initiates a movement of  the creature.
 	 * 
@@ -315,8 +335,6 @@ public abstract class Creature{
 		this.isJumping = false;
 	}
 	
-
-
 	/**
 	 * Checks if  the creature is moving horizontally.
 	 * 
@@ -378,7 +396,6 @@ public abstract class Creature{
 		return (timeLastMovedX < 1);
 	}
 	
-	
 	/**
 	 * Returns the horizontal position of  the creature.
 	 */
@@ -406,7 +423,7 @@ public abstract class Creature{
 	}
 	
 	/**
-	 * Changes the horizontal position of  the creature.
+	 * Changes the horizontal position of the creature.
 	 * 
 	 * @param 	position
 	 * 			The position the creature should be set to.
@@ -427,7 +444,7 @@ public abstract class Creature{
 	}
 	
 	/**
-	 * Changes the vertical position of  the creature.
+	 * Changes the vertical position of the creature.
 	 * 
 	 * @param 	position
 	 * 			The position the creature should be set to.
@@ -581,7 +598,6 @@ public abstract class Creature{
 		return array;
 	}	
 		
-	
 	/**
 	 * Returns an image corresponding to the current index.
 	 * 
@@ -605,85 +621,110 @@ public abstract class Creature{
 	}
 	
 	public abstract Sprite getCurrentSprite();
+	 
 	
+/****************************************************************************************************
+ * 																									*
+ * 									     	VARIABLES												*
+ * 																									*										
+ ****************************************************************************************************/
+		
 	
- 
 	/**
 	 * The gravitational constant we assume equal to earth's.
 	 */
-	private int gravity = -1000;					// -10m/s --> pixel = 0,01m --> 1000 pixels/sÂ²
+	private int gravity = -1000;					// -10m/s --> pixel = 0,01m --> 1000 pixels/s²
+	
 	/**
 	 * The maximum speed  may have.
 	 */
 	public double maxSpeedX;					//	3 m/s --> pixel = 0,01m --> 300 pixel/s 
+	
 	/**
 	 * The current speed in horizontal direction of  the creature.
 	 */
 	private double speedX = 0; 
+	
 	/**
 	 * The current speed in vertical direction of  the creature.
 	 */
 	private double speedY = 0;
+	
 	/**
 	 * The current acceleration in horizontal direction of  the creature.
 	 */
 	private double accelerationX = 0;
+	
 	/**
 	 * The current acceleration in vertical direction of  the creature.
 	 */
 	private double accelerationY = 0;
+	
 	/**
 	 * The current height of  the creature.
 	 */
 	public int heightSprite;
+	
 	/**
 	 * The current width of  the creature.
 	 */
 	public int widthSprite;
+	
 	/**
 	 * The current position of  the creature in horizontal direction.
 	 */
 	private double positionX = 0;
+	
 	/**
 	 * The current position of  the creature in vertical direction.
 	 */
 	private double positionY = 0;
+	
 	/**
 	 * The distance the creature has covered in horizontal direction after a short period of time dt.
 	 */
 	public int travelledDistanceX = 0;
+	
 	/**
 	 * The distance the creature has covered in vertical direction after a short period of time dt.
 	 */
 	public int travelledDistanceY = 0;
+	
 	/**
 	 * The moment the creature was moving for the last time.
 	 */
 	public double timeLastMovedX = 0;
+	
 	/**
 	 * A boolean which shows whether the creature is moving or not.
 	 */
 	private boolean isMovingX = false;
+	
 	/**
 	 * A boolean which shows whether the creature is jumping or not.
 	 */
 	private boolean isJumping = false;	
+	
 	/**
 	 * The last direction the creature has moved in.
 	 */
 	public int lastDirection = 0;
+	
 	/**
 	 * The number of alternating images for the cases 8 and 9 in the method getCurrentSprite.
 	 */
 	public int m;
+	
 	/**
 	 * An integer that alternates from zero to m.
 	 */
 	public int alternatingIndex;
+	
 	/**
 	 * The moment alternatingIndex was updated for the last time.
 	 */
 	public double changedIndex;
+	
 	/**
 	 * An array of images that represent the creature in its different states.
 	 */
@@ -696,6 +737,9 @@ public abstract class Creature{
 	double lastCollisionEnemy;
 	
 	public World world;
+	
+	private boolean blockMovementX = false;
+
 	
 }
 

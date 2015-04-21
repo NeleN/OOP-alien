@@ -67,7 +67,9 @@ public class Facade implements IFacadePart2 {
 	
 		public int[][] getTilePositionsIn(World world, int pixelLeft, int pixelBottom,
 				int pixelRight, int pixelTop){
-			return world.getTilePositions(pixelLeft, pixelBottom, pixelRight, pixelTop);
+			int[][] tmp = world.getTilePositions(pixelLeft, pixelBottom, pixelRight, pixelTop);
+			System.out.println(tmp);
+			return tmp;
 		}
 
 		public int getGeologicalFeature(World world, int pixelX, int pixelY)
@@ -76,7 +78,7 @@ public class Facade implements IFacadePart2 {
 		}
 
 		public void setGeologicalFeature(World world, int tileX, int tileY, int tileType){
-			world.setGeologicalFeature(tileX, tileX, tileType);
+			world.setGeologicalFeature(tileX, tileY, tileType);
 		}
 
 		public void setMazub(World world, Mazub alien){

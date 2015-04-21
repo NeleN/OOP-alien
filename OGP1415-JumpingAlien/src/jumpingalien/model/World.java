@@ -185,9 +185,9 @@ public class World {
 	 * 															 2 = water; 3 = magma.
 	 */
 	public void setGeologicalFeature(int pixelX, int pixelY, int feature){
-		int tileX = this.getTileNbX(pixelX);
-		int tileY = this.getTileNbY(pixelY);
-		inWorldTiles[tileX][tileY] = feature;
+//		int tileX = this.getTileNbX(pixelX);
+//		int tileY = this.getTileNbY(pixelY);
+		inWorldTiles[pixelX][pixelY] = feature;
 	}
 	
 
@@ -216,7 +216,7 @@ public class World {
 		for (Creature creature: inWorldCreatures){
 			if (creature instanceof Plant){
 				this.plantsInWorld.add(creature);
-			}
+				}
 		}
 		return (Collection)plantsInWorld;
 	}
