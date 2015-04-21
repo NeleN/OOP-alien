@@ -416,9 +416,9 @@ public abstract class Creature{
 	 * 			(positionX>=xMin && positionX<=xMax)
 	 * 
 	 */
-	private void setPositionX(double position) throws IllegalArgumentException {
+	private void setPositionX(double position){
 		if (! isValidPosition(position,0)){
-			throw new IllegalArgumentException();
+			this.dies();
 		}
 		else {
 			this.positionX = position;
@@ -436,13 +436,13 @@ public abstract class Creature{
 	 * 			The given position is not allowed for the creature
 	 * 			(positionY>=yMin && positionY<=yMax)
 	 */
-	private void setPositionY(double position) throws IllegalArgumentException {
+	private void setPositionY(double position)  {
 		if (blockMovementY == false) {
 			if (position < 0){
 				position = 0;
 			}
 			if ( ! isValidPosition(0,position)){
-				throw new IllegalArgumentException();
+				this.dies();
 			}
 			else {
 				this.positionY = position;

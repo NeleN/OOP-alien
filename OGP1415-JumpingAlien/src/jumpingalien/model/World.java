@@ -222,16 +222,18 @@ public class World {
 		return (Collection)mazubsInWorld;
 	}
 	
+	private void setVisibleWindow(Creature creature){
+		this.leftWindow = Math.max(xMin, Math.min((int)(creature.getPositionX()-(visibleWindowWidth/2)), xMax-visibleWindowWidth));
+		this.bottomWindow = Math.max(yMin,Math.min((int)(creature.getPositionY()-(visibleWindowHeight/2)), yMax-visibleWindowHeight) );
+		this.rightWindow = leftWindow + visibleWindowWidth;
+		this.topWindow = bottomWindow + visibleWindowHeight;
+	}
+	
 	public int[] getVisibleWindow(){
 		int[] array = {leftWindow, bottomWindow, rightWindow, topWindow};
 		return array;
 	}
-	private void setVisibleWindow(Creature creature){
-		this.leftWindow = Math.max(xMin, (int)(creature.getPositionX()-(visibleWindowWidth/2)));
-		this.bottomWindow = Math.max(yMin, (int)(creature.getPositionY()-(visibleWindowHeight/2)));
-		this.rightWindow = Math.min(xMax, (int)(creature.getPositionX()+(visibleWindowWidth/2)));
-		this.topWindow = Math.min(yMax, (int)(creature.getPositionY()+(visibleWindowHeight/2)));
-	}
+
 		
 	
 	public static int getXMin(){
@@ -289,12 +291,12 @@ public class World {
 	/**
 	 * The maximum x value of the field of the game.
 	 */
-	private static int xMax = 1024;
+	private static int xMax;
 	
 	/**
 	 * The maximum y value of the field of the game. 
 	 */
-	private static int yMax = 768;
+	private static int yMax;
 
 	public int[][] inWorldTiles;
 	
