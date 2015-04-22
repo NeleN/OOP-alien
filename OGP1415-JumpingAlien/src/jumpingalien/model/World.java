@@ -61,9 +61,11 @@ public class World {
 	 * @throws IllegalDeltaTimeException 
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException{
-		this.inWorldCreatures.addAll(addCreatures);
-		for (Creature creature: inWorldCreatures){
+		for (Creature creature: new ArrayList<Creature>(inWorldCreatures)){
 			creature.advanceTime(dt);
+			if (creature.isAlive == false){
+				inWorldCreatures.remove(creature);
+			}
 			if (creature instanceof Mazub){
 				setVisibleWindow(creature);
 				alienAlive = creature.isAlive;
@@ -71,12 +73,11 @@ public class World {
 				creature.lastCollisionEnemy += dt;
 			}
 		}
-			
-		this.inWorldCreatures.remove(removeCreatures);
-		this.addCreatures.removeAll(addCreatures);
-     	this.removeCreatures.removeAll(removeCreatures);
 	}
 
+	public void startGame(){
+		this.inWorldCreatures.addAll(addCreatures);
+	}
 
 /****************************************************************************************************
  * 																									*

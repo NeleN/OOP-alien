@@ -35,6 +35,7 @@ public class Facade implements IFacadePart2 {
 		}
 
 		public void startGame(World world){
+			world.startGame();
 		}
 
 		public boolean isGameOver(World world){
