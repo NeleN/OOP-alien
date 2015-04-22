@@ -140,16 +140,14 @@ public class World {
 	 * 		An integer array of coordinates of the tiles in the rectangular region.
 	 */
 	public int [][] getTilePositions(int pixelLeft, int pixelBottom, int pixelRight, int pixelTop){
-		pixelBottom = pixelBottom - tileLength +1; //TODO ask! 
-		pixelLeft = pixelLeft - tileLength +1;
 		int matrixLength = ((pixelTop - pixelBottom)/tileLength) * ((pixelRight - pixelLeft)/tileLength);
 		int [][] tilePositions = new int [matrixLength][2];
+		int k = 0;
 		for (int j=pixelBottom; j <= (pixelTop - tileLength); j+=tileLength){
 			for (int i=pixelLeft; i <= (pixelRight-tileLength); i+=tileLength){
-				for (int k=1; k< matrixLength ; k++){
 				tilePositions [k][0] = getTileNbX(i);
 			    tilePositions [k][1] = getTileNbY(j);
-				}
+				k +=1;
 			}
 		}	
 		
@@ -175,18 +173,16 @@ public class World {
 	}
 	
 	/**
-	 * Gives a feature to the given tile with as bottomleft coordinate (pixelX, pixelY).
+	 * Gives a feature to the given tile with as bottomleft tile coordinate (pixelX, pixelY).
 	 * @param pixelX
-	 * 			The x pixel coordinate of the bottomleft of the tile.
+	 * 			The x tile coordinate of the bottomleft of the tile.
 	 * @param pixelY
-	 * 			The y pixel coordinate of the bottomleft of the tile.
+	 * 			The y tile coordinate of the bottomleft of the tile.
 	 * @param feature
 	 * 			An integer that represents a geological feature: 0 = air;   1 = solid ground;
 	 * 															 2 = water; 3 = magma.
 	 */
 	public void setGeologicalFeature(int pixelX, int pixelY, int feature){
-//		int tileX = this.getTileNbX(pixelX);
-//		int tileY = this.getTileNbY(pixelY);
 		inWorldTiles[pixelX][pixelY] = feature;
 	}
 	
@@ -259,8 +255,8 @@ public class World {
 	private void setVisibleWindow(Creature creature){
 		this.leftWindow = Math.max(xMin, Math.min((int)(creature.getPositionX()-(visibleWindowWidth/2)), xMax-visibleWindowWidth));
 		this.bottomWindow = Math.max(yMin,Math.min((int)(creature.getPositionY()-(visibleWindowHeight/2)), yMax-visibleWindowHeight) );
-		this.rightWindow = leftWindow + visibleWindowWidth;
-		this.topWindow = bottomWindow + visibleWindowHeight;
+		this.rightWindow = leftWindow + visibleWindowWidth + getTileLength();
+		this.topWindow = bottomWindow + visibleWindowHeight + getTileLength();
 	}
 	
 	/**

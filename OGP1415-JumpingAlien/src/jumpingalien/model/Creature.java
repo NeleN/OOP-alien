@@ -119,6 +119,17 @@ public abstract class Creature{
 	}
 	
 	void collisionSlimeSlime(Slime slime1, Slime slime2){
+		slime1.setPositionX(slime1.getPositionX());
+		slime2.setPositionX(slime2.getPositionX());
+		if (slime1.lastDirection == 1){
+			slime1.startMove(Direction.LEFT);
+			slime2.startMove(Direction.RIGHT);
+		}
+		else{
+			slime1.startMove(Direction.RIGHT);
+			slime2.startMove(Direction.LEFT);
+		}
+				
 		if (slime1.getSchool().getNbSlimesInSchool() > slime2.getSchool().getNbSlimesInSchool()){
 			slime2.changeSchool(slime1.getSchool());
 		}
@@ -434,7 +445,7 @@ public abstract class Creature{
 	 * 			(positionX>=xMin && positionX<=xMax)
 	 * 
 	 */
-	private void setPositionX(double position){
+	void setPositionX(double position){
 		if (! isValidPosition(position,0)){
 			this.dies();
 		}
@@ -454,7 +465,7 @@ public abstract class Creature{
 	 * 			The given position is not allowed for the creature
 	 * 			(positionY>=yMin && positionY<=yMax)
 	 */
-	private void setPositionY(double position)  {
+	void setPositionY(double position)  {
 		if (blockMovementY == false) {
 			if (position < 0){
 				position = 0;

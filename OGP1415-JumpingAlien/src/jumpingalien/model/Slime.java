@@ -3,6 +3,9 @@
  */
 package jumpingalien.model;
 
+import java.lang.reflect.GenericArrayType;
+import java.util.*;
+
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Raw;
 
@@ -19,11 +22,27 @@ public class Slime extends Creature {
 	public Slime (int positionX, int positionY, Sprite[] sprites, School school) {
 		super (positionX, positionY, sprites, 250, 100);
 		belongsToSchool = school;
+		if (Math.random()>0.5)
+			startMove(Direction.RIGHT);
+		else 
+			startMove(Direction.LEFT);
+		
 	}
 	
 	@Override
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
+		double randomNumber = ((double)(Math.random() * (6 - 2)) + 2 );
+		timer += dt;
+		if (timer >= randomNumber){
+			timer=0;
+			if (Math.random()>0.5){
+				startMove(Direction.RIGHT);
+			}
+			else {
+				startMove(Direction.LEFT);
+			}
+		}
 		for (Mazub alien: world.getMazubsInWorld()){
 			if (this.collisionDetection(alien)){
 				collisionMazubSlime(alien, this);
@@ -41,6 +60,8 @@ public class Slime extends Creature {
 		}
 	}
 	
+	private double timer;
+	
 	public void startMove(Direction direction){
 		super.startMove(direction, 100, 70);
 	}
@@ -56,7 +77,7 @@ public class Slime extends Creature {
 		oldSchool.pointsSlimeToSchool(this);
 		// TODO hitpoints
 	}
-	
+	 
 	public School getSchool(){
 		return this.belongsToSchool;
 	}

@@ -68,7 +68,6 @@ public class Facade implements IFacadePart2 {
 		public int[][] getTilePositionsIn(World world, int pixelLeft, int pixelBottom,
 				int pixelRight, int pixelTop){
 			int[][] tmp = world.getTilePositions(pixelLeft, pixelBottom, pixelRight, pixelTop);
-			System.out.println(tmp);
 			return tmp;
 		}
 
