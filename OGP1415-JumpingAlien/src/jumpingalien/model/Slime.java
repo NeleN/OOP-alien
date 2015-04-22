@@ -44,8 +44,10 @@ public class Slime extends Creature {
 			}
 		}
 		for (Mazub alien: world.getMazubsInWorld()){
-			if (this.collisionDetection(alien)){
-				collisionMazubSlime(alien, this);
+			if (! alien.isImmune()){
+				if (this.collisionDetection(alien)){
+					collisionMazubSlime(alien, this);
+				}
 			}
 		}
 		for (Shark shark: world.getSharksInWorld()){

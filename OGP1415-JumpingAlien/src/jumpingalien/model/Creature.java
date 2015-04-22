@@ -745,7 +745,7 @@ public abstract class Creature{
 	
 	boolean isAlive = true;
 	
-	double lastCollisionEnemy;
+	double lastCollisionEnemy = 1;
 	
 	public World world;
 	

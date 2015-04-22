@@ -34,14 +34,17 @@ public class Mazub extends Creature{
 	@Override
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
-		for (Slime slime: world.getSlimesInWorld()){
-			if (this.collisionDetection( slime)){
-				collisionMazubSlime(this, slime);
+		this.lastCollisionEnemy+=dt;
+		if (! this.isImmune()){
+			for (Slime slime: world.getSlimesInWorld()){
+				if (this.collisionDetection( slime)){
+					collisionMazubSlime(this, slime);
+				}
 			}
-		}
-		for (Shark shark: world.getSharksInWorld()){
-			if (this.collisionDetection( shark)){
-				collisionMazubShark(this, shark);
+			for (Shark shark: world.getSharksInWorld()){
+				if (this.collisionDetection( shark)){
+					collisionMazubShark(this, shark);
+				}
 			}
 		}
 		for (Plant plant: world.getPlantsInWorld()){

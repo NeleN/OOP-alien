@@ -21,8 +21,10 @@ public class Shark extends Creature {
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
 		for (Mazub alien: world.getMazubsInWorld()){
-			if (this.collisionDetection(alien)){
-				collisionMazubShark(alien, this);
+			if ( ! alien.isImmune()){
+				if (this.collisionDetection(alien)){
+					collisionMazubShark(alien, this);
+				}
 			}
 		}
 		for (Slime slime: world.getSlimesInWorld()){
