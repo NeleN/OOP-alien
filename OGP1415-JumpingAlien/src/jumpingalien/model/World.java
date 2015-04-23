@@ -54,16 +54,47 @@ public class World {
 		this.targetTileX = targetTileX*tileSize;
 		this.targetTileY = targetTileY*tileSize;
 		this.inWorldTiles = new int [nbTilesX][nbTilesY];
+		System.out.println(nbTilesX+ " "+ nbTilesY );
+		System.out.println(inWorldTiles.length + " " +inWorldTiles[1].length);
 	}
-		
 	
+	private int countOccurrences(int d){
+		int count = 0;
+		for ( int col = 0 ; col < inWorldTiles[1].length ; col++){
+	       for (int i = 0; i < inWorldTiles.length; i++){
+	            if (inWorldTiles[i][col] == d){
+	              count++;
+	            }
+	          }
+		}
+	    return count;
+	    }
+	
+	public int[][] getAllGroundTiles(){
+		int matrixLength = countOccurrences(1);
+		int [][] groundTiles = new int [matrixLength][2];
+		int k = 0;
+		for (int i= 0; i < (inWorldTiles.length); i+=1){
+			for (int j = 0; j < (inWorldTiles[1].length); j+=1){
+				if (inWorldTiles[i][j] == 1){
+					groundTiles[k][0] = i*getTileLength();
+					groundTiles[k][1] = j*getTileLength();	
+					k +=1;
+				}
+			}
+		}
+		return groundTiles;	
+	}
+ 	
 	/**
 	 * GEEN DOCUMENTATIE NODIG
 	 * @throws IllegalDeltaTimeException 
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException{
+		getAllGroundTiles();
 		for (Creature creature: new ArrayList<Creature>(inWorldCreatures)){
-			creature.advanceTime(dt);
+			creature.advanceTime(0.01/((Math.sqrt(Math.pow(creature.getSpeedX(), 2)+ Math.pow(creature.getSpeedY(), 2)) + 
+					(Math.sqrt(Math.pow(creature.getAccelerationX(),2) + Math.pow(creature.getAccelerationY(), 2)))*dt))); 
 			if (creature.isAlive == false){
 				inWorldCreatures.remove(creature);
 			}
@@ -78,6 +109,7 @@ public class World {
 
 	public void startGame(){
 		this.inWorldCreatures.addAll(addCreatures);
+			
 	}
 
 /****************************************************************************************************
@@ -126,7 +158,34 @@ public class World {
  * 																									*										
  ****************************************************************************************************/
 	
-	
+//	public int getLeftSideTileRightOfCreature(int pixelCreatureX, int widthCreature){
+//		int rest = (X - (pixelCreatureX + widthCreature)) % tileLength;
+//		int leftSide = (pixelCreatureX + widthCreature) + rest ; 
+//		return leftSide;
+//		
+//	}
+//	public int getRightSideTileLeftOfCreature(int pixelCreatureX){
+//		int rest = (X + pixelCreatureX ) % tileLength;
+//		int rightSide = (pixelCreatureX) - rest ; 
+//		return rightSide;
+//	}
+//	public int getTopSideTileBelowCreature (int pixelCreatureY, int heigthCreature){
+//		int rest = (Y - (pixelCreatureY + heigthCreature)) % tileLength;
+//		int topSide = (pixelCreatureY + heigthCreature) + rest ; 
+//		return topSide;
+//	}
+//	public int getBottomSideTileAboveCreature (int pixelCreatureY){
+//		int rest = (Y + pixelCreatureY) % tileLength;
+//		int leftSide = (pixelCreatureY) + rest ; 
+//		return leftSide;
+//	}
+//	
+//	public int getCorrespondingYCoordinate(int positionTileX,  int positionMazubY) {
+//		int y = Y;  
+//		return y;
+//	}
+//	
+//	
 	
 	/**
 	 * Returns an integer array of coordinates of the bottomleft of the tiles of the rectangular region between the given pixels.
@@ -326,24 +385,24 @@ public class World {
 	}
 	
 	/**
-	 * Returns the x coordinate of the tile that belongs to a given pixelX.
+	 * Returns the x coordinate of the tile that has pixelX as bottomleft x coordinate.
 	 * @param pixelX
 	 * 			An X position in the world.
 	 * @return
 	 * 		An integer that represents the x coordinate of the tile that belongs to pixel X.
 	 */
-	private int getTileNbX(int pixelX){
+	int getTileNbX(int pixelX){
 		return (pixelX/this.tileLength);
 	}
 
 	/**
-	 * Returns the y coordinate of the tile that belongs to a given pixelY.
+	 * Returns the y coordinate of the tile that has pixelY as bottomleft y coordinate.
 	 * @param pixelY
 	 * 			An Y position in the world.
 	 * @return
 	 * 		An integer that represents the y coordinate of the tile that belongs to pixelY.
 	 */
-	private int getTileNbY(int pixelY){
+	int getTileNbY(int pixelY){
 		return (pixelY/this.tileLength);
 	}
 	

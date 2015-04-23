@@ -67,16 +67,13 @@ public abstract class Creature{
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 
-		if (! isValidTime(dt)){
-			throw new IllegalDeltaTimeException(dt);
-		}
-		else {
-			try {
-				setPositionX(getPositionX() + getTravelledDistanceX(dt));
-				setPositionY(getPositionY() + getTravelledDistanceY(dt));
-			} catch (IllegalArgumentException exc) {
-				throw new jumpingalien.util.ModelException("Illegal position", exc);	
-			}
+//		if (! isValidTime(dt)){
+//			throw new IllegalDeltaTimeException(dt);
+//		}
+//		else {
+			double newPositionX = (Math.max(getPositionX() + getTravelledDistanceX(dt), 0));
+			double newPositionY = (Math.max(getPositionY() + getTravelledDistanceY(dt), 0));
+			//System.out.println(newPositionX);
 			setSpeedX(getSpeedX() + getAccelerationX()*dt); 
 			setSpeedY(getSpeedY() + getAccelerationY()*dt);
 			if (getPositionY() == 0){
@@ -89,8 +86,47 @@ public abstract class Creature{
 			}
 			widthSprite = getCurrentSprite().getWidth();
 			heightSprite =  getCurrentSprite().getHeight();
+			
+			for (int i= 0; i < (world.getAllGroundTiles().length); i+=1){
+					if ( collisionDetectionTile(world.getAllGroundTiles()[i][0], world.getAllGroundTiles()[i][1])){
+						System.out.println(world.getAllGroundTiles()[i][0]);
+						System.out.println(world.getAllGroundTiles()[i][1]);
+						System.out.println(this.getPositionX());
+						System.out.println(this.getPositionX());
+
+						
+						// if the tile is above mazub and mazub is moving upwards;
+						if (this.getSpeedY() > 0 && world.getAllGroundTiles()[i][1] > (int) this.getPositionY()){
+							setPositionY((world.getTileNbY((int)newPositionY)+1)*world.getTileLength()-1);
+						}
+						// if the tile is under mazub and mazub is moving downwards;
+						if (this.getSpeedY() < 0 && world.getAllGroundTiles()[i][1] < (int) this.getPositionY()-){
+							setPositionY((world.getTileNbY((int)newPositionY))*world.getTileLength()-1);
+						}
+						// if the tile is to the left of mazub and mazub is moving to the left;
+						if (lastDirection == -1 && world.getAllGroundTiles()[i][0] < (int) this.getPositionX()){
+							setPositionX((world.getTileNbX((int)newPositionX)+1)*world.getTileLength() -2);
+						}
+						// if the tile is to the right of mazub and mazub is moving to the right;
+						if (lastDirection == 1 && world.getAllGroundTiles()[i][0] > (int) this.getPositionX()) {
+							setPositionX(world.getTileNbX((int)newPositionX)*world.getTileLength() -2);
+						}
+						if ( lastDirection == 0 && this.getSpeedY() == 0){
+							setPositionX((int)newPositionX);
+							setPositionY((int)newPositionY);
+						}
+						
+					else{
+						setPositionX((int)newPositionX);
+						setPositionY((int)newPositionY);
+						}
+//					}
+			}
+			
 		}
 	}
+	
+
 		
 	void collisionMazubPlant(Mazub alien, Plant plant){
 		alien.gainHitpoints(50);
@@ -137,30 +173,6 @@ public abstract class Creature{
 			slime1.changeSchool(slime2.getSchool()); 
 		}
 	}
-
-//	public void creatureOnTile(){
-//		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-//				((int)this.getPositionY() - world.getTileLength() +1)) == 0){
-//			this.blockMovementY = false;
-//			this.blockMovementX = false;
-//		}
-//			
-//			
-//		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-//				((int)this.getPositionY() - world.getTileLength() +1)) == 1){
-//			this.blockMovementY = true;
-//		}
-//					
-////		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-////				((int)this.getPositionY() - world.getTileLength() +1)) == 2){
-////		}
-////		
-////		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-////				((int)this.getPositionY() - world.getTileLength() +1)) == 3){
-////		}
-////			
-//			
-//	}
 	
 	private void updateIndex(){
 		if (alternatingIndex<m){
@@ -197,6 +209,18 @@ public abstract class Creature{
 				|| (creature.getPositionX() + (creature.getWidthSprite() - 1) < this.getPositionX())
 				|| (this.getPositionY() + (this.getHeightSprite() - 1) < creature.getPositionY())
 				|| (creature.getPositionY() + (creature.getHeightSprite() - 1) < this.getPositionY())){
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	public boolean collisionDetectionTile(int tilePixelX, int tilePixelY){
+		if (( this.getPositionX() + (this.getWidthSprite() -1 ) < tilePixelX )
+				|| (tilePixelX + (world.getTileLength() -1 ) < this.getPositionX())
+				|| (this.getPositionY() + (this.getHeightSprite() -1 ) < tilePixelY)
+				|| (tilePixelY + (world.getTileLength() - 1) < this.getPositionY())){
 			return false;
 		}
 		else {
