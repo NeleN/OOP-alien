@@ -138,29 +138,29 @@ public abstract class Creature{
 		}
 	}
 
-	public void creatureOnTile(){
-		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-				((int)this.getPositionY() - world.getTileLength() +1)) == 0){
-			this.blockMovementY = false;
-			this.blockMovementX = false;
-		}
-			
-			
-		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-				((int)this.getPositionY() - world.getTileLength() +1)) == 1){
-			this.blockMovementY = true;
-		}
-					
+//	public void creatureOnTile(){
 //		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-//				((int)this.getPositionY() - world.getTileLength() +1)) == 2){
-//		}
-//		
-//		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
-//				((int)this.getPositionY() - world.getTileLength() +1)) == 3){
+//				((int)this.getPositionY() - world.getTileLength() +1)) == 0){
+//			this.blockMovementY = false;
+//			this.blockMovementX = false;
 //		}
 //			
-			
-	}
+//			
+//		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
+//				((int)this.getPositionY() - world.getTileLength() +1)) == 1){
+//			this.blockMovementY = true;
+//		}
+//					
+////		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
+////				((int)this.getPositionY() - world.getTileLength() +1)) == 2){
+////		}
+////		
+////		if (world.getGeologicalFeature(((int)this.getPositionX() - world.getTileLength() + 1),
+////				((int)this.getPositionY() - world.getTileLength() +1)) == 3){
+////		}
+////			
+//			
+//	}
 	
 	private void updateIndex(){
 		if (alternatingIndex<m){
@@ -204,19 +204,13 @@ public abstract class Creature{
 		}
 	}
 	
-	
-	
+
 /****************************************************************************************************
  * 																									*
  * 									     GETTERS AND SETTERS										*
  * 																									*										
  ****************************************************************************************************/
 		
-
-	
-
-	
-	
 	private boolean blockMovementY = false;
 	
 
@@ -446,13 +440,15 @@ public abstract class Creature{
 	 * 
 	 */
 	void setPositionX(double position){
-		if (! isValidPosition(position,0)){
-			this.dies();
+			if (! isValidPosition(position,0)){
+				this.dies();
+			}
+			else {
+				this.positionX = position;
+			}
 		}
-		else {
-			this.positionX = position;
-		}
-	}
+	
+	
 	
 	/**
 	 * Changes the vertical position of the creature.
@@ -466,10 +462,10 @@ public abstract class Creature{
 	 * 			(positionY>=yMin && positionY<=yMax)
 	 */
 	void setPositionY(double position)  {
-		if (blockMovementY == false) {
-			if (position < 0){
-				position = 0;
-			}
+//		if (blockMovementY == false) {
+//			if (position < 0){
+//				position = 0;
+//			}
 			if ( ! isValidPosition(0,position)){
 				this.dies();
 			}
@@ -478,7 +474,7 @@ public abstract class Creature{
 			}
 		}
 		
-	}
+	
 	
 	/**
 	 * Return the current height of 

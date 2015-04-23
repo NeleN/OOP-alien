@@ -55,6 +55,7 @@ public class World {
 		this.targetTileY = targetTileY*tileSize;
 		this.inWorldTiles = new int [nbTilesX][nbTilesY];
 	}
+		
 	
 	/**
 	 * GEEN DOCUMENTATIE NODIG
@@ -114,8 +115,8 @@ public class World {
 	 * 	
 	 */
 	private boolean isOnTargetTile(Creature creature){
-		return (((int)creature.getPositionX() > targetTileX) && (creature.getPositionY() > targetTileY)
-				&& ((int) creature.getPositionX() < targetTileX + tileLength) && ((int) creature.getPositionY() < targetTileY  + tileLength));
+		return (((int)creature.getPositionX() >= targetTileX) && (creature.getPositionY() >= targetTileY)
+				&& ((int) creature.getPositionX() <= targetTileX + tileLength) && ((int) creature.getPositionY() <= targetTileY  + tileLength));
 	}
 
 	
@@ -172,7 +173,7 @@ public class World {
 		int tileY = this.getTileNbY(pixelY);
 		return inWorldTiles[tileX][tileY];
 	}
-	
+		
 	/**
 	 * Gives a feature to the given tile with as bottomleft tile coordinate (pixelX, pixelY).
 	 * @param pixelX
