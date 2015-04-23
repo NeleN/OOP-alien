@@ -73,7 +73,7 @@ public abstract class Creature{
 //		else {
 			double newPositionX = (Math.max(getPositionX() + getTravelledDistanceX(dt), 0));
 			double newPositionY = (Math.max(getPositionY() + getTravelledDistanceY(dt), 0));
-			//System.out.println(newPositionX);
+			System.out.println(this +" "  + newPositionX);
 			setSpeedX(getSpeedX() + getAccelerationX()*dt); 
 			setSpeedY(getSpeedY() + getAccelerationY()*dt);
 			if (getPositionY() == 0){
@@ -89,10 +89,10 @@ public abstract class Creature{
 			
 			for (int i= 0; i < (world.getAllGroundTiles().length); i+=1){
 					if ( collisionDetectionTile(world.getAllGroundTiles()[i][0], world.getAllGroundTiles()[i][1])){
-						System.out.println(world.getAllGroundTiles()[i][0]);
-						System.out.println(world.getAllGroundTiles()[i][1]);
-						System.out.println(this.getPositionX());
-						System.out.println(this.getPositionX());
+//						System.out.println(world.getAllGroundTiles()[i][0]);
+//						System.out.println(world.getAllGroundTiles()[i][1]);
+//						System.out.println(this.getPositionX());
+//						System.out.println(this.getPositionX());
 
 						
 						// if the tile is above mazub and mazub is moving upwards;
@@ -100,7 +100,7 @@ public abstract class Creature{
 							setPositionY((world.getTileNbY((int)newPositionY)+1)*world.getTileLength()-1);
 						}
 						// if the tile is under mazub and mazub is moving downwards;
-						if (this.getSpeedY() < 0 && world.getAllGroundTiles()[i][1] < (int) this.getPositionY()-){
+						if (this.getSpeedY() < 0 && world.getAllGroundTiles()[i][1] < (int) this.getPositionY()-1){
 							setPositionY((world.getTileNbY((int)newPositionY))*world.getTileLength()-1);
 						}
 						// if the tile is to the left of mazub and mazub is moving to the left;
@@ -362,6 +362,25 @@ public abstract class Creature{
 		}
 		setAccelerationY(gravity);
 		this.isJumping = false;
+	}
+	
+	
+	void randomMovement(double dt, int speed, int acceleration, int minDuration, int maxDuration){
+		double randomNumber = ((double)(Math.random() * (maxDuration - minDuration)) + minDuration );
+		timer += dt;
+		if (timer >= randomNumber){
+			timer=0;
+			lastJump+=1;
+			if (isJumping()){
+				endJump();
+			}
+			if (lastDirection == -1){
+				startMove(Direction.RIGHT, speed, acceleration);
+			}
+			else {
+				startMove(Direction.LEFT, speed, acceleration);
+			}
+		}
 	}
 	
 	/**
@@ -771,6 +790,8 @@ public abstract class Creature{
 	
 	private boolean blockMovementX = false;
 
+	private double timer;
 	
+	int lastJump;
 }
 

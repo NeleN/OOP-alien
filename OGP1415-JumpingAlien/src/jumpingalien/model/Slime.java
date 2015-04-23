@@ -32,17 +32,18 @@ public class Slime extends Creature {
 	@Override
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
-		double randomNumber = ((double)(Math.random() * (6 - 2)) + 2 );
-		timer += dt;
-		if (timer >= randomNumber){
-			timer=0;
-			if (Math.random()>0.5){
-				startMove(Direction.RIGHT);
-			}
-			else {
-				startMove(Direction.LEFT);
-			}
-		}
+		randomMovement(dt, 100, 70, 2, 6);
+//		double randomNumber = ((double)(Math.random() * (6 - 2)) + 2 );
+//		timer += dt;
+//		if (timer >= randomNumber){
+//			timer=0;
+//			if (Math.random()>0.5){
+//				startMove(Direction.RIGHT);
+//			}
+//			else {
+//				startMove(Direction.LEFT);
+//			}
+//		}
 		for (Mazub alien: world.getMazubsInWorld()){
 			if (! alien.isImmune()){
 				if (this.collisionDetection(alien)){
@@ -61,8 +62,6 @@ public class Slime extends Creature {
 			}
 		}
 	}
-	
-	private double timer;
 	
 	public void startMove(Direction direction){
 		super.startMove(direction, 100, 70);
