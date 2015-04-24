@@ -73,7 +73,6 @@ public abstract class Creature{
 //		else {
 			double newPositionX = (Math.max(getPositionX() + getTravelledDistanceX(dt), 0));
 			double newPositionY = (Math.max(getPositionY() + getTravelledDistanceY(dt), 0));
-			System.out.println(this +" "  + newPositionX);
 			setSpeedX(getSpeedX() + getAccelerationX()*dt); 
 			setSpeedY(getSpeedY() + getAccelerationY()*dt);
 			if (getPositionY() == 0){
@@ -86,45 +85,77 @@ public abstract class Creature{
 			}
 			widthSprite = getCurrentSprite().getWidth();
 			heightSprite =  getCurrentSprite().getHeight();
-			
-			for (int i= 0; i < (world.getAllGroundTiles().length); i+=1){
-					if ( collisionDetectionTile(world.getAllGroundTiles()[i][0], world.getAllGroundTiles()[i][1])){
-//						System.out.println(world.getAllGroundTiles()[i][0]);
-//						System.out.println(world.getAllGroundTiles()[i][1]);
-//						System.out.println(this.getPositionX());
-//						System.out.println(this.getPositionX());
-
-						
-						// if the tile is above mazub and mazub is moving upwards;
-						if (this.getSpeedY() > 0 && world.getAllGroundTiles()[i][1] > (int) this.getPositionY()){
-							setPositionY((world.getTileNbY((int)newPositionY)+1)*world.getTileLength()-1);
-						}
-						// if the tile is under mazub and mazub is moving downwards;
-						if (this.getSpeedY() < 0 && world.getAllGroundTiles()[i][1] < (int) this.getPositionY()-1){
-							setPositionY((world.getTileNbY((int)newPositionY))*world.getTileLength()-1);
-						}
-						// if the tile is to the left of mazub and mazub is moving to the left;
-						if (lastDirection == -1 && world.getAllGroundTiles()[i][0] < (int) this.getPositionX()){
-							setPositionX((world.getTileNbX((int)newPositionX)+1)*world.getTileLength() -2);
-						}
-						// if the tile is to the right of mazub and mazub is moving to the right;
-						if (lastDirection == 1 && world.getAllGroundTiles()[i][0] > (int) this.getPositionX()) {
-							setPositionX(world.getTileNbX((int)newPositionX)*world.getTileLength() -2);
-						}
-						if ( lastDirection == 0 && this.getSpeedY() == 0){
-							setPositionX((int)newPositionX);
-							setPositionY((int)newPositionY);
-						}
-						
-					else{
-						setPositionX((int)newPositionX);
-						setPositionY((int)newPositionY);
-						}
+			if (lastDirection == -1){
+				if (world.getGeologicalFeature((int)newPositionX, (int)getPositionY() + 1) == 1
+					|| (world.getGeologicalFeature((int)newPositionX, (int)(getPositionY()) + getHeightSprite()) == 1)){
+					setPositionX((world.getTileNbX((int)newPositionX)+1)*world.getTileLength());
+				}
+				else{
+					setPositionX(newPositionX);
+				}
+			}
+			if (lastDirection == 1){
+				if (world.getGeologicalFeature((int)newPositionX + getWidthSprite(), (int)getPositionY() + 1) == 1
+					|| (world.getGeologicalFeature((int)newPositionX + getWidthSprite(), (int)(getPositionY()) + getHeightSprite()) == 1)){
+					setPositionX(world.getTileNbX((int)newPositionX)*world.getTileLength());
+				}
+				else{
+					setPositionX(newPositionX);
+				}
+			}
+			if (getSpeedY() > 0){
+				if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()) == 1)
+						|| (world.getGeologicalFeature((int)this.getPositionX() + this.getWidthSprite() - 2, (int)newPositionY + getHeightSprite()) == 1)){
+					setPositionY((world.getTileNbY((int)newPositionY + getHeightSprite()))*world.getTileLength()-1-getHeightSprite());
+				} else {
+					setPositionY(newPositionY);
+				}
+			}
+			if (getSpeedY() < 0){
+				if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 1)
+						|| (world.getGeologicalFeature((int)this.getPositionX() + this.getWidthSprite()-2, (int)newPositionY) == 1)){
+					setPositionY((world.getTileNbY((int)newPositionY)+1)*world.getTileLength()-1);
+				} else {
+					setPositionY(newPositionY);
+				}
+			}
+//			
+//			for (int i= 0; i < (world.getAllGroundTiles().length); i+=1){
+//					if ( collisionDetectionTile(world.getAllGroundTiles()[i][0], world.getAllGroundTiles()[i][1])){
+////						System.out.println(world.getAllGroundTiles()[i][0]);
+////						System.out.println(world.getAllGroundTiles()[i][1]);
+////						System.out.println(this.getPositionX());
+////						System.out.println(this.getPositionX());
+//
+//						
+//						// if the tile is above mazub and mazub is moving upwards;
+//						if (this.getSpeedY() > 0 && world.getAllGroundTiles()[i][1] > (int) this.getPositionY()){
+//							setPositionY((world.getTileNbY((int)newPositionY)+1)*world.getTileLength()-1);
+//						}
+//						// if the tile is under mazub and mazub is moving downwards;
+//						if (this.getSpeedY() < 0 && world.getAllGroundTiles()[i][1] < (int) this.getPositionY()-1){
+//							setPositionY((world.getTileNbY((int)newPositionY))*world.getTileLength()-1);
+//						}
+//						// if the tile is to the left of mazub and mazub is moving to the left;
+//						if (lastDirection == -1 && world.getAllGroundTiles()[i][0] < (int) this.getPositionX()){
+//							setPositionX((world.getTileNbX((int)newPositionX)+1)*world.getTileLength() -2);
+//						}
+//						// if the tile is to the right of mazub and mazub is moving to the right;
+//						if (lastDirection == 1 && world.getAllGroundTiles()[i][0] > (int) this.getPositionX()) {
+//							setPositionX(world.getTileNbX((int)newPositionX)*world.getTileLength() -2);
+//						}
+//						if ( lastDirection == 0 && this.getSpeedY() == 0){
+//							setPositionX((int)newPositionX);
+//							setPositionY((int)newPositionY);
+//						}
+//						
+//					else{
+//						setPositionX((int)newPositionX);
+//						setPositionY((int)newPositionY);
+//						}
 //					}
 			}
 			
-		}
-	}
 	
 
 		
@@ -793,5 +824,7 @@ public abstract class Creature{
 	private double timer;
 	
 	int lastJump;
+	
+	double timeInWater;
 }
 

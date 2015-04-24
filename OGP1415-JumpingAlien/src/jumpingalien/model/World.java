@@ -54,8 +54,6 @@ public class World {
 		this.targetTileX = targetTileX*tileSize;
 		this.targetTileY = targetTileY*tileSize;
 		this.inWorldTiles = new int [nbTilesX][nbTilesY];
-		System.out.println(nbTilesX+ " "+ nbTilesY );
-		System.out.println(inWorldTiles.length + " " +inWorldTiles[1].length);
 	}
 	
 	private int countOccurrences(int d){
@@ -70,13 +68,13 @@ public class World {
 	    return count;
 	    }
 	
-	public int[][] getAllGroundTiles(){
+	public int[][] getAllGroundTiles(int feature){
 		int matrixLength = countOccurrences(1);
 		int [][] groundTiles = new int [matrixLength][2];
 		int k = 0;
 		for (int i= 0; i < (inWorldTiles.length); i+=1){
 			for (int j = 0; j < (inWorldTiles[1].length); j+=1){
-				if (inWorldTiles[i][j] == 1){
+				if (inWorldTiles[i][j] == feature){
 					groundTiles[k][0] = i*getTileLength();
 					groundTiles[k][1] = j*getTileLength();	
 					k +=1;
@@ -91,10 +89,11 @@ public class World {
 	 * @throws IllegalDeltaTimeException 
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException{
-		getAllGroundTiles();
+//		getAllGroundTiles(feature);
 		for (Creature creature: new ArrayList<Creature>(inWorldCreatures)){
-			creature.advanceTime(0.01/((Math.sqrt(Math.pow(creature.getSpeedX(), 2)+ Math.pow(creature.getSpeedY(), 2)) + 
-					(Math.sqrt(Math.pow(creature.getAccelerationX(),2) + Math.pow(creature.getAccelerationY(), 2)))*dt))); 
+//			creature.advanceTime(0.01/((Math.sqrt(Math.pow(creature.getSpeedX(), 2)+ Math.pow(creature.getSpeedY(), 2)) + 
+//					(Math.sqrt(Math.pow(creature.getAccelerationX(),2) + Math.pow(creature.getAccelerationY(), 2)))*dt)));
+			creature.advanceTime(dt);
 			if (creature.isAlive == false){
 				inWorldCreatures.remove(creature);
 			}

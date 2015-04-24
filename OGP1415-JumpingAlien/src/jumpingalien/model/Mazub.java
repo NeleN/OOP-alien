@@ -35,6 +35,10 @@ public class Mazub extends Creature{
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
 		this.lastCollisionEnemy+=dt;
+		if (timeInWater > 0.2){
+			loseHitpoints(2);
+			timeInWater-=0.2;
+		}
 		if (! this.isImmune()){
 			for (Slime slime: world.getSlimesInWorld()){
 				if (this.collisionDetection( slime)){
@@ -50,6 +54,15 @@ public class Mazub extends Creature{
 		for (Plant plant: world.getPlantsInWorld()){
 			if (this.collisionDetection( plant)){
 				collisionMazubPlant(this, plant);
+			}
+		}
+		for (int i= 0; i < (world.getAllGroundTiles(22).length); i+=1){
+			if (collisionDetectionTile(world.getAllGroundTiles(2)[i][0], world.getAllGroundTiles(2)[i][1])){
+				timeInWater += dt;
+				i = world.getAllGroundTiles(2).length;
+			}
+			if (i == world.getAllGroundTiles(2).length){
+				timeInWater = 0;
 			}
 		}
 	}
