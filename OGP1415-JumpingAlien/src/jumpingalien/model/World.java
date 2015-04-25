@@ -68,20 +68,20 @@ public class World {
 	    return count;
 	    }
 	
-	public int[][] getAllGroundTiles(int feature){
+	public int[][] getFeatureTiles(int feature){
 		int matrixLength = countOccurrences(1);
-		int [][] groundTiles = new int [matrixLength][2];
+		featureTiles = new int [matrixLength][2];
 		int k = 0;
 		for (int i= 0; i < (inWorldTiles.length); i+=1){
 			for (int j = 0; j < (inWorldTiles[1].length); j+=1){
 				if (inWorldTiles[i][j] == feature){
-					groundTiles[k][0] = i*getTileLength();
-					groundTiles[k][1] = j*getTileLength();	
+					featureTiles[k][0] = i*getTileLength();
+					featureTiles[k][1] = j*getTileLength();	
 					k +=1;
 				}
 			}
 		}
-		return groundTiles;	
+		return featureTiles;	
 	}
  	
 	/**
@@ -91,8 +91,8 @@ public class World {
 	public void advanceTime(double dt) throws IllegalDeltaTimeException{
 //		getAllGroundTiles(feature);
 		for (Creature creature: new ArrayList<Creature>(inWorldCreatures)){
-//			creature.advanceTime(0.01/((Math.sqrt(Math.pow(creature.getSpeedX(), 2)+ Math.pow(creature.getSpeedY(), 2)) + 
-//					(Math.sqrt(Math.pow(creature.getAccelerationX(),2) + Math.pow(creature.getAccelerationY(), 2)))*dt)));
+			 double smallDt=  0.01/((Math.sqrt(Math.pow(Math.abs(creature.getSpeedX()), 2)+ Math.pow(Math.abs(creature.getSpeedY()), 2)) + 
+					(Math.sqrt(Math.pow(Math.abs(creature.getAccelerationX()),2) + Math.pow(Math.abs(creature.getAccelerationY()), 2)))*dt));
 			creature.advanceTime(dt);
 			if (creature.isAlive == false){
 				inWorldCreatures.remove(creature);
@@ -102,6 +102,7 @@ public class World {
 				alienAlive = creature.isAlive;
 				alienOnTargetTile = isOnTargetTile(creature);
 				creature.lastCollisionEnemy += dt;
+				
 			}
 		}
 	}
@@ -447,6 +448,8 @@ public class World {
 	 * An array of coordinates of tiles that are in the world. 
 	 */
 	public int[][] inWorldTiles;
+	
+	public int [][] featureTiles;
 	
 	/**
 	 * The maximum x value of the field of the game expressed in tiles instead of pixels.

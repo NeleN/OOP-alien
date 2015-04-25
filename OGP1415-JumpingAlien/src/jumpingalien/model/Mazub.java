@@ -56,12 +56,12 @@ public class Mazub extends Creature{
 				collisionMazubPlant(this, plant);
 			}
 		}
-		for (int i= 0; i < (world.getAllGroundTiles(22).length); i+=1){
-			if (collisionDetectionTile(world.getAllGroundTiles(2)[i][0], world.getAllGroundTiles(2)[i][1])){
+		for (int i= 0; i < (world.getFeatureTiles(2).length); i+=1){
+			if (collisionDetectionTile(world.getFeatureTiles(2)[i][0], world.getFeatureTiles(2)[i][1])){
 				timeInWater += dt;
-				i = world.getAllGroundTiles(2).length;
+				i = world.getFeatureTiles(2).length;
 			}
-			if (i == world.getAllGroundTiles(2).length){
+			if (i == world.getFeatureTiles(2).length){
 				timeInWater = 0;
 			}
 		}

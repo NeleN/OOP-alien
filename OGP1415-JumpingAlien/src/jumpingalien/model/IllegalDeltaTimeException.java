@@ -22,7 +22,7 @@ public class IllegalDeltaTimeException extends Exception {
 		return this.dt;
 	}
 	
-	public final double dt;
+	public double dt;
 	
 	/**
 	 * An error suggested this, but in our exercises we're told not to worry about this.
