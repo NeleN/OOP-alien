@@ -10,7 +10,7 @@ import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Raw;
 
 /**
- * @author Nele
+ * @author Nele Nauwelaers and Melanie Nijs
  *
  */
 public class Slime extends Creature {
@@ -23,6 +23,7 @@ public class Slime extends Creature {
 		super (positionX, positionY, sprites, 250, 100);
 		this.setAccelerationY(gravity);
 		belongsToSchool = school;
+		school.addSlime(this);
 		if (Math.random()>0.5)
 			startMove(Direction.RIGHT);
 		else 
@@ -95,6 +96,8 @@ public class Slime extends Creature {
 		School oldSchool = this.getSchool();
 		newSchool.pointsSchoolToSlime(this);
 		this.belongsToSchool = newSchool;
+		oldSchool.removeSlime(this);
+		newSchool.addSlime(this);
 		oldSchool.pointsSlimeToSchool(this);
 		// TODO hitpoints
 	}

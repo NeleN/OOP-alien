@@ -15,9 +15,17 @@ public class School {
 		
 	}
 	
+	void addSlime(Slime slime){
+		slimesInSchool.add(slime);
+	}
+	
+	void removeSlime(Slime slime){
+		slimesInSchool.remove(slime);
+	}
+	
 	void losePoints(){
 		for (Slime slime: slimesInSchool){
-			slime.loseHitpoints(1);
+			slime.hitpoints -= 1;
 		}
 	}
 	

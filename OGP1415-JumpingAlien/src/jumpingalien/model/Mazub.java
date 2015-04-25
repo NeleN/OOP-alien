@@ -87,6 +87,16 @@ public class Mazub extends Creature{
 			}
 		}
 	}
+	
+	@Override
+	void gainHitpoints(int points){
+		if (this.getHitpoints() + points < 500){
+			super.gainHitpoints(points);
+		}
+		else {
+			this.hitpoints = 500;
+		}
+	}
 
 	public void startMove(Direction direction){
 		super.startMove(direction, 100, 90);

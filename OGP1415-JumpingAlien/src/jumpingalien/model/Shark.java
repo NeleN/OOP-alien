@@ -7,7 +7,7 @@ import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Raw;
 
 /**
- * @author Nele
+ * @author Nele Nauwelaers and Melanie Nijs
  *
  */
 public class Shark extends Creature {

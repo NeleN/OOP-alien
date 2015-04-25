@@ -15,7 +15,7 @@ import be.kuleuven.cs.som.annotate.Raw;
  * 
  */
 /**
- * @author Melanie Nijs
+ * @author Melanie Nijs and Nele Nauwelaers
  *
  */
 public class World {
@@ -198,7 +198,6 @@ public class World {
 	 * 			Returns an integer at the given position in the matrix inWorldTiles.
 	 * 			This integer corresponds to a geological feature: 0 = air;   1 = solid ground;
 	 * 															  2 = water; 3 = magma. 
-	 * TODO inworldtiles printen
 	 */
 	public int getGeologicalFeature(int pixelX, int pixelY){
 		int tileX = this.getTileNbX(pixelX);

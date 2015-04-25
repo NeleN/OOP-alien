@@ -7,7 +7,7 @@ import jumpingalien.util.*;
 import be.kuleuven.cs.som.annotate.Raw;
 
 /**
- * @author Nele
+ * @author Nele Nauwelaers and Melanie Nijs
  *
  */
 public class Plant extends Creature {

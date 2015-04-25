@@ -7,7 +7,7 @@ import be.kuleuven.cs.som.annotate.Raw;
 
 /**
  * A class of creatures.
- * @author Nele Nauwelaers, Melanie Nijs
+ * @author Nele Nauwelaers and Melanie Nijs
  *
  */
 public abstract class Creature{
@@ -49,6 +49,7 @@ public abstract class Creature{
 		assert ((!(images == null)) && (images.length >= 10));
 		m = (images.length-10)/2;
 		this.hitpoints = hitpoints;
+		this.maxSpeedX = maxSpeedX;
 	}
 	
 	/**
@@ -178,8 +179,6 @@ public abstract class Creature{
 		if (slime1.getSchool().getNbSlimesInSchool() < slime2.getSchool().getNbSlimesInSchool()){
 			slime1.changeSchool(slime2.getSchool()); 
 		}
-		System.out.println(slime1.getSchool());
-		System.out.println(slime2.getSchool());
 	}
 	
 	private void updateIndex(){
@@ -247,11 +246,7 @@ public abstract class Creature{
  * 									     GETTERS AND SETTERS										*
  * 																									*										
  ****************************************************************************************************/
-		
-	private boolean blockMovementY = false;
-	
 
-	
 	public int getHitpoints(){
 		return this.hitpoints;
 	}
@@ -338,6 +333,10 @@ public abstract class Creature{
 	 * 			| new.isMovingX == false
 	 * @post	timeLastMovedX is set to the current time.
 	 * 			| new.timeLastMovedX == System.currentTimeMillis()
+	 * 
+	 * TODO If there are multiple
+	 *	ongoing movements at the same time, e.g. startMove(left) has been invoked while Mazub was already moving to the right, the horizontal velocity
+	 *	shall not be set to zero before all ongoing movements are terminated.
 	 */
 	public void endMove(){
 		setSpeedX(0);
@@ -617,10 +616,10 @@ public abstract class Creature{
 	 * 
 	 */
 	void setSpeedX(double speed){
-//		if (isValidSpeedX(speed))				VERVANGEN DOOR EXCEPTION
+		if (isValidSpeedX(speed))
 			this.speedX = speed;
-//		else
-//			this.speedX = (this.lastDirection*maxSpeedX);
+		else
+			this.speedX = (this.lastDirection*maxSpeedX);
 	}
 	
 	/**
@@ -800,8 +799,6 @@ public abstract class Creature{
 	double lastCollisionEnemy = 1;
 	
 	public World world;
-	
-	private boolean blockMovementX = false;
 
 	private double timer;
 	
