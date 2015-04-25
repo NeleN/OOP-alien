@@ -67,12 +67,12 @@ public abstract class Creature{
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 
-//		if (! isValidTime(dt)){
-//			throw new IllegalDeltaTimeException(dt);
-//		}
-//		else {
-			double newPositionX = (Math.max(getPositionX() + getTravelledDistanceX(dt), 0));
-			double newPositionY = (Math.max(getPositionY() + getTravelledDistanceY(dt), 0));
+		if (! isValidTime(dt)){
+			throw new IllegalDeltaTimeException(dt);
+		}
+		else {
+			newPositionX = (Math.max(getPositionX() + getTravelledDistanceX(dt), 0));
+			newPositionY = (Math.max(getPositionY() + getTravelledDistanceY(dt), 0));
 			setSpeedX(getSpeedX() + getAccelerationX()*dt); 
 			setSpeedY(getSpeedY() + getAccelerationY()*dt);
 			if (getPositionY() == 0){
@@ -85,92 +85,48 @@ public abstract class Creature{
 			}
 			widthSprite = getCurrentSprite().getWidth();
 			heightSprite =  getCurrentSprite().getHeight();
-			if (lastDirection == -1){
-				if (world.getGeologicalFeature((int)newPositionX, (int)getPositionY() + 1) == 1
-					|| (world.getGeologicalFeature((int)newPositionX, (int)(getPositionY()) + getHeightSprite()) == 1)){
-					setPositionX((world.getTileNbX((int)newPositionX)+1)*world.getTileLength());
+			if (getSpeedX() == 0 && getSpeedY() == 0){
+				
+			}
+			else{
+				if (lastDirection == -1){
+					if (world.getGeologicalFeature((int)newPositionX, (int)getPositionY() + 1) == 1
+						|| (world.getGeologicalFeature((int)newPositionX, (int)(getPositionY()) + getHeightSprite()) == 1)){
+						setPositionX((world.getTileNbX((int)newPositionX)+1)*world.getTileLength());
+					}
+					else{
+						setPositionX(newPositionX);
+					}
 				}
-				else{
-					setPositionX(newPositionX);
+				if (lastDirection == 1){
+					if (world.getGeologicalFeature((int)newPositionX + getWidthSprite(), (int)getPositionY() + 1) == 1
+						|| (world.getGeologicalFeature((int)newPositionX + getWidthSprite(), (int)(getPositionY()) + getHeightSprite()) == 1)){
+						setPositionX(world.getTileNbX((int)newPositionX)*world.getTileLength());
+					}
+					else{
+						setPositionX(newPositionX);
+					}
+				}
+				if (getSpeedY() > 0){
+					if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()) == 1)
+							|| (world.getGeologicalFeature((int)this.getPositionX() + this.getWidthSprite() - 2, (int)newPositionY + getHeightSprite()) == 1)){
+						setPositionY((world.getTileNbY((int)newPositionY + getHeightSprite()))*world.getTileLength()-1-getHeightSprite());
+					} else {
+						setPositionY(newPositionY);
+					}
+				}
+				if (getSpeedY() < 0){
+					if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 1)
+							|| (world.getGeologicalFeature((int)this.getPositionX() + this.getWidthSprite()-2, (int)newPositionY) == 1)){
+						setPositionY((world.getTileNbY((int)newPositionY)+1)*world.getTileLength()-1);
+						setSpeedY(0);
+					} else {
+						setPositionY(newPositionY);
+					}
 				}
 			}
-			if (lastDirection == 1){
-				if (world.getGeologicalFeature((int)newPositionX + getWidthSprite(), (int)getPositionY() + 1) == 1
-					|| (world.getGeologicalFeature((int)newPositionX + getWidthSprite(), (int)(getPositionY()) + getHeightSprite()) == 1)){
-					setPositionX(world.getTileNbX((int)newPositionX)*world.getTileLength());
-				}
-				else{
-					setPositionX(newPositionX);
-				}
-			}
-			if (getSpeedY() > 0){
-				if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()) == 1)
-						|| (world.getGeologicalFeature((int)this.getPositionX() + this.getWidthSprite() - 2, (int)newPositionY + getHeightSprite()) == 1)){
-					setPositionY((world.getTileNbY((int)newPositionY + getHeightSprite()))*world.getTileLength()-1-getHeightSprite());
-				} else {
-					setPositionY(newPositionY);
-				}
-			}
-			if (getSpeedY() < 0){
-				if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 1)
-						|| (world.getGeologicalFeature((int)this.getPositionX() + this.getWidthSprite()-2, (int)newPositionY) == 1)){
-					setPositionY((world.getTileNbY((int)newPositionY)+1)*world.getTileLength()-1);
-				} else {
-					setPositionY(newPositionY);
-				}
-			}
+		}
 	}
-			
-//			for (int i= 0; i < (world.getFeatureTiles(1).length); i+=1){
-//				
-//					if ( collisionDetectionTile(world.getFeatureTiles(1)[i][0], world.getFeatureTiles(1)[i][1]) == true){
-////						System.out.println(world.getFeatureTiles()[i][0]);
-////						System.out.println(world.getFeatureTiles()[i][1]);
-////						System.out.println(this.getPositionX());
-////						System.out.println(this.getPositionX());
-//						System.out.println(this +" "+collisionDetectionTile(world.getFeatureTiles(1)[i][0], world.getFeatureTiles(1)[i][1]));
-//
-//						
-//						// if the tile is above mazub and mazub is moving upwards;
-//						if (this.getSpeedY() > 0 && world.getFeatureTiles(1)[i][1] > (int) this.getPositionY()){
-//							setPositionY((world.getTileNbY((int)newPositionY)+1)*world.getTileLength()-1);
-//							System.out.println("geval1");
-//						}
-//						// if the tile is under mazub and mazub is moving downwards;
-//						if (this.getSpeedY() < 0 && world.getFeatureTiles(1)[i][1] < (int) this.getPositionY()-1){
-//							setPositionY((world.getTileNbY((int)newPositionY))*world.getTileLength()-1);
-//							System.out.println("geval2");
-//						}
-//						// if the tile is to the left of mazub and mazub is moving to the left;
-//						if (lastDirection == -1 && world.getFeatureTiles(1)[i][0] < (int) this.getPositionX()){
-//							setPositionX((world.getTileNbX((int)newPositionX)+1)*world.getTileLength() -2);
-//							System.out.println("geval3");
-//						}
-//						// if the tile is to the right of mazub and mazub is moving to the right;
-//						if (lastDirection == 1 && world.getFeatureTiles(1)[i][0] > (int) this.getPositionX()) {
-//							setPositionX(world.getTileNbX((int)newPositionX)*world.getTileLength() -2);
-//							System.out.println("geval4");
-//						}
-//						if ( lastDirection == 0 && this.getSpeedY() == 0){
-//							setPositionX(newPositionX);
-//							setPositionY(newPositionY);
-//							System.out.println("geval5");
-//						}
-//						else{
-//							setPositionX(newPositionX);
-//							setPositionY(newPositionY);
-//							}
-//						}
-//						
-//					else{
-//						setPositionX(newPositionX);
-//						setPositionY(newPositionY);
-//						}
-//					}
-			
-	
-			
-	
 
 		
 	void collisionMazubPlant(Mazub alien, Plant plant){
@@ -191,7 +147,14 @@ public abstract class Creature{
 	}
 	
 	void collisionSharkShark(Shark shark1, Shark shark2){
-		// TODO block movement
+		if (shark1.getPositionX() <  shark2.getPositionX()){
+			shark1.startMove(Direction.LEFT);
+			shark2.startMove(Direction.RIGHT);
+		}
+		else{
+			shark1.startMove(Direction.RIGHT);
+			shark2.startMove(Direction.LEFT);
+		}
 	}
 	
 	void collisionSharkSlime(Shark shark, Slime slime){
@@ -200,9 +163,7 @@ public abstract class Creature{
 	}
 	
 	void collisionSlimeSlime(Slime slime1, Slime slime2){
-		slime1.setPositionX(slime1.getPositionX());
-		slime2.setPositionX(slime2.getPositionX());
-		if (slime1.lastDirection == 1){
+		if (slime1.getPositionX() <  slime2.getPositionX()){
 			slime1.startMove(Direction.LEFT);
 			slime2.startMove(Direction.RIGHT);
 		}
@@ -217,6 +178,8 @@ public abstract class Creature{
 		if (slime1.getSchool().getNbSlimesInSchool() < slime2.getSchool().getNbSlimesInSchool()){
 			slime1.changeSchool(slime2.getSchool()); 
 		}
+		System.out.println(slime1.getSchool());
+		System.out.println(slime2.getSchool());
 	}
 	
 	private void updateIndex(){
@@ -250,14 +213,19 @@ public abstract class Creature{
 	}
 	
 	public boolean collisionDetection(Creature creature){
-		if (( this.getPositionX() + (this.getWidthSprite() - 1) < creature.getPositionX() )
-				|| (creature.getPositionX() + (creature.getWidthSprite() - 1) < this.getPositionX())
-				|| (this.getPositionY() + (this.getHeightSprite() - 1) < creature.getPositionY())
-				|| (creature.getPositionY() + (creature.getHeightSprite() - 1) < this.getPositionY())){
-			return false;
+		if (creature != this){
+			if (( this.getPositionX() + (this.getWidthSprite() - 1) < creature.getPositionX() )
+					|| (creature.getPositionX() + (creature.getWidthSprite() - 1) < this.getPositionX())
+					|| (this.getPositionY() + (this.getHeightSprite() - 1) < creature.getPositionY())
+					|| (creature.getPositionY() + (creature.getHeightSprite() - 1) < this.getPositionY())){
+				return false;
+			}
+			else {
+				return true;
+			}
 		}
 		else {
-			return true;
+			return false;
 		}
 	}
 	
@@ -387,8 +355,8 @@ public abstract class Creature{
 	 * 			| new.getSpeedY() = 800
 	 */
 	public void startJump(double speedY){
-		setSpeedY(speedY);				
-		this.isJumping = true;
+			setSpeedY(speedY);				
+			this.isJumping = true;
 	}
 	
 	/**
@@ -673,7 +641,7 @@ public abstract class Creature{
 	 * @post	The new horizontal acceleration of  must be equal to the given acceleration
 	 * 			| new.getAccelerationX() = acc
 	 */
-	private void setAccelerationX(double acc){
+	void setAccelerationX(double acc){
 		this.accelerationX = acc;
 	}
 	
@@ -684,7 +652,7 @@ public abstract class Creature{
 	 * @post	The new vertical acceleration of  must be equal to the given acceleration
 	 * 			| new.getAccelerationY() == acc
 	 */
-	private void setAccelerationY(double acc){
+	void setAccelerationY(double acc){
 		this.accelerationY = acc; 
 	}
 	
@@ -728,7 +696,7 @@ public abstract class Creature{
 	/**
 	 * The gravitational constant we assume equal to earth's.
 	 */
-	private int gravity = -1000;					// -10m/s --> pixel = 0,01m --> 1000 pixels/s²
+	int gravity = -1000;					// -10m/s --> pixel = 0,01m --> 1000 pixels/s²
 	
 	/**
 	 * The maximum speed  may have.
@@ -803,7 +771,7 @@ public abstract class Creature{
 	/**
 	 * The last direction the creature has moved in.
 	 */
-	public int lastDirection = 0;
+	public int lastDirection;
 	
 	/**
 	 * The number of alternating images for the cases 8 and 9 in the method getCurrentSprite.
@@ -839,6 +807,15 @@ public abstract class Creature{
 	
 	int lastJump;
 	
+	double timeInAir;
+	
 	double timeInWater;
+	
+	double timeInMagma;
+	
+	double newPositionX;
+	
+	double newPositionY;
+	
 }
 

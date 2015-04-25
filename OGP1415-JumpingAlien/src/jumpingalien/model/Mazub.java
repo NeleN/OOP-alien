@@ -29,15 +29,23 @@ public class Mazub extends Creature{
 	@Raw
 	public Mazub (int positionX, int positionY, Sprite[] sprites, double maxSpeedX, int hitpoints) {
 		super (positionX, positionY, sprites, 300,100);
+		this.setAccelerationY(gravity);
 	}
 	
 	@Override
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
+		if (tryEndDuck){
+			endDuck();
+		}
 		this.lastCollisionEnemy+=dt;
 		if (timeInWater > 0.2){
 			loseHitpoints(2);
 			timeInWater-=0.2;
+		}
+		if (timeInMagma > 0.2){
+			loseHitpoints(50);
+			timeInMagma-=0.2;
 		}
 		if (! this.isImmune()){
 			for (Slime slime: world.getSlimesInWorld()){
@@ -61,8 +69,21 @@ public class Mazub extends Creature{
 				timeInWater += dt;
 				i = world.getFeatureTiles(2).length;
 			}
-			if (i == world.getFeatureTiles(2).length){
+			else {
+				if (i == world.getFeatureTiles(2).length-1){
 				timeInWater = 0;
+				}
+			}
+		}
+		for (int i= 0; i < (world.getFeatureTiles(3).length); i+=1){
+			if (collisionDetectionTile(world.getFeatureTiles(3)[i][0], world.getFeatureTiles(3)[i][1])){
+				timeInMagma += dt;
+				i = world.getFeatureTiles(3).length;
+			}
+			else {
+				if (i == world.getFeatureTiles(3).length-1){
+				timeInMagma = 0;
+				}
 			}
 		}
 	}
@@ -97,8 +118,16 @@ public class Mazub extends Creature{
 	 * 			| new.isDucking = false 
 	 */
 	public void endDuck(){
-		maxSpeedX = 300;
-		this.isDucking = false;
+		if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()+3) == 1)
+				|| (world.getGeologicalFeature((int)this.getPositionX() + this.getWidthSprite() - 2, (int)newPositionY + getHeightSprite()+3) == 1)){
+			tryEndDuck = true;
+			isDucking = true;
+		}
+		else{
+			maxSpeedX = 300;
+			this.isDucking = false;
+			tryEndDuck = false;
+		}
 	}
 	
 	/**
@@ -122,7 +151,9 @@ public class Mazub extends Creature{
 	/**
 	 * A boolean which shows whether the creature is ducking or not.
 	 */
-	private boolean isDucking = false;
+	boolean isDucking = false;
+	
+	private boolean tryEndDuck = false;
 	
 	/**
 	 * Returns a sprite corresponding to the defined state of the creature.UITGEBREIDER UITLEGGEN
@@ -151,5 +182,6 @@ public class Mazub extends Creature{
 		else return this.getImageAtIndex(0);
 		
 	}
+
 
 }

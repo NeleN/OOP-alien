@@ -24,7 +24,16 @@ public class Shark extends Creature {
 	@Override
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
+		if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()) == 2)
+				&& timeInAir > 0){
+			this.setSpeedY(0);
+			this.setAccelerationY(0);
+		}
 		randomMovement(dt, 100, 150, 1, 4);
+		if (timeInAir > 0.2){
+			loseHitpoints(6);
+			timeInAir-=0.2;
+		}
 		for (Mazub alien: world.getMazubsInWorld()){
 			if ( ! alien.isImmune()){
 				if (this.collisionDetection(alien)){
@@ -42,6 +51,17 @@ public class Shark extends Creature {
 				collisionSharkShark(this, shark);
 			}
 		}
+		for (int i= 0; i < (world.getFeatureTiles(0).length); i+=1){
+			if (collisionDetectionTile(world.getFeatureTiles(0)[i][0], world.getFeatureTiles(0)[i][1])){
+				timeInAir += dt;
+				i = world.getFeatureTiles(0).length;
+			}
+			else {
+				if (i == world.getFeatureTiles(0).length-1){
+				timeInAir = 0;
+				}
+			}
+		}
 	}
 	
 	public void startMove(Direction direction){
@@ -56,10 +76,16 @@ public class Shark extends Creature {
 			startJump();
 			lastJump = 0;
 		}
+		if((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()) == 2)){
+			this.setAccelerationY((double)(Math.random() * 40) - 20 );
+		}
 	}
 	
 	public void startJump(){
-		super.startJump(200);
+		if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 1)
+				|| (world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 2)){
+			super.startJump(200);
+		}	
 	}
 	
 	public Sprite getCurrentSprite() {

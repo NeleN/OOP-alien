@@ -21,6 +21,7 @@ public class Slime extends Creature {
 	@Raw
 	public Slime (int positionX, int positionY, Sprite[] sprites, School school) {
 		super (positionX, positionY, sprites, 250, 100);
+		this.setAccelerationY(gravity);
 		belongsToSchool = school;
 		if (Math.random()>0.5)
 			startMove(Direction.RIGHT);
@@ -33,17 +34,14 @@ public class Slime extends Creature {
 	public void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
 		randomMovement(dt, 100, 70, 2, 6);
-//		double randomNumber = ((double)(Math.random() * (6 - 2)) + 2 );
-//		timer += dt;
-//		if (timer >= randomNumber){
-//			timer=0;
-//			if (Math.random()>0.5){
-//				startMove(Direction.RIGHT);
-//			}
-//			else {
-//				startMove(Direction.LEFT);
-//			}
-//		}
+		if (timeInWater > 0.2){
+			loseHitpoints(2);
+			timeInWater-=0.2;
+		}
+		if (timeInMagma > 0.2){
+			loseHitpoints(50);
+			timeInMagma-=0.2;
+		}
 		for (Mazub alien: world.getMazubsInWorld()){
 			if (! alien.isImmune()){
 				if (this.collisionDetection(alien)){
@@ -59,6 +57,28 @@ public class Slime extends Creature {
 		for (Slime slime: world.getSlimesInWorld()){
 			if (this.collisionDetection(slime)){
 				collisionSlimeSlime(this,slime);
+			}
+		}
+		for (int i= 0; i < (world.getFeatureTiles(2).length); i+=1){
+			if (collisionDetectionTile(world.getFeatureTiles(2)[i][0], world.getFeatureTiles(2)[i][1])){
+				timeInWater += dt;
+				i = world.getFeatureTiles(2).length;
+			}
+			else {
+				if (i == world.getFeatureTiles(2).length-1){
+				timeInWater = 0;
+				}
+			}
+		}
+		for (int i= 0; i < (world.getFeatureTiles(3).length); i+=1){
+			if (collisionDetectionTile(world.getFeatureTiles(3)[i][0], world.getFeatureTiles(3)[i][1])){
+				timeInMagma += dt;
+				i = world.getFeatureTiles(3).length;
+			}
+			else {
+				if (i == world.getFeatureTiles(3).length-1){
+				timeInMagma = 0;
+				}
 			}
 		}
 	}

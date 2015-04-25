@@ -69,7 +69,7 @@ public class World {
 	    }
 	
 	public int[][] getFeatureTiles(int feature){
-		int matrixLength = countOccurrences(1);
+		int matrixLength = countOccurrences(feature);
 		featureTiles = new int [matrixLength][2];
 		int k = 0;
 		for (int i= 0; i < (inWorldTiles.length); i+=1){
@@ -89,9 +89,8 @@ public class World {
 	 * @throws IllegalDeltaTimeException 
 	 */
 	public void advanceTime(double dt) throws IllegalDeltaTimeException{
-//		getAllGroundTiles(feature);
 		for (Creature creature: new ArrayList<Creature>(inWorldCreatures)){
-			 double smallDt=  0.01/((Math.sqrt(Math.pow(Math.abs(creature.getSpeedX()), 2)+ Math.pow(Math.abs(creature.getSpeedY()), 2)) + 
+			double smallDt=  0.01/((Math.sqrt(Math.pow(Math.abs(creature.getSpeedX()), 2)+ Math.pow(Math.abs(creature.getSpeedY()), 2)) + 
 					(Math.sqrt(Math.pow(Math.abs(creature.getAccelerationX()),2) + Math.pow(Math.abs(creature.getAccelerationY()), 2)))*dt));
 			creature.advanceTime(dt);
 			if (creature.isAlive == false){
@@ -147,8 +146,10 @@ public class World {
 	 * 	
 	 */
 	private boolean isOnTargetTile(Creature creature){
-		return (((int)creature.getPositionX() >= targetTileX) && (creature.getPositionY() >= targetTileY)
-				&& ((int) creature.getPositionX() <= targetTileX + tileLength) && ((int) creature.getPositionY() <= targetTileY  + tileLength));
+		return (((int)creature.getPositionX() == targetTileX && (int)creature.getPositionY() + 1 == targetTileY)
+				|| (creature.getPositionX()+creature.getWidthSprite() == targetTileX && creature.getPositionY() +1 == targetTileY));
+//		return (((int)creature.getPositionX() >= targetTileX) && (creature.getPositionY() >= targetTileY)
+//				&& ((int) creature.getPositionX() <= targetTileX + tileLength) && ((int) creature.getPositionY() <= targetTileY  + tileLength));
 	}
 
 	
@@ -157,35 +158,7 @@ public class World {
  * 									     GETTERS AND SETTERS										*
  * 																									*										
  ****************************************************************************************************/
-	
-//	public int getLeftSideTileRightOfCreature(int pixelCreatureX, int widthCreature){
-//		int rest = (X - (pixelCreatureX + widthCreature)) % tileLength;
-//		int leftSide = (pixelCreatureX + widthCreature) + rest ; 
-//		return leftSide;
-//		
-//	}
-//	public int getRightSideTileLeftOfCreature(int pixelCreatureX){
-//		int rest = (X + pixelCreatureX ) % tileLength;
-//		int rightSide = (pixelCreatureX) - rest ; 
-//		return rightSide;
-//	}
-//	public int getTopSideTileBelowCreature (int pixelCreatureY, int heigthCreature){
-//		int rest = (Y - (pixelCreatureY + heigthCreature)) % tileLength;
-//		int topSide = (pixelCreatureY + heigthCreature) + rest ; 
-//		return topSide;
-//	}
-//	public int getBottomSideTileAboveCreature (int pixelCreatureY){
-//		int rest = (Y + pixelCreatureY) % tileLength;
-//		int leftSide = (pixelCreatureY) + rest ; 
-//		return leftSide;
-//	}
-//	
-//	public int getCorrespondingYCoordinate(int positionTileX,  int positionMazubY) {
-//		int y = Y;  
-//		return y;
-//	}
-//	
-//	
+		
 	
 	/**
 	 * Returns an integer array of coordinates of the bottomleft of the tiles of the rectangular region between the given pixels.
@@ -316,8 +289,8 @@ public class World {
 	private void setVisibleWindow(Creature creature){
 		this.leftWindow = Math.max(xMin, Math.min((int)(creature.getPositionX()-(visibleWindowWidth/2)), xMax-visibleWindowWidth));
 		this.bottomWindow = Math.max(yMin,Math.min((int)(creature.getPositionY()-(visibleWindowHeight/2)), yMax-visibleWindowHeight) );
-		this.rightWindow = leftWindow + visibleWindowWidth + getTileLength();
-		this.topWindow = bottomWindow + visibleWindowHeight + getTileLength();
+		this.rightWindow = leftWindow + visibleWindowWidth + 2*getTileLength() ;
+		this.topWindow = bottomWindow + visibleWindowHeight + 2*getTileLength();
 	}
 	
 	/**

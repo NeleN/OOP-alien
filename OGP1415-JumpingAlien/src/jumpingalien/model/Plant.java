@@ -16,7 +16,10 @@ public class Plant extends Creature {
 	@Raw
 	public Plant (int positionX, int positionY, Sprite[] sprites) {
 		super (positionX, positionY, sprites, 50, 1);
-		this.setSpeedX(50);
+		if (Math.random()>0.5)
+			startMove(Direction.RIGHT);
+		else 
+			startMove(Direction.LEFT);
 	}
 	
 	@Override
@@ -35,6 +38,10 @@ public class Plant extends Creature {
 	}
 	
 	private double timeLastSwitch=0 ;
+	
+	public void startMove(Direction direction){
+		super.startMove(direction, 50, 0);
+	}
 
 	public void startJump(){
 		super.startJump(0);
