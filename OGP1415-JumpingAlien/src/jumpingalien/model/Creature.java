@@ -27,7 +27,7 @@ public abstract class Creature{
 	 * @param	hitpoints
 	 * 			The number of hitpoints of a creature. 
 	 * @pre		sprites should contain at least 10 images.
-	 * 			| sprites.length != null && sprites.length >= 10
+	 * 			| sprites.length != null && sprites.length >= 2
 	 * @effect	the creature's new horizontal position equals positionX.
 	 * 			| setPositionX(positionX)
 	 * @effect	the creature's new vertical position equals positionY.
@@ -36,6 +36,10 @@ public abstract class Creature{
 	 * 			| new.images == sprites
 	 * @post	The parameter m is used to define the number of possible images for cases 8 and 9.
 	 * 			| m == (images.length-10)/2
+	 * @post	...
+	 * 			|new.hitpoint == hitpoints;
+	 * @post 	...
+	 * 			|new.maxSpeedX == maxSpeedX;
 	 */
 	@Raw
 	public Creature (int positionX, int positionY, Sprite[] sprites, double maxSpeedX, int hitpoints) {
@@ -46,22 +50,27 @@ public abstract class Creature{
 			throw new jumpingalien.util.ModelException("Illegal position", exc);	
 		}
 		this.images = sprites;
-		assert ((!(images == null)) && (images.length >= 10));
+		assert ((!(images == null)) && (images.length >= 2));
 		m = (images.length-10)/2;
 		this.hitpoints = hitpoints;
 		this.maxSpeedX = maxSpeedX;
 	}
 	
 	/**
+	 * TODO
+	 * No documentation needed?
 	 * @param dt
-	 * @effect 	The new horizontal position of the creature achieved in a period of time dt
-	 * 			| setPositionX(this.positionX + formulePositionX(dt))
-	 * @effect	The new vertical position of the creature achieved in a period of time dt
-	 * 			| setPositionY(this.positionY + formulePositionY(dt))
+	 * @post 	The new horizontal position of the creature achieved in a period of time dt
+	 * 			| new.newPositionX == (Math.max(getPositionX() + getTravelledDistanceX(dt), 0));
+	 * @post	The new vertical position of the creature achieved in a period of time dt
+	 * 			| new.newPositionY == (Math.max(getPositionY() + getTravelledDistanceY(dt), 0));;
 	 * @effect	The new horizontal speed of the creature achieved in a period of time dt
 	 * 			| setSpeedX(this.speedX + getAccelerationX()*dt)
 	 * @effect	The new vertical speed of the creature achieved in a period of time dt
 	 * 			| setSpeedY(this.speedY + getAccelerationY()*dt)
+	 * @effect ...
+	 * 			| if (getPositionY() == 0)
+				|	setSpeedY(0)
 	 * @throws	IllegalDeltaTimeException
 	 * 			The given period of time is an invalid input.
 	 * 			| !(dt>=0) || !(dt<0.2)
@@ -92,8 +101,7 @@ public abstract class Creature{
 			}
 			widthSprite = getCurrentSprite().getWidth();
 			heightSprite =  getCurrentSprite().getHeight();
-			if (getSpeedX() == 0 && getSpeedY() == 0){
-				
+			if (getSpeedX() == 0 && getSpeedY() == 0){	
 			}
 			else{
 				if (lastDirection == -1){
@@ -135,67 +143,6 @@ public abstract class Creature{
 		}
 	}
 
-		
-	void collisionMazubPlant(Mazub alien, Plant plant){
-		alien.gainHitpoints(50);
-		plant.dies();
-	}
-	
-	void collisionMazubSlime(Mazub alien, Slime slime){
-		alien.loseHitpoints(50);
-		slime.loseHitpoints(50);
-		alien.lastCollisionEnemy = 0;
-	}
-	
-	void collisionMazubShark(Mazub alien, Shark shark){
-		alien.loseHitpoints(50);
-		shark.loseHitpoints(50);
-		alien.lastCollisionEnemy = 0;
-	}
-	
-	void collisionSharkShark(Shark shark1, Shark shark2){
-		if (shark1.getPositionX() <  shark2.getPositionX()){
-			shark1.startMove(Direction.LEFT);
-			shark2.startMove(Direction.RIGHT);
-		}
-		else{
-			shark1.startMove(Direction.RIGHT);
-			shark2.startMove(Direction.LEFT);
-		}
-	}
-	
-	void collisionSharkSlime(Shark shark, Slime slime){
-		slime.loseHitpoints(50);
-		shark.loseHitpoints(50);
-	}
-	
-	void collisionSlimeSlime(Slime slime1, Slime slime2){
-		if (slime1.getPositionX() <  slime2.getPositionX()){
-			slime1.startMove(Direction.LEFT);
-			slime2.startMove(Direction.RIGHT);
-		}
-		else{
-			slime1.startMove(Direction.RIGHT);
-			slime2.startMove(Direction.LEFT);
-		}
-				
-		if (slime1.getSchool().getNbSlimesInSchool() > slime2.getSchool().getNbSlimesInSchool()){
-			slime2.changeSchool(slime1.getSchool());
-		}
-		if (slime1.getSchool().getNbSlimesInSchool() < slime2.getSchool().getNbSlimesInSchool()){
-			slime1.changeSchool(slime2.getSchool()); 
-		}
-	}
-	
-	private void updateIndex(){
-		if (alternatingIndex<m){
-			alternatingIndex+=1;
-		}
-		else{
-			alternatingIndex=0;
-		}
-		changedIndex = 0;
-	}
 	
 	
 /****************************************************************************************************
@@ -212,11 +159,21 @@ public abstract class Creature{
 	 * @return	True if and only if the given dt is positive and smaller than 0.2
 	 * 			| (dt>=0) && (dt<0.2)
 	 */
-	@Raw
+	@Raw @Basic
 	boolean isValidTime(double dt){
 		return (dt>=0) && (dt<=0.2);	
 	}
 	
+	/**
+	 * Checks whether there's a collision between two creatures or not.
+	 * @param creature
+	 * @return ... 
+	 * 		| ((if (creature != this &&) ! (( this.getPositionX() + (this.getWidthSprite() - 1) < creature.getPositionX() )
+	 *		|		|| (creature.getPositionX() + (creature.getWidthSprite() - 1) < this.getPositionX())
+	 *		|		|| (this.getPositionY() + (this.getHeightSprite() - 1) < creature.getPositionY())
+	 *		|		|| (creature.getPositionY() + (creature.getHeightSprite() - 1) < this.getPositionY())) )
+	 * 
+	 */
 	boolean collisionDetection(Creature creature){
 		if (creature != this){
 			if (( this.getPositionX() + (this.getWidthSprite() - 1) < creature.getPositionX() )
@@ -234,6 +191,16 @@ public abstract class Creature{
 		}
 	}
 	
+	/**
+	 * Checks whether there's a collision between the creature and the tile at coordinates(tilePixelX, tilePixelY). 
+	 * @param tilePixelX
+	 * @param tilePixelY
+	 * @return	...
+	 * 		| ! ( (int) this.getPositionX() + (this.getWidthSprite() -1 ) < tilePixelX )
+				|| (tilePixelX + (world.getTileLength() -1 ) < (int)this.getPositionX())
+				|| ((int)this.getPositionY() + (this.getHeightSprite() -1 ) < tilePixelY)
+				|| (tilePixelY + (world.getTileLength() - 1) < (int)this.getPositionY())
+	 */
 	boolean collisionDetectionTile(int tilePixelX, int tilePixelY){
 		if (( (int) this.getPositionX() + (this.getWidthSprite() -1 ) < tilePixelX )
 				|| (tilePixelX + (world.getTileLength() -1 ) < (int)this.getPositionX())
@@ -246,161 +213,6 @@ public abstract class Creature{
 		}
 	}
 	
-
-/****************************************************************************************************
- * 																									*
- * 									     GETTERS AND SETTERS										*
- * 																									*										
- ****************************************************************************************************/
-
-	public int getHitpoints(){
-		return this.hitpoints;
-	}
-	
-	void gainHitpoints(int points){
-		hitpoints+=points;
-	}
-	
-	void loseHitpoints(int points){
-		hitpoints-=points;
-		if (hitpoints <= 0){
-			this.dies();
-		}
-	}
-	
-	void dies(){
-		timeOfDeath = 0;
-		isAlive=false;
-	}
-		
-	/**
-	 * This method calculates the horizontal travelled distance.
-	 * 
-	 * @param 	dt
-	 * 			an infinitesimally small period of time
-	 */
-	double getTravelledDistanceX(double dt){
-		 return (getSpeedX()*dt  + 0.5*getAccelerationX()*Math.pow(dt, 2));
-	}
-		
-	/**
-	 * This method calculates the vertical travelled distance.
-	 * 
-	 * @param 	dt
-	 * 			an infinitesimally small period of time
-	 */
-	double getTravelledDistanceY(double dt){
-		 return (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2));
-	}	
-
-	/**
-	 * This method initiates a movement of  the creature.
-	 * 
-	 * @param 	direction
-	 * 			the direction of the creature
-	 * @pre		direction has to be a valid direction
-	 * 			| direction == (RIGHT || LEFT)
-	 * @post	if the direction is left the horizontal speed and acceleration should be negative
-	 * 			| if (direction.getDirection() == -1)
-	 * 				(new.getSpeedX() < 0 || new.getAccelerationX() < 0)
-	 * @post	if the direction is right the horizontal speed and acceleration should be positive
-	 * 			| if (direction.getDirection() == 1)
-	 * 				(new.getSpeedX() > 0 || new.getAccelerationX() > 0)
-	 * @post	The absolute value of the horizontal speed should be 100
-	 * 			| Math.abs(new.getSpeedX()) == 100									EFFECT????????????????????????????
-	 * @post	The absolute value of the horizontal acceleration should be 90
-	 * 			| Math.abs(new.getAccelerationX()) == 90
-	 * @post	 is moving
-	 * 			new.isMovingX == true
-	 * @post	The last direction  has moved to is direction
-	 * 			| new.lastDirection == direction
-	 * @post	changedIndex is set to the current time
-	 * 			| new.changedIndex == System.currentTimeMillis()
-	 * @post	alternatingIndex is zero
-	 * 			| alternatingIndex == 0
-	 */
-	void startMove(Direction direction, int speed, int acceleration){
-		setSpeedX(speed*direction.getDirection());
-		setAccelerationX(acceleration*direction.getDirection());
-		this.isMovingX = true;
-		this.lastDirection = direction.getDirection();
-		changedIndex = 0;
-		alternatingIndex = 0;
-	}
-	
-	/**
-	 * This method terminates a movement of  the creature.
-	 * 
-	 * @post	The horizontal speed of  is zero.
-	 * 			| new.getSpeedX() == 0
-	 * @post	The horizontal acceleration of  is zero.
-	 * 			new.getAccelerationX() == 0
-	 * @post	 isn't moving.
-	 * 			| new.isMovingX == false
-	 * @post	timeLastMovedX is set to the current time.
-	 * 			| new.timeLastMovedX == System.currentTimeMillis()
-	 * 
-	 * TODO If there are multiple
-	 *	ongoing movements at the same time, e.g. startMove(left) has been invoked while Mazub was already moving to the right, the horizontal velocity
-	 *	shall not be set to zero before all ongoing movements are terminated.
-	 */
-	public void endMove(){
-		setSpeedX(0);
-		setAccelerationX(0);
-		timeLastMovedX = 0;
-		this.isMovingX = false;
-	}
-	
-	/**
-	 * This method initiates a jump of  the creature.
-	 * 
-	 * @post	the boolean isJumping is true.
-	 * 			| new.isJumping = true
-	 * @post	the vertical speed of the creature equals 800 pixel/s.
-	 * 			| new.getSpeedY() = 800
-	 */
-	void startJump(double speedY){
-			setSpeedY(speedY);				
-			this.isJumping = true;
-	}
-	
-	/**
-	 * This method terminates a jump of the creature.
-	 * 
-	 * @post	the boolean isJumping is false.
-	 * 			| new.isJumping = false
-	 * @post	the vertical acceleration of the creature equals gravity.
-	 * 			| new.getAccelerationY() = gravity
-	 * @post	the vertical speed equals zero or is negative.
-	 * 			| new.getSpeedY() <= 0
-	 */
-	public void endJump(){
-		if (getSpeedY() > 0){
-			setSpeedY(0);
-		}
-		setAccelerationY(gravity);
-		this.isJumping = false;
-	}
-	
-	
-	void randomMovement(double dt, int speed, int acceleration, int minDuration, int maxDuration){
-		double randomNumber = ((double)(Math.random() * (maxDuration - minDuration)) + minDuration );
-		timer += dt;
-		if (timer >= randomNumber){
-			timer=0;
-			lastJump+=1;
-			if (isJumping()){
-				endJump();
-			}
-			if (lastDirection == -1){
-				startMove(Direction.RIGHT, speed, acceleration);
-			}
-			else {
-				startMove(Direction.LEFT, speed, acceleration);
-			}
-		}
-	}
-	
 	/**
 	 * Checks if  the creature is moving horizontally.
 	 * 
@@ -408,7 +220,7 @@ public abstract class Creature{
 	 * 			| this.isMovingX
 	 */
 	@Basic
-	boolean isMovingX(){
+	public boolean isMovingX(){
 		return this.isMovingX;
 	}
 
@@ -455,15 +267,366 @@ public abstract class Creature{
 	 * Checks whether the creature has moved horizontally within the last second.
 	 * 
 	 * @return	True if and only if the creature has moved within the last second.
-	 * 			| (System.currentTimeMillis() - timeLastMovedX < 1000)
+	 * 			| timeLastMovedX < 1
 	 */
 	@Basic
 	boolean hasMovedX(){
 		return (timeLastMovedX < 1);
 	}
+
+/****************************************************************************************************
+ * 																									*
+ * 									     GETTERS AND SETTERS										*
+ * 																									*										
+ ****************************************************************************************************/
+	
 	
 	/**
+	 * Adjusts the hitpoints after a collision between Mazub and a plant;
+	 * @param alien
+	 * @param plant
+	 * @effect ...
+	 * 		| alien.gainHitpoints(50);
+	 * @effect..
+	 * 		| plant.dies();
+	 */
+	void collisionMazubPlant(Mazub alien, Plant plant){
+		alien.gainHitpoints(50);
+		plant.dies();
+	}
+	
+	/**
+	 * Adjusts the hitpoints after a collision between Mazub and a slime;
+	 * @param alien
+	 * @param slime
+	 * @effect ...
+	 * 		|alien.loseHitpoints(50);
+	 * @effect ...
+	 * 		|slime.loseHitpoints(50);
+	 * @post ...
+	 * 		|alien.new.lastCollisionEnemy == 0;
+	 */
+	void collisionMazubSlime(Mazub alien, Slime slime){
+		alien.loseHitpoints(50);
+		slime.loseHitpoints(50);
+		alien.lastCollisionEnemy = 0;
+	}
+	
+	/**
+	 * Adjusts the hitpoints after a collision between Mazub and a shark;
+	 * @param alien
+	 * @param shark
+	 * @effect ...
+	 * 		|alien.loseHitpoints(50);
+	 * @effect ...
+	 * 		|shark.loseHitpoints(50);
+	 * @post ...
+	 * 		|alien.new.lastCollisionEnemy == 0;
+	 */
+	void collisionMazubShark(Mazub alien, Shark shark){
+		alien.loseHitpoints(50);
+		shark.loseHitpoints(50);
+		alien.lastCollisionEnemy = 0;
+	}
+	
+	/**
+	 * Adjusts the moving direction after a collision between two sharks;
+	 * @param shark1
+	 * @param shark2
+	 * @effect ...
+	 * 		| if (shark1.getPositionX() <  shark2.getPositionX())
+	 * 		| 	shark1.startMove(Direction.LEFT);
+	 * 		|	shark2.startMove(Direction.RIGHT);
+	 * @effect ..
+	 * 		| shark1.startMove(Direction.RIGHT);
+	 * 		| shark2.startMove(Direction.LEFT);
+	 */
+	void collisionSharkShark(Shark shark1, Shark shark2){
+		if (shark1.getPositionX() <  shark2.getPositionX()){
+			shark1.startMove(Direction.LEFT);
+			shark2.startMove(Direction.RIGHT);
+		}
+		else{
+			shark1.startMove(Direction.RIGHT);
+			shark2.startMove(Direction.LEFT);
+		}
+	}
+	
+	/**
+	 * Adjusts the hitpoints after a collision between a slime and a shark;
+	 * @param shark
+	 * @param slime
+	 * @effect ...
+	 * 		|slime.loseHitpoints(50);
+	 * @effect ...
+	 * 		|shark.loseHitpoints(50);
+	 */
+	void collisionSharkSlime(Shark shark, Slime slime){
+		slime.loseHitpoints(50);
+		shark.loseHitpoints(50);
+	}
+	
+	/**
+	 * Adjusts the moving direction and school after a collision between two slimes;
+	 * @param slime1
+	 * @param slime2
+	 * @effect ...
+	 * 		|if (slime1.getPositionX() <  slime2.getPositionX()
+	 * 		|	slime1.startMove(Direction.LEFT);
+	 * 		|	slime2.startMove(Direction.RIGHT);
+	 * @effect ...
+	 * 		|else
+	 * 		|	slime1.startMove(Direction.RIGHT);
+	 * 		|	slime2.startMove(Direction.LEFT);
+	 * @effect ...
+	 * 		|if (slime1.getSchool().getNbSlimesInSchool() > slime2.getSchool().getNbSlimesInSchool())
+	 * 		|	slime2.changeSchool(slime1.getSchool());
+	 * @effect ...
+	 * 		|if (slime1.getSchool().getNbSlimesInSchool() < slime2.getSchool().getNbSlimesInSchool())
+	 * 		|	slime1.changeSchool(slime2.getSchool()); 
+	 * 
+	 */
+	void collisionSlimeSlime(Slime slime1, Slime slime2){
+		if (slime1.getPositionX() <  slime2.getPositionX()){
+			slime1.startMove(Direction.LEFT);
+			slime2.startMove(Direction.RIGHT);
+		}
+		else{
+			slime1.startMove(Direction.RIGHT);
+			slime2.startMove(Direction.LEFT);
+		}
+				
+		if (slime1.getSchool().getNbSlimesInSchool() > slime2.getSchool().getNbSlimesInSchool()){
+			slime2.changeSchool(slime1.getSchool());
+		}
+		if (slime1.getSchool().getNbSlimesInSchool() < slime2.getSchool().getNbSlimesInSchool()){
+			slime1.changeSchool(slime2.getSchool()); 
+		}
+	}
+	
+	/**
+	 * Updates the index of the alternating sprites in getCurrentSprite.
+	 * @post ...
+	 * 		| if (alternatingIndex<m)
+	 * 		|	new.alternatingIndex == this.alternatingIndex + 1;
+	 * 		| else
+	 * 		|	new.alternatingIndex == 0;
+	 * @post ...
+	 * 		|new.changedIndex == 0;
+	 */
+	private void updateIndex(){
+		if (alternatingIndex<m){
+			alternatingIndex+=1;
+		}
+		else{
+			alternatingIndex=0;
+		}
+		changedIndex = 0;
+	}
+	
+
+	/**
+	 * Return the number of hitpoints the creature has.
+	 * @return
+	 * 		The integer hitpoints.
+	 */
+	public int getHitpoints(){
+		return this.hitpoints;
+	}
+	
+	/**
+	 * Adds points to the hitpoints of the creature.
+	 * @param points
+	 * @post ...
+	 *		| new.hitpoints == this.hitpoints + points; 
+	 */
+	void gainHitpoints(int points){
+		hitpoints+=points;
+	}
+	
+	/**
+	 * Subtracts points from the hitpoints of the creature.
+	 * @param points
+	 * @post ...
+	 * 		| new.hitpoints == this.hitpoints - points;
+	 * @effect ...
+	 * 		|if (hitpoints <= 0)
+	 * 		|	this.dies();
+	 */
+	void loseHitpoints(int points){
+		hitpoints-=points;
+		if (hitpoints <= 0){
+			this.dies();
+		}
+	}
+	
+	/**
+	 * Makes the creature die.
+	 * @post ...
+	 * 		| new.timeOfDeath == 0;
+	 * @post ...
+	 * 		| new.isAlive == false;
+	 */
+	void dies(){
+		this.timeOfDeath = 0;
+		this.isAlive=false;
+	}
+		
+	/**
+	 * This method calculates the horizontal travelled distance.
+	 * 
+	 * @param 	dt
+	 * 			an infinitesimally small period of time
+	 * @return 	...
+	 * 		| (getSpeedX()*dt  + 0.5*getAccelerationX()*Math.pow(dt, 2))		
+	 */
+	double getTravelledDistanceX(double dt){
+		 return (getSpeedX()*dt  + 0.5*getAccelerationX()*Math.pow(dt, 2));
+	}
+		
+	/**
+	 * This method calculates the vertical travelled distance.
+	 * 
+	 * @param 	dt
+	 * 			an infinitesimally small period of time
+	 * @return	... 
+	 * 		| (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2))
+	 */
+	double getTravelledDistanceY(double dt){
+		 return (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2));
+	}	
+
+	/**
+	 * This method initiates a movement of  the creature.
+	 * 
+	 * @param 	direction
+	 * 			the direction of the creature
+	 * @effect ...
+	 * 		|setSpeedX(speed*direction.getDirection());
+	 * @effect ...
+	 * 		|setAccelerationX(acceleration*direction.getDirection());
+	 * @post ...
+	 * 		|new.isMovingX == true
+	 * @post ...
+	 * 		| new.lastDirection == direction
+	 * @post ...
+	 * 		| new.changedIndex == 0;
+	 * @post ...
+	 * 		| new.alternatingIndex == 0
+	 */
+	void startMove(Direction direction, int speed, int acceleration){
+		setSpeedX(speed*direction.getDirection());
+		setAccelerationX(acceleration*direction.getDirection());
+		this.isMovingX = true;
+		this.lastDirection = direction.getDirection();
+		changedIndex = 0;
+		alternatingIndex = 0;
+	}
+	
+	/**
+	 * This method terminates a movement of  the creature.
+	 * 
+	 * @effect ...
+	 * 		| setSpeedX(0);
+	 * @effect ...
+	 * 		| setAccelerationX(0);
+	 * @post ...
+	 * 		| new.isMovingX == false
+	 * @post ...
+	 * 		| new.timeLastMovedX == 0;
+	 * 
+	 * TODO If there are multiple
+	 *	ongoing movements at the same time, e.g. startMove(left) has been invoked while Mazub was already moving to the right, the horizontal velocity
+	 *	shall not be set to zero before all ongoing movements are terminated.
+	 */
+	public void endMove(){
+		setSpeedX(0);
+		setAccelerationX(0);
+		timeLastMovedX = 0;
+		this.isMovingX = false;
+	}
+	
+	/**
+	 * This method initiates a jump of  the creature.
+	 * @param speedY
+	 * @effect ...
+	 * 		| setSpeedY(speedY);
+	 * @post ...
+	 * 		| new.isJumping == true;
+	 */
+	void startJump(double speedY){
+			setSpeedY(speedY);				
+			this.isJumping = true;
+	}
+	
+	/**
+	 * This method terminates a jump of the creature.
+	 * 
+	 * @effect ...
+	 * 		| if (getSpeedY() > 0)
+	 * 		|	setSpeedY(0);
+	 * @effect ...
+	 * 		| setAccelerationY(gravity);
+	 * @post ...
+	 * 		| new.isJumping == false;
+	 */
+	public void endJump(){
+		if (getSpeedY() > 0){
+			setSpeedY(0);
+		}
+		setAccelerationY(gravity);
+		this.isJumping = false;
+	}
+	
+	
+	/**
+	 * Makes the creature start to move in a random direction.
+	 * 
+	 * @param dt
+	 * @param speed
+	 * @param acceleration
+	 * @param minDuration
+	 * @param maxDuration
+	 * @post ...
+	 * 		| new.timer == this.timer + dt;
+	 * @post ...
+	 * 		| if (timer >= randomNumber)
+	 * 		| 	new.timer==0;
+	 * @post ...
+	 * 		| if (timer >= randomNumber)
+	 * 		|	new.lastJump== this.lastJump+1;
+	 * @effect ...
+	 * 		| if ((timer >= randomNumber) && isJumping())
+	 * 		|	endJump();
+	 * @effect ...
+	 * 		| if ((timer >= randomNumber) && (lastDirection == -1))
+	 * 		|	startMove(Direction.RIGHT, speed, acceleration);
+	 * @effect ...
+	 * 		| if ((timer >= randomNumber) && (lastDirection == 1))
+	 * 		|	startMove(Direction.LEFT, speed, acceleration);	
+	 */
+	void randomMovement(double dt, int speed, int acceleration, int minDuration, int maxDuration){
+		double randomNumber = ((double)(Math.random() * (maxDuration - minDuration)) + minDuration );
+		timer += dt;
+		if (timer >= randomNumber){
+			timer=0;
+			lastJump+=1;
+			if (isJumping()){
+				endJump();
+			}
+			if (lastDirection == -1){
+				startMove(Direction.RIGHT, speed, acceleration);
+			}
+			else {
+				startMove(Direction.LEFT, speed, acceleration);
+			}
+		}
+	}
+		
+	/**
 	 * Returns the horizontal position of  the creature.
+	 * @return	...
+	 * 		| this.positionX;
 	 */
 	@Basic
 	public double getPositionX(){
@@ -472,17 +635,29 @@ public abstract class Creature{
 	
 	/**
 	 * Returns the vertical position of  the creature.
+	 * @return ...
+	 * 		| this.positionY;
 	 */
 	@Basic
 	public double getPositionY() {
 		return this.positionY;
 	}
 	
+	/**
+	 * Returns the right side of the rectangle that is the creature.
+	 * @return ...
+	 * 		|(this.positionX + this.getWidthSprite());
+	 */
 	@Basic 
 	double getRightSideOfRectangle(){
 		return (this.positionX + this.getWidthSprite());
 	}
 	
+	/**
+	 * Returns the top of the rectangle that is the creature.
+	 * @return ...
+	 * 		| (this.positionY + this.getHeightSprite());	
+	 */
 	@Basic
 	double getTopSideOfRectangle(){
 		return (this.positionY + this.getHeightSprite());
@@ -493,12 +668,12 @@ public abstract class Creature{
 	 * 
 	 * @param 	position
 	 * 			The position the creature should be set to.
-	 * @post	The horizontal position of the creature is position.
-	 * 			| new.positionX == position
-	 * @throws	IllegalArgumentException
-	 * 			The given position is not allowed for the creature.
-	 * 			(positionX>=xMin && positionX<=xMax)
-	 * 
+	 *@effect ...
+	 *		| if (! isValidPosition(position,0))
+	 *		| this.dies();
+	 *@post ...
+	 *		| if ( isValidPosition(position, 0))
+	 *		|	new.positionX == position;
 	 */
 	void setPositionX(double position){
 			if (! isValidPosition(position,0)){
@@ -508,25 +683,21 @@ public abstract class Creature{
 				this.positionX = position;
 			}
 		}
-	
-	
-	
+		
 	/**
 	 * Changes the vertical position of the creature.
 	 * 
 	 * @param 	position
 	 * 			The position the creature should be set to.
-	 * @post	The vertical position of the creature is position.
-	 * 			| new.positionY == position
-	 * @ throws	IllegalArgumentException
-	 * 			The given position is not allowed for the creature
-	 * 			(positionY>=yMin && positionY<=yMax)
+	 * @effect ...
+	 * 		| if ( ! isValidPosition(0,position))
+	 * 		| this.dies();
+	 * @post ...
+	 *		| if ( isValidPosition(0, position))
+	 *		|	new.positionY == position;
+	 * 
 	 */
 	void setPositionY(double position)  {
-//		if (blockMovementY == false) {
-//			if (position < 0){
-//				position = 0;
-//			}
 			if ( ! isValidPosition(0,position)){
 				this.dies();
 			}
@@ -534,12 +705,11 @@ public abstract class Creature{
 				this.positionY = position;
 			}
 		}
-		
-	
-	
+			
 	/**
-	 * Return the current height of 
+	 * Return the current height of the creature.
 	 * @return
+	 * 		|this.heightSprite
 	 */
 	@Basic
 	public int getHeightSprite(){
@@ -547,8 +717,9 @@ public abstract class Creature{
 	}
 	
 	/**
-	 * Return the current width of 
+	 * Return the current width of the creature.
 	 * @return
+	 * 		|this.widthSprite
 	 */
 	@Basic
 	public int getWidthSprite(){
@@ -556,31 +727,32 @@ public abstract class Creature{
 	}
 	
 	/**
-	 * Sets the height of  to a given height.
+	 * Sets the height of the creature to a given height.
 	 * 
 	 * @param height
-	 * @post	The new height of  should be equal to the given height
-	 * 			| new.getHeightthe creature() == height
-	 * @throws	... 																	isValidHeight maken
+	 * @post The new height of  should be equal to the given height
+	 * 		| new.heigthSprite == height
+	 * 
 	 */
 	void setHeightSprite(int height){
 		this.heightSprite = height;
 	}
 	
 	/**
-	 * Sets the width of  to a given width.
+	 * Sets the width of the creature to a given width.
 	 * 
 	 * @param width
 	 * @post	The new width of  should be equal to the given width
-	 * 			| new.getWidththe creature() == width
-	 * @throws	...
+	 * 	| new.widthSprite == width
 	 */
 	void setWidthSprite(int width){
 		this.widthSprite= width;
 	}
 	
 	/**
-	 * Return the current speed in horizontal direction of .
+	 * Return the current speed in horizontal direction of the creature .
+	 * @return ...
+	 * 		| this.speedX
 	 */
 	@Basic
 	public double getSpeedX(){
@@ -588,7 +760,9 @@ public abstract class Creature{
 	}
 	
 	/**
-	 * Return the current speed in vertical direction of .
+	 * Return the current speed in vertical direction of the creature.
+	 * return ...
+	 * 		| this.speedY
 	 */
 	@Basic
 	public double getSpeedY(){
@@ -596,15 +770,19 @@ public abstract class Creature{
 	}
 	
 	/**
-	 * Return the current acceleration in horizontal direction of .
+	 * Return the current acceleration in horizontal direction of the creature.
+	 * @return ...
+	 * 		| this.accelerationX
 	 */
 	@Basic
 	public double getAccelerationX(){
 		return this.accelerationX;
-	}
+	} 
 	
 	/**
-	 * Return the current acceleration in vertical direction of .
+	 * Return the current acceleration in vertical direction of the creature.
+	 * @return ...
+	 * 		| this.accelerationY
 	 */
 	@Basic
 	public double getAccelerationY(){
@@ -612,13 +790,15 @@ public abstract class Creature{
 	}
 	
 	/**
-	 * Sets the horizontal speed of  to a given speed
+	 * Sets the horizontal speed of the creature to a given speed
 	 * 
 	 * @param 	speed
-	 * @pre		The given speed may not exceed the max. speed
-	 * 			| isValidSpeedX(speed)
-	 * @post	The new horizontal speed of  must be equal to the given speed
-	 * 			new.getSpeedX() == speed
+	 * @post ...
+	 *		| if (isValidSpeedX(speed))
+	 * 	 	|	new.speedX == speed
+	 * @post ...
+	 * 		| else
+	 * 		|	 new.speedX == (this.lastDirection*maxSpeedX)
 	 * 
 	 */
 	void setSpeedX(double speed){
@@ -629,22 +809,22 @@ public abstract class Creature{
 	}
 	
 	/**
-	 * Sets the vertical speed of  to a given speed
+	 * Sets the vertical speed of the creature to a given speed
 	 * 
 	 * @param 	speed
-	 * @post	The new vertical speed of  must be equal to the given speed
-	 * 			| new.getSpeedY() == speed
+	 * @post ...
+	 * 		| new.speedY == speed
 	 */
 	void setSpeedY(double speed){
 		this.speedY = speed;
 	}
 	
 	/**
-	 * Sets the horizontal acceleration of  to a given acceleration
+	 * Sets the horizontal acceleration of the creature to a given acceleration
 	 * 
 	 * @param 	acc
-	 * @post	The new horizontal acceleration of  must be equal to the given acceleration
-	 * 			| new.getAccelerationX() = acc
+	 * @post ...
+	 * 		| new.accelerationX == acc
 	 */
 	void setAccelerationX(double acc){
 		this.accelerationX = acc;
@@ -654,13 +834,18 @@ public abstract class Creature{
 	 * Sets the vertical acceleration of  to a given acceleration
 	 * 
 	 * @param 	acc
-	 * @post	The new vertical acceleration of  must be equal to the given acceleration
-	 * 			| new.getAccelerationY() == acc
+	 * @post ...
+	 * 		| new.accelerationY == acc
 	 */
 	void setAccelerationY(double acc){
 		this.accelerationY = acc; 
 	}
 	
+	/**
+	 * returns an integer array of the x and y coordinate of the creature's current position.
+	 * @return
+	 * 		|  {(int)this.getPositionX(), (int)this.getPositionY()}
+	 */
 	public int[] getLocation(){
 		int[] array = {(int)this.getPositionX(), (int)this.getPositionY()};
 		return array;
@@ -670,24 +855,33 @@ public abstract class Creature{
 	 * Returns an image corresponding to the current index.
 	 * 
 	 * @param 	index
-	 * 			An integer number that represents the current state of the creature.
-	 * @pre		The index should be positive and may not exceed the length of the array images.
-	 * 			| (index >= 0) && (index < images.length)
+	 * 		An integer number that represents the current state of the creature.
+	 * @pre	The index should be positive and may not exceed the length of the array images.
+	 * 		| (index >= 0) && (index < images.length)
+	 * @return	
+	 * 		| this.images[index];
 	 */
 	@Basic
-	Sprite getImageAtIndex(int index){
+	public Sprite getImageAtIndex(int index){
 		assert (index >= 0) && (index < images.length);
 		return this.images[index];
 	}
 	
 	/**
 	 * Returns an array of sprites called images.
+	 * @return 
+	 * 		| this.images
 	 */
 	@Basic @Immutable
 	Sprite[] getImages(){
 		return this.images;
 	}
 	
+	/**
+	 * Returns the current sprite of the creature.
+	 * @return
+	 * 		The current sprite
+	 */
 	abstract Sprite getCurrentSprite();
 	 
 	
@@ -798,28 +992,64 @@ public abstract class Creature{
 	 */
 	public Sprite[] images;
 	
+	/**
+	 * An integer that represents the hitpoints of the creature.
+	 */
 	int hitpoints;
 	
+	/**
+	 * A boolean that is true if the creature is alive.
+	 */
 	boolean isAlive = true;
 	
+	/**
+	 * A double that is used to keep the creature immune. 
+	 */
 	double lastCollisionEnemy = 1;
 	
+	/**
+	 * The world in which the creature lives.
+	 */
 	public World world;
 
+	/**
+	 * A timer that's used to calculate a random movement. 
+	 */
 	private double timer;
 	
+	/**
+	 * An integer that shows how many movements ago the creature has jumped.
+	 */
 	int lastJump;
 	
+	/**
+	 * The time the creature is in the air.
+	 */
 	double timeInAir;
 	
+	/**
+	 * The time the creature is in the water.
+	 */
 	double timeInWater;
 	
+	/**
+	 * The time the creature is in magma.
+	 */
 	double timeInMagma;
 	
+	/**
+	 * The new horizontal position of the creature.
+	 */
 	double newPositionX;
 	
+	/**
+	 * The new vertical position of the creature.
+	 */
 	double newPositionY;
 	
+	/**
+	 * The time the creature is dead.
+	 */
 	int timeOfDeath;
 	
 }
