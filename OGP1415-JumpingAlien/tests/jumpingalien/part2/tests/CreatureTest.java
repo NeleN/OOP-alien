@@ -12,6 +12,9 @@ import jumpingalien.tests.util.TestUtils;
 import jumpingalien.util.*;
 
 public class CreatureTest {
+	
+	World world;
+	Mazub alien;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -22,8 +25,14 @@ public class CreatureTest {
 	}
 
 	@Before
-	public void setUp() throws Exception {
-	}
+	public void setUp() {
+		Sprite[] sprites = TestUtils.spriteArrayForSize(2, 2);
+		world = new World(70, 20, 12, 1024, 769, 18, 9);
+		alien = new Mazub(50, 70, sprites, 300, 100);
+		world.setCreatureInWorld(alien);
+		alien.world = world;
+		world.startGame();
+	}	
 
 	@After
 	public void tearDown() throws Exception {
@@ -31,8 +40,6 @@ public class CreatureTest {
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	Sprite[] sprites = TestUtils.spriteArrayForSize(2, 2);
-	World world = new World(70, 20, 12, 1024, 769, 18, 9);
 	
 	public static final double DEFAULT_EPSILON = 1e-4;
 
@@ -62,13 +69,11 @@ public class CreatureTest {
 
 	@Test
 	public final void testGetHitpoints() {
-		Mazub alien = new Mazub(0, 0, sprites, 300, 100);
 		assertEquals(100, alien.getHitpoints());
 	}
 	
 	@Test
 	public final void testEndMoveCaseOneMovement(){
-		Mazub alien = new Mazub(0, 0, sprites, 300, 100);
 		alien.startMove(Direction.RIGHT);
 		alien.endMove();
 		assert fuzzyEquals(0, alien.getSpeedX());
@@ -76,7 +81,6 @@ public class CreatureTest {
 	
 	@Test
 	public final void testEndJump(){
-		Mazub alien = new Mazub(0, 0, sprites, 300, 100);
 		alien.startJump();
 		alien.endJump();
 		assert fuzzyLessThanOrEqualTo(0, alien.getSpeedY());
@@ -86,7 +90,6 @@ public class CreatureTest {
 	
 	@Test
 	public final void testGetPositionX(){
-		Mazub alien = new Mazub(50, 70, sprites, 300, 100);
 		world.setCreatureInWorld(alien);
 		world.startGame();
 		assert fuzzyEquals(50, alien.getPositionX());
@@ -94,22 +97,10 @@ public class CreatureTest {
 	
 	@Test
 	public final void testGetPositionY(){
-		Mazub alien = new Mazub(50, 70, sprites, 300, 100);
 		world.setCreatureInWorld(alien);
 		world.startGame();
 		assert fuzzyEquals(70, alien.getPositionY());
 	}
-	
-	@Test
-	public final void testGetHeightOfSprite(){
-		// TODO
-	}
-	
-	@Test
-	public final void testGetWidthOfSprite(){
-		// TODO
-	}
-	
 	
 	
 
