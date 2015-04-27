@@ -32,7 +32,7 @@ public class Slime extends Creature {
 	}
 	
 	@Override
-	public void advanceTime(double dt) throws IllegalDeltaTimeException {
+	void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
 		randomMovement(dt, 100, 70, 2, 6);
 		if (timeInWater > 0.2){
@@ -84,11 +84,11 @@ public class Slime extends Creature {
 		}
 	}
 	
-	public void startMove(Direction direction){
+	void startMove(Direction direction){
 		super.startMove(direction, 100, 70);
 	}
 	
-	public void startJump(){
+	void startJump(){
 		super.startJump(0);
 	}
 	

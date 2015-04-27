@@ -23,7 +23,7 @@ public class Plant extends Creature {
 	}
 	
 	@Override
-	public void advanceTime(double dt) throws IllegalDeltaTimeException{
+	void advanceTime(double dt) throws IllegalDeltaTimeException{
 		super.advanceTime(dt);
 		for (Mazub alien: world.getMazubsInWorld()){
 			if (this.collisionDetection(alien)){
@@ -39,11 +39,11 @@ public class Plant extends Creature {
 	
 	private double timeLastSwitch=0 ;
 	
-	public void startMove(Direction direction){
+	void startMove(Direction direction){
 		super.startMove(direction, 50, 0);
 	}
 
-	public void startJump(){
+	void startJump(){
 		super.startJump(0);
 	}
 	

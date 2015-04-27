@@ -68,7 +68,7 @@ public class World {
 	    return count;
 	    }
 	
-	public int[][] getFeatureTiles(int feature){
+	int[][] getFeatureTiles(int feature){
 		int matrixLength = countOccurrences(feature);
 		featureTiles = new int [matrixLength][2];
 		int k = 0;
@@ -419,9 +419,9 @@ public class World {
 	/**
 	 * An array of coordinates of tiles that are in the world. 
 	 */
-	public int[][] inWorldTiles;
+	int[][] inWorldTiles;
 	
-	public int [][] featureTiles;
+	int [][] featureTiles;
 	
 	/**
 	 * The maximum x value of the field of the game expressed in tiles instead of pixels.
@@ -446,7 +446,7 @@ public class World {
 	/**
 	 * An arraylist of the creatures in the world.
 	 */
-	public List<Creature> inWorldCreatures = new ArrayList<Creature>();
+	List<Creature> inWorldCreatures = new ArrayList<Creature>();
 	
 	/**
 	 * An arraylist of the slimes in the world.
@@ -476,7 +476,7 @@ public class World {
 	/**
 	 * An arraylist of creatures that should be removed from the world.
 	 */
-	public List<Creature> removeCreatures = new ArrayList <Creature> ();
+	List<Creature> removeCreatures = new ArrayList <Creature> ();
 	
 	/**
 	 * The left side of the visible window.

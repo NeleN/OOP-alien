@@ -66,12 +66,18 @@ public abstract class Creature{
 	 * 			The given period of time is an invalid input.
 	 * 			| !(dt>=0) || !(dt<0.2)
 	 */
-	public void advanceTime(double dt) throws IllegalDeltaTimeException {
+	void advanceTime(double dt) throws IllegalDeltaTimeException {
 
 		if (! isValidTime(dt)){
 			throw new IllegalDeltaTimeException(dt);
 		}
 		else {
+			if (! isAlive){
+				timeOfDeath += dt;
+				if (timeOfDeath >= 0.6){
+					world.removeCreatures.add(this);
+				}
+			}
 			newPositionX = (Math.max(getPositionX() + getTravelledDistanceX(dt), 0));
 			newPositionY = (Math.max(getPositionY() + getTravelledDistanceY(dt), 0));
 			setSpeedX(getSpeedX() + getAccelerationX()*dt); 
@@ -207,11 +213,11 @@ public abstract class Creature{
 	 * 			| (dt>=0) && (dt<0.2)
 	 */
 	@Raw
-	public boolean isValidTime(double dt){
+	boolean isValidTime(double dt){
 		return (dt>=0) && (dt<=0.2);	
 	}
 	
-	public boolean collisionDetection(Creature creature){
+	boolean collisionDetection(Creature creature){
 		if (creature != this){
 			if (( this.getPositionX() + (this.getWidthSprite() - 1) < creature.getPositionX() )
 					|| (creature.getPositionX() + (creature.getWidthSprite() - 1) < this.getPositionX())
@@ -228,7 +234,7 @@ public abstract class Creature{
 		}
 	}
 	
-	public boolean collisionDetectionTile(int tilePixelX, int tilePixelY){
+	boolean collisionDetectionTile(int tilePixelX, int tilePixelY){
 		if (( (int) this.getPositionX() + (this.getWidthSprite() -1 ) < tilePixelX )
 				|| (tilePixelX + (world.getTileLength() -1 ) < (int)this.getPositionX())
 				|| ((int)this.getPositionY() + (this.getHeightSprite() -1 ) < tilePixelY)
@@ -263,7 +269,7 @@ public abstract class Creature{
 	}
 	
 	void dies(){
-		world.removeCreatures.add(this);
+		timeOfDeath = 0;
 		isAlive=false;
 	}
 		
@@ -273,7 +279,7 @@ public abstract class Creature{
 	 * @param 	dt
 	 * 			an infinitesimally small period of time
 	 */
-	public double getTravelledDistanceX(double dt){
+	double getTravelledDistanceX(double dt){
 		 return (getSpeedX()*dt  + 0.5*getAccelerationX()*Math.pow(dt, 2));
 	}
 		
@@ -283,7 +289,7 @@ public abstract class Creature{
 	 * @param 	dt
 	 * 			an infinitesimally small period of time
 	 */
-	public double getTravelledDistanceY(double dt){
+	double getTravelledDistanceY(double dt){
 		 return (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2));
 	}	
 
@@ -313,7 +319,7 @@ public abstract class Creature{
 	 * @post	alternatingIndex is zero
 	 * 			| alternatingIndex == 0
 	 */
-	public void startMove(Direction direction, int speed, int acceleration){
+	void startMove(Direction direction, int speed, int acceleration){
 		setSpeedX(speed*direction.getDirection());
 		setAccelerationX(acceleration*direction.getDirection());
 		this.isMovingX = true;
@@ -353,7 +359,7 @@ public abstract class Creature{
 	 * @post	the vertical speed of the creature equals 800 pixel/s.
 	 * 			| new.getSpeedY() = 800
 	 */
-	public void startJump(double speedY){
+	void startJump(double speedY){
 			setSpeedY(speedY);				
 			this.isJumping = true;
 	}
@@ -402,7 +408,7 @@ public abstract class Creature{
 	 * 			| this.isMovingX
 	 */
 	@Basic
-	public boolean isMovingX(){
+	boolean isMovingX(){
 		return this.isMovingX;
 	}
 
@@ -413,7 +419,7 @@ public abstract class Creature{
 	 * 			| this.isJumping
 	 */
 	@Basic
-	public boolean isJumping(){
+	public	boolean isJumping(){
 		return this.isJumping;
 	}
 	
@@ -428,7 +434,7 @@ public abstract class Creature{
 	 * 			| (positionX>=xMin && positionX<=xMax) && (positionY>=yMin && positionY<=yMax)
 	 */
 	@Raw
-	public boolean isValidPosition(double positionX, double positionY){
+	boolean isValidPosition(double positionX, double positionY){
 		return (positionX>=World.getXMin() && positionX<=World.getXMax()) && (positionY>=World.getYMin() && positionY<=World.getYMax());
 	}
 	
@@ -441,7 +447,7 @@ public abstract class Creature{
 	 * 			| Math.abs(speed) <= this.maxSpeedX
 	 */
 	@Raw
-	public boolean isValidSpeedX(double speed){
+	boolean isValidSpeedX(double speed){
 		return Math.abs(speed) <= this.maxSpeedX;
 	}
 	
@@ -452,7 +458,7 @@ public abstract class Creature{
 	 * 			| (System.currentTimeMillis() - timeLastMovedX < 1000)
 	 */
 	@Basic
-	public boolean hasMovedX(){
+	boolean hasMovedX(){
 		return (timeLastMovedX < 1);
 	}
 	
@@ -473,12 +479,12 @@ public abstract class Creature{
 	}
 	
 	@Basic 
-	public double getRightSideOfRectangle(){
+	double getRightSideOfRectangle(){
 		return (this.positionX + this.getWidthSprite());
 	}
 	
 	@Basic
-	public double getTopSideOfRectangle(){
+	double getTopSideOfRectangle(){
 		return (this.positionY + this.getHeightSprite());
 	}
 	
@@ -557,7 +563,7 @@ public abstract class Creature{
 	 * 			| new.getHeightthe creature() == height
 	 * @throws	... 																	isValidHeight maken
 	 */
-	public void setHeightSprite(int height){
+	void setHeightSprite(int height){
 		this.heightSprite = height;
 	}
 	
@@ -569,7 +575,7 @@ public abstract class Creature{
 	 * 			| new.getWidththe creature() == width
 	 * @throws	...
 	 */
-	public void setWidthSprite(int width){
+	void setWidthSprite(int width){
 		this.widthSprite= width;
 	}
 	
@@ -669,7 +675,7 @@ public abstract class Creature{
 	 * 			| (index >= 0) && (index < images.length)
 	 */
 	@Basic
-	public Sprite getImageAtIndex(int index){
+	Sprite getImageAtIndex(int index){
 		assert (index >= 0) && (index < images.length);
 		return this.images[index];
 	}
@@ -678,11 +684,11 @@ public abstract class Creature{
 	 * Returns an array of sprites called images.
 	 */
 	@Basic @Immutable
-	public Sprite[] getImages(){
+	Sprite[] getImages(){
 		return this.images;
 	}
 	
-	public abstract Sprite getCurrentSprite();
+	abstract Sprite getCurrentSprite();
 	 
 	
 /****************************************************************************************************
@@ -813,6 +819,8 @@ public abstract class Creature{
 	double newPositionX;
 	
 	double newPositionY;
+	
+	int timeOfDeath;
 	
 }
 

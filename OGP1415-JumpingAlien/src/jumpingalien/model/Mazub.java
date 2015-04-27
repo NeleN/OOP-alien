@@ -33,7 +33,7 @@ public class Mazub extends Creature{
 	}
 	
 	@Override
-	public void advanceTime(double dt) throws IllegalDeltaTimeException {
+	void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
 		if (tryEndDuck){
 			endDuck();
@@ -147,7 +147,7 @@ public class Mazub extends Creature{
 	 * 			| this.isDucking
 	 */
 	@Basic
-	public boolean isDucking(){
+	boolean isDucking(){
 		return this.isDucking;
 	}
 	

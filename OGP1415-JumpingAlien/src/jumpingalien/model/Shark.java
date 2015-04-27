@@ -22,7 +22,7 @@ public class Shark extends Creature {
 	}
 	
 	@Override
-	public void advanceTime(double dt) throws IllegalDeltaTimeException {
+	void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
 		if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()) == 2)
 				&& timeInAir > 0){
@@ -69,7 +69,7 @@ public class Shark extends Creature {
 //		}
 	}
 	
-	public void startMove(Direction direction){
+	void startMove(Direction direction){
 		super.startMove(direction, 100, 150);
 	}
 	
@@ -86,7 +86,7 @@ public class Shark extends Creature {
 		}
 	}
 	
-	public void startJump(){
+	void startJump(){
 		if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 1)
 				|| (world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 2)){
 			super.startJump(200);

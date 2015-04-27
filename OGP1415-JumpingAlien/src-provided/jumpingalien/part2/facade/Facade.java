@@ -26,7 +26,7 @@ public class Facade implements IFacadePart2 {
 		}
 			
 		public int[] getWorldSizeInPixels(World world){
-			int[] array = {World.getXMax()-World.getXMin(),World.getYMax()-World.getYMin()};
+			int[] array = {world.getXMax()-world.getXMin(),world.getYMax()-world.getYMin()};
 			return array;
 		}
 
