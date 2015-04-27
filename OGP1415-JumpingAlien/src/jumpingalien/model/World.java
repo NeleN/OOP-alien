@@ -1,22 +1,14 @@
 package jumpingalien.model;
 
 import java.util.*;
-
-import be.kuleuven.cs.som.annotate.Raw;
+import be.kuleuven.cs.som.annotate.*;
 
 
 
 /**
  * A class of worlds with a given size and various creatures and geological features.
- * TODO
- * @invar 	INVULLEN
  * 
  * @author	Nele Nauwelaers, Melanie Nijs
- * 
- */
-/**
- * @author Melanie Nijs and Nele Nauwelaers
- *
  */
 public class World {
 	
@@ -38,24 +30,47 @@ public class World {
 	 * 			The x coordinate of the target tile.
 	 * @param targetTileY
 	 * 			The y coordinate of the target tile.
+	 * @post ...
+	 * 		|new.tileLength == tileSize;
+	 * @post ...
+	 * 		|new.visibleWindowWidth == visibleWindowWidth;
+	 * @post ...
+	 * 		|new.visibleWindowHeight == visibleWindowHeight;
+	 * @post ...
+	 * 		|new.X == tileSize*(nbTilesX);
+	 * @post ...
+	 * 		|new.Y == tileSize*(nbTilesY);
+	 * @post ...
+	 * 		|new.xMax == this.X - 1;
+	 * @post ...
+	 * 		|new.yMax == this.Y - 1;
+	 * @post ...
+	 * 		|new.inWorldTiles == int [nbTilesX][nbTilesY];
 	 */
+	@Raw 
 	public World(int tileSize, int nbTilesX, int nbTilesY,
 			int visibleWindowWidth, int visibleWindowHeight,
 			int targetTileX, int targetTileY){
 		this.tileLength = tileSize;
 		this.visibleWindowWidth = visibleWindowWidth;
 		this.visibleWindowHeight = visibleWindowHeight;
-		xTMax = nbTilesX;
-		yTMax = nbTilesY;
-		X = tileSize*(nbTilesX);
-		Y = tileSize*(nbTilesY);	
-		xMax = X - 1;
-		yMax = Y - 1;
+		this.X = tileSize*(nbTilesX);
+		this.Y = tileSize*(nbTilesY);	
+		this.xMax = X - 1;
+		this.yMax = Y - 1;
 		this.targetTileX = targetTileX*tileSize;
 		this.targetTileY = targetTileY*tileSize;
 		this.inWorldTiles = new int [nbTilesX][nbTilesY];
 	}
 	
+	/**
+	 * Counts how many times a given int appears in the matrix inWorldTiles.
+	 * @param d
+	 * 		An integer number that represent a feature. (0, 1, 2 or 3).
+	 * @post count equals the number of occurences of d in the matrix inWorldTiles.
+	 * @return
+	 * 		Returns the number of times d appears in the matrix inWorldTiles.
+	 */
 	private int countOccurrences(int d){
 		int count = 0;
 		for ( int col = 0 ; col < inWorldTiles[1].length ; col++){
@@ -68,22 +83,6 @@ public class World {
 	    return count;
 	    }
 	
-	int[][] getFeatureTiles(int feature){
-		int matrixLength = countOccurrences(feature);
-		featureTiles = new int [matrixLength][2];
-		int k = 0;
-		for (int i= 0; i < (inWorldTiles.length); i+=1){
-			for (int j = 0; j < (inWorldTiles[1].length); j+=1){
-				if (inWorldTiles[i][j] == feature){
-					featureTiles[k][0] = i*getTileLength();
-					featureTiles[k][1] = j*getTileLength();	
-					k +=1;
-				}
-			}
-		}
-		return featureTiles;	
-	}
- 	
 	/**
 	 * GEEN DOCUMENTATIE NODIG
 	 * @throws IllegalDeltaTimeException 
@@ -106,6 +105,11 @@ public class World {
 		}
 	}
 
+	/**
+	 * At the beginning of the game are all creatures added to the arraylist inWorldCreatures.
+	 * @post ...
+	 * 		|new.inWorldCreatures == this.addCreatures; 
+	 */
 	public void startGame(){
 		this.inWorldCreatures.addAll(addCreatures);
 			
@@ -148,9 +152,7 @@ public class World {
 	private boolean isOnTargetTile(Creature creature){
 		return (((int)creature.getPositionX() == targetTileX && (int)creature.getPositionY() + 1 == targetTileY)
 				|| (creature.getPositionX()+creature.getWidthSprite() == targetTileX && creature.getPositionY() +1 == targetTileY));
-//		return (((int)creature.getPositionX() >= targetTileX) && (creature.getPositionY() >= targetTileY)
-//				&& ((int) creature.getPositionX() <= targetTileX + tileLength) && ((int) creature.getPositionY() <= targetTileY  + tileLength));
-	}
+		}
 
 	
 /****************************************************************************************************
@@ -159,6 +161,27 @@ public class World {
  * 																									*										
  ****************************************************************************************************/
 		
+	/**
+	 * Returns a two dimensional matrix (or an array of arrays) that contains the coordinates of pixels of tiles that
+	 * have the given feature.
+	 * @param feature
+	 * @return
+	 */
+	int[][] getFeatureTiles(int feature){
+		int matrixLength = countOccurrences(feature);
+		featureTiles = new int [matrixLength][2];
+		int k = 0;
+		for (int i= 0; i < (inWorldTiles.length); i+=1){
+			for (int j = 0; j < (inWorldTiles[1].length); j+=1){
+				if (inWorldTiles[i][j] == feature){
+					featureTiles[k][0] = i*getTileLength();
+					featureTiles[k][1] = j*getTileLength();	
+					k +=1;
+				}
+			}
+		}
+		return featureTiles;	
+	}
 	
 	/**
 	 * Returns an integer array of coordinates of the bottomleft of the tiles of the rectangular region between the given pixels.
@@ -307,7 +330,7 @@ public class World {
 	 * @return
 	 * 		The minimal horizontal pixel value.
 	 */
-	public static int getXMin(){
+	public int getXMin(){
 		return xMin;
 	}
 	
@@ -316,7 +339,7 @@ public class World {
 	 * @return
 	 * 		The minimal vertical pixel value.
 	 */
-	public static int getYMin(){
+	public int getYMin(){
 		return yMin;
 	}
 	
@@ -325,7 +348,7 @@ public class World {
 	 * @return
 	 * 		The maximal horizontal pixel value.
 	 */
-	public static int getXMax(){
+	public int getXMax(){
 		return xMax;
 	}
 	
@@ -334,7 +357,7 @@ public class World {
 	 * @return
 	 * 		The maximal vertical pixel value.
 	 */
-	public static int getYMax(){
+	public int getYMax(){
 		return yMax;
 	}
 	
@@ -378,6 +401,10 @@ public class World {
 		return (pixelY/this.tileLength);
 	}
 	
+	public List <Creature> getInWorldCreatures(){
+		return this.inWorldCreatures;
+	}
+	
 	
 /****************************************************************************************************
  * 																									*
@@ -399,22 +426,22 @@ public class World {
 	/**
 	 * The maximum x value of the field of the game.
 	 */
-	private static int xMax;
+	private int xMax;
 	
 	/**
 	 * The maximum y value of the field of the game. 
 	 */
-	private static int yMax;
+	private int yMax;
 	
 	/**
 	 * The real maximum x value.
 	 */
-	private static int X;
+	private int X;
 	
 	/**
 	 * The real maximum y value.
 	 */
-	private static int Y;
+	private int Y;
 	
 	/**
 	 * An array of coordinates of tiles that are in the world. 
@@ -422,17 +449,7 @@ public class World {
 	int[][] inWorldTiles;
 	
 	int [][] featureTiles;
-	
-	/**
-	 * The maximum x value of the field of the game expressed in tiles instead of pixels.
-	 */
-	private int xTMax;
-	
-	/**
-	 * The maximum x value of the field of the game expressed in tiles instead of pixels.
-	 */
-	private int yTMax;
-	
+
 	/**
 	 * The width of the visible window.
 	 */

@@ -55,18 +55,6 @@ public class Shark extends Creature {
 		if (world.getGeologicalFeature((int)this.getPositionX(), (int)this.getPositionY()) == 0){
 			timeInAir += dt;
 		}
-		
-//		for (int i= 0; i < (world.getFeatureTiles(0).length); i+=1){
-//			if (collisionDetectionTile(world.getFeatureTiles(0)[i][0], world.getFeatureTiles(0)[i][1])){
-//				timeInAir += dt;
-//				i = world.getFeatureTiles(0).length;
-//			}
-//			else {
-//				if (i == world.getFeatureTiles(0).length-1){
-//				timeInAir = 0;
-//				}
-//			}
-//		}
 	}
 	
 	void startMove(Direction direction){
