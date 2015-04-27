@@ -75,6 +75,7 @@ public abstract class Creature{
 	 * 			The given period of time is an invalid input.
 	 * 			| !(dt>=0) || !(dt<0.2)
 	 */
+	@Raw 
 	void advanceTime(double dt) throws IllegalDeltaTimeException {
 
 		if (! isValidTime(dt)){
@@ -201,6 +202,7 @@ public abstract class Creature{
 				|| ((int)this.getPositionY() + (this.getHeightSprite() -1 ) < tilePixelY)
 				|| (tilePixelY + (world.getTileLength() - 1) < (int)this.getPositionY())
 	 */
+	@Raw
 	boolean collisionDetectionTile(int tilePixelX, int tilePixelY){
 		if (( (int) this.getPositionX() + (this.getWidthSprite() -1 ) < tilePixelX )
 				|| (tilePixelX + (world.getTileLength() -1 ) < (int)this.getPositionX())
@@ -219,7 +221,7 @@ public abstract class Creature{
 	 * @return	true if and only if the creature is moving horizontally.
 	 * 			| this.isMovingX
 	 */
-	@Basic
+	@Basic 
 	public boolean isMovingX(){
 		return this.isMovingX;
 	}
@@ -258,7 +260,7 @@ public abstract class Creature{
 	 * @return	True if and only if speed is smaller than or equal to the maximum horizontal speed.
 	 * 			| Math.abs(speed) <= this.maxSpeedX
 	 */
-	@Raw
+	@Raw 
 	boolean isValidSpeedX(double speed){
 		return Math.abs(speed) <= this.maxSpeedX;
 	}
@@ -414,6 +416,7 @@ public abstract class Creature{
 	 * @post ...
 	 * 		|new.changedIndex == 0;
 	 */
+	@Basic
 	private void updateIndex(){
 		if (alternatingIndex<m){
 			alternatingIndex+=1;
@@ -430,6 +433,7 @@ public abstract class Creature{
 	 * @return
 	 * 		The integer hitpoints.
 	 */
+	@Basic
 	public int getHitpoints(){
 		return this.hitpoints;
 	}
@@ -440,6 +444,7 @@ public abstract class Creature{
 	 * @post ...
 	 *		| new.hitpoints == this.hitpoints + points; 
 	 */
+	@Basic
 	void gainHitpoints(int points){
 		hitpoints+=points;
 	}
@@ -453,6 +458,7 @@ public abstract class Creature{
 	 * 		|if (hitpoints <= 0)
 	 * 		|	this.dies();
 	 */
+	@Raw
 	void loseHitpoints(int points){
 		hitpoints-=points;
 		if (hitpoints <= 0){
@@ -467,6 +473,7 @@ public abstract class Creature{
 	 * @post ...
 	 * 		| new.isAlive == false;
 	 */
+	@Basic
 	void dies(){
 		this.timeOfDeath = 0;
 		this.isAlive=false;
@@ -480,6 +487,7 @@ public abstract class Creature{
 	 * @return 	...
 	 * 		| (getSpeedX()*dt  + 0.5*getAccelerationX()*Math.pow(dt, 2))		
 	 */
+	@Raw
 	double getTravelledDistanceX(double dt){
 		 return (getSpeedX()*dt  + 0.5*getAccelerationX()*Math.pow(dt, 2));
 	}
@@ -492,6 +500,7 @@ public abstract class Creature{
 	 * @return	... 
 	 * 		| (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2))
 	 */
+	@Raw
 	double getTravelledDistanceY(double dt){
 		 return (getSpeedY()*dt  + 0.5*getAccelerationY()*Math.pow(dt, 2));
 	}	
@@ -514,6 +523,7 @@ public abstract class Creature{
 	 * @post ...
 	 * 		| new.alternatingIndex == 0
 	 */
+	@Raw
 	void startMove(Direction direction, int speed, int acceleration){
 		setSpeedX(speed*direction.getDirection());
 		setAccelerationX(acceleration*direction.getDirection());
@@ -554,6 +564,7 @@ public abstract class Creature{
 	 * @post ...
 	 * 		| new.isJumping == true;
 	 */
+	@Raw
 	void startJump(double speedY){
 			setSpeedY(speedY);				
 			this.isJumping = true;
@@ -605,6 +616,7 @@ public abstract class Creature{
 	 * 		| if ((timer >= randomNumber) && (lastDirection == 1))
 	 * 		|	startMove(Direction.LEFT, speed, acceleration);	
 	 */
+	@Raw
 	void randomMovement(double dt, int speed, int acceleration, int minDuration, int maxDuration){
 		double randomNumber = ((double)(Math.random() * (maxDuration - minDuration)) + minDuration );
 		timer += dt;
@@ -628,7 +640,7 @@ public abstract class Creature{
 	 * @return	...
 	 * 		| this.positionX;
 	 */
-	@Basic
+	@Basic 
 	public double getPositionX(){
 		return this.positionX;
 	}
@@ -648,7 +660,6 @@ public abstract class Creature{
 	 * @return ...
 	 * 		|(this.positionX + this.getWidthSprite());
 	 */
-	@Basic 
 	double getRightSideOfRectangle(){
 		return (this.positionX + this.getWidthSprite());
 	}
@@ -658,7 +669,6 @@ public abstract class Creature{
 	 * @return ...
 	 * 		| (this.positionY + this.getHeightSprite());	
 	 */
-	@Basic
 	double getTopSideOfRectangle(){
 		return (this.positionY + this.getHeightSprite());
 	}
@@ -675,6 +685,7 @@ public abstract class Creature{
 	 *		| if ( isValidPosition(position, 0))
 	 *		|	new.positionX == position;
 	 */
+	@Raw
 	void setPositionX(double position){
 			if (! isValidPosition(position,0)){
 				this.dies();
@@ -697,6 +708,7 @@ public abstract class Creature{
 	 *		|	new.positionY == position;
 	 * 
 	 */
+	@Raw
 	void setPositionY(double position)  {
 			if ( ! isValidPosition(0,position)){
 				this.dies();
@@ -734,6 +746,7 @@ public abstract class Creature{
 	 * 		| new.heigthSprite == height
 	 * 
 	 */
+	@Raw @Basic
 	void setHeightSprite(int height){
 		this.heightSprite = height;
 	}
@@ -745,6 +758,7 @@ public abstract class Creature{
 	 * @post	The new width of  should be equal to the given width
 	 * 	| new.widthSprite == width
 	 */
+	@Raw @Basic
 	void setWidthSprite(int width){
 		this.widthSprite= width;
 	}
@@ -801,6 +815,7 @@ public abstract class Creature{
 	 * 		|	 new.speedX == (this.lastDirection*maxSpeedX)
 	 * 
 	 */
+	@Raw
 	void setSpeedX(double speed){
 		if (isValidSpeedX(speed))
 			this.speedX = speed;
@@ -815,6 +830,7 @@ public abstract class Creature{
 	 * @post ...
 	 * 		| new.speedY == speed
 	 */
+	@Raw
 	void setSpeedY(double speed){
 		this.speedY = speed;
 	}
@@ -826,6 +842,7 @@ public abstract class Creature{
 	 * @post ...
 	 * 		| new.accelerationX == acc
 	 */
+	@Raw
 	void setAccelerationX(double acc){
 		this.accelerationX = acc;
 	}
@@ -837,6 +854,7 @@ public abstract class Creature{
 	 * @post ...
 	 * 		| new.accelerationY == acc
 	 */
+	@Raw
 	void setAccelerationY(double acc){
 		this.accelerationY = acc; 
 	}
@@ -861,7 +879,7 @@ public abstract class Creature{
 	 * @return	
 	 * 		| this.images[index];
 	 */
-	@Basic
+	@Basic @Raw
 	public Sprite getImageAtIndex(int index){
 		assert (index >= 0) && (index < images.length);
 		return this.images[index];
@@ -895,7 +913,7 @@ public abstract class Creature{
 	/**
 	 * The gravitational constant we assume equal to earth's.
 	 */
-	int gravity = -1000;					// -10m/s --> pixel = 0,01m --> 1000 pixels/s²
+	final int gravity = -1000;					// -10m/s --> pixel = 0,01m --> 1000 pixels/s²
 	
 	/**
 	 * The maximum speed  may have.
@@ -990,7 +1008,7 @@ public abstract class Creature{
 	/**
 	 * An array of images that represent the creature in its different states.
 	 */
-	public Sprite[] images;
+	public final Sprite[] images;
 	
 	/**
 	 * An integer that represents the hitpoints of the creature.
