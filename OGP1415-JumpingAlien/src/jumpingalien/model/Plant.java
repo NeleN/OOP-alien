@@ -53,11 +53,6 @@ public class Plant extends Creature {
 	}
 	
 	/**
-	 * A double showing how long it's ago the plant has changed direction
-	 */
-	private double timeLastSwitch=0 ;
-	
-	/**
 	 * @param 	direction
 	 * 			the direction of the creature
 	 * @effect	...
@@ -81,6 +76,7 @@ public class Plant extends Creature {
 	 * Returns the sprite corresponding to the current movement of the slime. This will be a slime facing the left if the slime is currently
 	 * moving to the left and a slime facing the right if the slime is currently moving to the right.
 	 */
+	@Override 
 	public Sprite getCurrentSprite() {
 		if ( this.getSpeedX() > 1 ){
 			return this.getImageAtIndex(1);
@@ -89,4 +85,10 @@ public class Plant extends Creature {
 			return this.getImageAtIndex(0);
 		}
 	}
+
+	/**
+	 * A double showing how long it's ago the plant has changed direction
+	 */
+	private double timeLastSwitch=0 ;
 }
+

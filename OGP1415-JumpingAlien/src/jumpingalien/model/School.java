@@ -6,6 +6,8 @@ package jumpingalien.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.kuleuven.cs.som.annotate.Basic;
+
 /**
  * @author Nele
  *
@@ -44,6 +46,7 @@ public class School {
 	 * 				slime.new.hitpoints == slime.hitpoints-1
 	 * 			}
 	 */
+	@Basic
 	void losePoints(){
 		for (Slime slime: slimesInSchool){
 			slime.hitpoints -= 1;
@@ -56,6 +59,7 @@ public class School {
 	 * 				slime.new.hitpoints == slime.hitpoints+1
 	 * 			}
 	 */
+	@Basic
 	void gainPoints(){
 		for (Slime slime: slimesInSchool){
 			slime.gainHitpoints(1);
@@ -100,6 +104,7 @@ public class School {
 	 * @return
 	 * 		A list with all the slimes in the school
 	 */
+	@Basic
 	public List<Slime> getSlimesInSchool(){
 		return slimesInSchool;
 	}

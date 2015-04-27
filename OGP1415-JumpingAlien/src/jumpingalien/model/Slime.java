@@ -3,10 +3,8 @@
  */
 package jumpingalien.model;
 
-import java.lang.reflect.GenericArrayType;
-import java.util.*;
-
 import jumpingalien.util.Sprite;
+import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Raw;
 
 /**
@@ -134,6 +132,7 @@ public class Slime extends Creature {
 	 * @effect	...
 	 * 			| oldSchool.poinsSlimeToSchool(this)
 	 */
+	@Raw 
 	void changeSchool(School newSchool){
 		School oldSchool = this.getSchool();
 		newSchool.pointsSchoolToSlime(this);
@@ -147,6 +146,7 @@ public class Slime extends Creature {
 	 * @return
 	 * 		The school the slime belongs to
 	 */
+	@Basic
 	public School getSchool(){
 		return this.belongsToSchool;
 	}
@@ -158,6 +158,7 @@ public class Slime extends Creature {
 	 * Returns the sprite corresponding to the current movement of the slime. This will be a slime facing the left if the slime is currently
 	 * moving to the left and a slime facing the right if the slime is currently moving to the right.
 	 */
+	@Override
 	public Sprite getCurrentSprite() {
 		if ( this.lastDirection == 1 )
 			return this.getImageAtIndex(1);

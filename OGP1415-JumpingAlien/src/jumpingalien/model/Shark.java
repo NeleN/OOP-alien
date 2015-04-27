@@ -97,7 +97,7 @@ public class Shark extends Creature {
 	 * 			| if((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()) == 2)){
 	 * 				this.setAccelerationY((double)(Math.random() * 40) - 20 )}
 	 */
-	@Override
+	@Override @Raw
 	void randomMovement(double dt, int speed, int acceleration, int minDuration, int maxDuration){
 		super.randomMovement(dt, speed, acceleration, minDuration, maxDuration);
 		double randomCounter = ((double)(Math.random() * 10) + 5 );
@@ -129,6 +129,7 @@ public class Shark extends Creature {
 	 * Returns the sprite corresponding to the current movement of the slime. This will be a slime facing the left if the slime is currently
 	 * moving to the left and a slime facing the right if the slime is currently moving to the right.
 	 */
+	@Override 
 	public Sprite getCurrentSprite() {
 		if ( this.lastDirection == 1 )
 			return this.getImageAtIndex(1);

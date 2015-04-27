@@ -26,12 +26,32 @@ import jumpingalien.util.Sprite;
  */
 public class Mazub extends Creature{
 
-	@Raw
+	/**
+	 * Constructor of Mazub.
+	 * @param positionX
+	 * 			Mazub's horizontal position.
+	 * @param positionY
+	 * 			Mazub's vertical position.
+	 * @param sprites
+	 * 			Mazub's images.
+	 * @param maxSpeedX
+	 * 			Mazub's maximal horizontal speed.
+	 * @param hitpoints
+	 * 			Mazub's initial hitpoints.
+	 * @effect Mazub is a creature that inherits from the class Creature.
+	 * 		| super (positionX, positionY, sprites, 300,100);
+	 * @effect Mazub's vertical acceleration is set to gravity.
+	 * 		| this.setAccelerationY(gravity);
+	 */
+	@Raw 
 	public Mazub (int positionX, int positionY, Sprite[] sprites, double maxSpeedX, int hitpoints) {
 		super (positionX, positionY, sprites, 300,100);
 		this.setAccelerationY(gravity);
 	}
 	
+	/* (non-Javadoc)
+	 * @see jumpingalien.model.Creature#advanceTime(double)
+	 */
 	@Override
 	void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
@@ -88,6 +108,15 @@ public class Mazub extends Creature{
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see jumpingalien.model.Creature#gainHitpoints(int)
+	 * @effect The number of hitpoints is changed by the function gainHitpoints.
+	 * 		| if (this.getHitpoints() + points < 500)
+	 * 		|	super.gainHitpoints(points);
+	 * @post If the number of hitpoints is bigger than 500 the can't bigger.
+	 * 		| if (this.getHitpoints() + points >= 500)
+	 * 		|	new.hitpoints == 500;
+	 */
 	@Override
 	void gainHitpoints(int points){
 		if (this.getHitpoints() + points < 500){
@@ -98,10 +127,28 @@ public class Mazub extends Creature{
 		}
 	}
 
+	
+	/**
+	 * Initializes a movement of Mazub in the given direction.
+	 * @param direction
+	 * 			The direction in which Mazub should move.
+	 * @pre	The given direction should be an element of the enumeration Direction.
+	 * 		|assert (direction == Direction.LEFT || direction == Direction.RIGHT);
+	 * @effect Mazub's startMove will invoke the startMove of it's superclass Creature.
+	 * 		|super.startMove(direction, 100, 90);
+	 */
 	public void startMove(Direction direction){
+		assert (direction == Direction.LEFT || direction == Direction.RIGHT);
 		super.startMove(direction, 100, 90);
 	}
 	
+	/**
+	 * Initializes a jump of Mazub.
+	 * @effect Mazub's startJump will invoke the startJump of it's superclass Creature.
+	 * 		| if((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 1)
+	 * 		|		|| (world.getGeologicalFeature((int)this.getPositionX()-2 + this.getWidthSprite(), (int)newPositionY) == 1))
+	 * 		|	super.startJump(800);
+	 */
 	public void startJump(){
 		if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 1)
 				|| (world.getGeologicalFeature((int)this.getPositionX()-2 + this.getWidthSprite(), (int)newPositionY) == 1)){
@@ -113,10 +160,11 @@ public class Mazub extends Creature{
 	 * This method initiates the alien Mazubs duck.
 	 * 
 	 * @post	the maximum value of the horizontal speed equals 100 pixel/s.
-	 * 			| maxSpeedX = 100
+	 * 			| maxSpeedX == 100
 	 * @post	the boolean isDucking is true.
-	 * 			| new.isDucking = true 
+	 * 			| new.isDucking == true 
 	 */
+	@Basic
 	public void startDuck(){			
 		maxSpeedX = 100;
 		this.isDucking = true;
@@ -125,10 +173,22 @@ public class Mazub extends Creature{
 	/**
 	 * This method end the alien Mazubs duck.
 	 * 
-	 * @post	the maximum value of the horizontal speed equals 300 pixel/s.
-	 * 			| maxSpeedX = 300
-	 * @post	the boolean isDucking is false.
-	 * 			| new.isDucking = false 
+	 * @post The boolean isDucking is false if Mazub is not touching a ground tile above its head.
+	 * 		| new.isDucking == false 
+	 * @post The boolean tryEndDuck is false if Mazub is not touching a ground tile above its head.
+	 * 		| new.tryEndDuck == false 
+	 * @post The maximal horizontal speed is 3O0 pixel/second if Mazub is not touching a ground tile above its head.
+	 * 		| new.maxSpeedX == 300
+	 * @post The boolean isDucking is true if Mazub is touching a ground tile above its head.
+	 * 		|if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()+3) == 1)
+	 * 		|	|| (world.getGeologicalFeature((int)this.getPositionX() + this.getWidthSprite() - 2,
+	 * 		|									 (int)newPositionY + getHeightSprite()+3) == 1))
+	 * 		|	 new.isDucking == true
+	 * @post The boolean tryEndDuck is true if Mazub is touching a ground tile above its head.
+	 *  	|if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()+3) == 1)
+	 * 		|	|| (world.getGeologicalFeature((int)this.getPositionX() + this.getWidthSprite() - 2,
+	 * 		|									 (int)newPositionY + getHeightSprite()+3) == 1))
+	 * 		|	 new.tryEndDuck == true 
 	 */
 	public void endDuck(){
 		if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()+3) == 1)
@@ -154,24 +214,21 @@ public class Mazub extends Creature{
 		return this.isDucking;
 	}
 	
+	/**
+	 * Check if the alien Mazub is immune.
+	 * @return	true if and only if the last time there was a collision with an enemy occurred less than six seconds ago.
+	 * 		| lastCollisionEnemy <= 0.6;
+	 */
+	@Basic
 	public boolean isImmune(){
-		if (lastCollisionEnemy <= 0.6) {
-				return true;
-		}
-		else {
-			return false;
-		}
+		return (lastCollisionEnemy <= 0.6); 
 	}
 	
 	/**
-	 * A boolean which shows whether the creature is ducking or not.
-	 */
-	boolean isDucking = false;
-	
-	private boolean tryEndDuck = false;
-	
-	/**
-	 * Returns a sprite corresponding to the defined state of the creature.UITGEBREIDER UITLEGGEN
+	 * Returns a sprite corresponding to the defined state of the creature.
+	 * There are sprites for standing still, for ducking, for jumping and for running, where there is each time a difference between 
+	 * left and right. For running to the left or right there's a sequence of images that alternate. 
+	 * 
 	 */
 	public Sprite getCurrentSprite() {
 		if (! isMovingX() && ! hasMovedX() && ! isDucking())
@@ -197,6 +254,17 @@ public class Mazub extends Creature{
 		else return this.getImageAtIndex(0);
 		
 	}
+	
+	/**
+	 * A boolean which shows whether Mazub is ducking or not.
+	 */
+	boolean isDucking = false;
+	
+	/**
+	 * A boolean that shows wheter Mazub is trying to end his duck or not.
+	 */
+	private boolean tryEndDuck = false;
+	
 
 
 }
