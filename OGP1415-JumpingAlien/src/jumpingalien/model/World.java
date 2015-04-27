@@ -1,6 +1,7 @@
 package jumpingalien.model;
 
 import java.util.*;
+
 import be.kuleuven.cs.som.annotate.*;
 
 
@@ -47,7 +48,6 @@ public class World {
 	 * @post ...
 	 * 		|new.inWorldTiles == int [nbTilesX][nbTilesY];
 	 */
-	@Raw 
 	public World(int tileSize, int nbTilesX, int nbTilesY,
 			int visibleWindowWidth, int visibleWindowHeight,
 			int targetTileX, int targetTileY){
@@ -67,10 +67,10 @@ public class World {
 	 * Counts how many times a given int appears in the matrix inWorldTiles.
 	 * @param d
 	 * 		An integer number that represent a feature. (0, 1, 2 or 3).
-	 * @post count equals the number of occurences of d in the matrix inWorldTiles.
 	 * @return
 	 * 		Returns the number of times d appears in the matrix inWorldTiles.
 	 */
+	@Basic  
 	private int countOccurrences(int d){
 		int count = 0;
 		for ( int col = 0 ; col < inWorldTiles[1].length ; col++){
@@ -87,6 +87,7 @@ public class World {
 	 * GEEN DOCUMENTATIE NODIG
 	 * @throws IllegalDeltaTimeException 
 	 */
+	@Raw
 	public void advanceTime(double dt) throws IllegalDeltaTimeException{
 		for (Creature creature: new ArrayList<Creature>(inWorldCreatures)){
 			double smallDt=  0.01/((Math.sqrt(Math.pow(Math.abs(creature.getSpeedX()), 2)+ Math.pow(Math.abs(creature.getSpeedY()), 2)) + 
@@ -110,6 +111,7 @@ public class World {
 	 * @post ...
 	 * 		|new.inWorldCreatures == this.addCreatures; 
 	 */
+	@Basic
 	public void startGame(){
 		this.inWorldCreatures.addAll(addCreatures);
 			
@@ -127,6 +129,7 @@ public class World {
 	 * @return	true if and only if the player is dead or if he has reached the target tile.
 	 * 			| (! alienAlive) || (alienOnTargetTile)
 	 */
+	@Basic
 	public boolean isGameOver(){
 		return ((! alienAlive) || (alienOnTargetTile));
 	}
@@ -136,6 +139,7 @@ public class World {
 	 * @return true if and only if the player is on the target tile.
 	 * 			alienOnTargetTile = true.
 	 */
+	@Basic
 	public boolean playerOnTargetTile(){
 		return alienOnTargetTile;
 	}
@@ -149,6 +153,7 @@ public class World {
 	 * 			| < targetTileX + tileLength) && ((int) creature.getPositionY() < targetTileY  + tileLength)
 	 * 	
 	 */
+	@Raw 
 	private boolean isOnTargetTile(Creature creature){
 		return (((int)creature.getPositionX() == targetTileX && (int)creature.getPositionY() + 1 == targetTileY)
 				|| (creature.getPositionX()+creature.getWidthSprite() == targetTileX && creature.getPositionY() +1 == targetTileY));
@@ -165,11 +170,13 @@ public class World {
 	 * Returns a two dimensional matrix (or an array of arrays) that contains the coordinates of pixels of tiles that
 	 * have the given feature.
 	 * @param feature
+	 * 		An integer that represents a feature of a tile.
 	 * @return
+	 * 		An integer array of coordinates of the tiles that have the given feature.
 	 */
 	int[][] getFeatureTiles(int feature){
 		int matrixLength = countOccurrences(feature);
-		featureTiles = new int [matrixLength][2];
+		int[][] featureTiles = new int [matrixLength][2];
 		int k = 0;
 		for (int i= 0; i < (inWorldTiles.length); i+=1){
 			for (int j = 0; j < (inWorldTiles[1].length); j+=1){
@@ -196,6 +203,7 @@ public class World {
 	 * @return
 	 * 		An integer array of coordinates of the tiles in the rectangular region.
 	 */
+	@Raw
 	public int [][] getTilePositions(int pixelLeft, int pixelBottom, int pixelRight, int pixelTop){
 		int matrixLength = ((pixelTop - pixelBottom)/tileLength) * ((pixelRight - pixelLeft)/tileLength);
 		int [][] tilePositions = new int [matrixLength][2];
@@ -222,6 +230,7 @@ public class World {
 	 * 			This integer corresponds to a geological feature: 0 = air;   1 = solid ground;
 	 * 															  2 = water; 3 = magma. 
 	 */
+	@Raw
 	public int getGeologicalFeature(int pixelX, int pixelY){
 		int tileX = this.getTileNbX(pixelX);
 		int tileY = this.getTileNbY(pixelY);
@@ -237,7 +246,10 @@ public class World {
 	 * @param feature
 	 * 			An integer that represents a geological feature: 0 = air;   1 = solid ground;
 	 * 															 2 = water; 3 = magma.
+	 * @post ...
+	 * 		| new.inWorldTiles[pixelX][pixelY] = feature;
 	 */
+	@Basic @Raw
 	public void setGeologicalFeature(int pixelX, int pixelY, int feature){
 		inWorldTiles[pixelX][pixelY] = feature;
 	}
@@ -248,6 +260,7 @@ public class World {
 	 * @return
 	 * 		A collection of slimes in the world.
 	 */
+	@Basic @Immutable
 	public Collection<Slime> getSlimesInWorld(){
 		this.slimesInWorld = new ArrayList<Creature>();
 		for (Creature creature: inWorldCreatures){
@@ -263,6 +276,7 @@ public class World {
 	 * @return
 	 * 		A collection of plants in the world.
 	 */
+	@Basic @Immutable
 	public Collection<Plant> getPlantsInWorld(){
 		this.plantsInWorld = new ArrayList<Creature>();
 		for (Creature creature: inWorldCreatures){
@@ -278,6 +292,7 @@ public class World {
 	 * @return
 	 * 		A collection of sharks in the world.
 	 */
+	@Basic @Immutable
 	public Collection<Shark> getSharksInWorld(){
 		this.sharksInWorld = new ArrayList<Creature>();
 		for (Creature creature: inWorldCreatures){
@@ -293,6 +308,7 @@ public class World {
 	 * @return
 	 * 		A collection of mazubs in the world.
 	 */
+	@Basic @Immutable
 	public Collection<Mazub> getMazubsInWorld(){
 		this.mazubsInWorld = new ArrayList<Creature>();
 		for (Creature creature: inWorldCreatures){
@@ -307,11 +323,20 @@ public class World {
 	 * Sets the vissible window with the creature as center.
 	 * @param creature
 	 * 			The alien the player controls.
+	 * @post ...
+	 * 		|new.leftWindow = Math.max(xMin, Math.min((int)(creature.getPositionX()-(visibleWindowWidth/2)), xMax-visibleWindowWidth));
+	 * @post ...
+	 * 		|new.bottomWindow = Math.max(yMin,Math.min((int)(creature.getPositionY()-(visibleWindowHeight/2)), yMax-visibleWindowHeight));
+	 * @post ...
+	 * 		|new.rightWindow = leftWindow + visibleWindowWidth + 2*getTileLength();
+	 * @post ...
+	 * 		|new.topWindow = bottomWindow + visibleWindowHeight + 2*getTileLength();
 	 */
+	@Raw
 	private void setVisibleWindow(Creature creature){
 		this.leftWindow = Math.max(xMin, Math.min((int)(creature.getPositionX()-(visibleWindowWidth/2)), xMax-visibleWindowWidth));
 		this.bottomWindow = Math.max(yMin,Math.min((int)(creature.getPositionY()-(visibleWindowHeight/2)), yMax-visibleWindowHeight) );
-		this.rightWindow = leftWindow + visibleWindowWidth + 2*getTileLength() ;
+		this.rightWindow = leftWindow + visibleWindowWidth + 2*getTileLength();
 		this.topWindow = bottomWindow + visibleWindowHeight + 2*getTileLength();
 	}
 	
@@ -320,6 +345,7 @@ public class World {
 	 * @return
 	 * 		An array of four coordinates of all sides of the window.
 	 */
+	@Basic @Immutable
 	public int[] getVisibleWindow(){
 		int[] array = {leftWindow, bottomWindow, rightWindow, topWindow};
 		return array;
@@ -330,6 +356,7 @@ public class World {
 	 * @return
 	 * 		The minimal horizontal pixel value.
 	 */
+	@Basic @Immutable
 	public int getXMin(){
 		return xMin;
 	}
@@ -339,6 +366,7 @@ public class World {
 	 * @return
 	 * 		The minimal vertical pixel value.
 	 */
+	@Basic @Immutable
 	public int getYMin(){
 		return yMin;
 	}
@@ -348,6 +376,7 @@ public class World {
 	 * @return
 	 * 		The maximal horizontal pixel value.
 	 */
+	@Basic @Immutable
 	public int getXMax(){
 		return xMax;
 	}
@@ -357,6 +386,7 @@ public class World {
 	 * @return
 	 * 		The maximal vertical pixel value.
 	 */
+	@Basic @Immutable
 	public int getYMax(){
 		return yMax;
 	}
@@ -366,6 +396,7 @@ public class World {
 	 * @return
 	 * 		the length of the side of the tile.
 	 */
+	@Basic @Immutable
 	public int getTileLength(){
 		return tileLength;
 	}
@@ -374,7 +405,10 @@ public class World {
 	 * Sets a creature in the world by adding it to the list addCreatures.
 	 * @param creature
 	 * 			The creature that is created and should be in the world.
+	 * @post ...
+	 * 		|new.addCreatures == this.addCreatures.add(creature);
 	 */
+	@Basic 
 	public void setCreatureInWorld(Creature creature){
 		 this.addCreatures.add(creature);
 	}
@@ -386,6 +420,7 @@ public class World {
 	 * @return
 	 * 		An integer that represents the x coordinate of the tile that belongs to pixel X.
 	 */
+	@Basic @Raw
 	int getTileNbX(int pixelX){
 		return (pixelX/this.tileLength);
 	}
@@ -397,10 +432,17 @@ public class World {
 	 * @return
 	 * 		An integer that represents the y coordinate of the tile that belongs to pixelY.
 	 */
+	@Basic @Raw
 	int getTileNbY(int pixelY){
 		return (pixelY/this.tileLength);
 	}
 	
+	/**
+	 * Returns the list of all the creatures in world.
+	 * @return
+	 * 		A list inWorldCreatures of creatures.
+	 */
+	@Basic 
 	public List <Creature> getInWorldCreatures(){
 		return this.inWorldCreatures;
 	}
@@ -416,49 +458,47 @@ public class World {
 	/**
 	 * The minimum x value of the field of the game.
 	 */
-	private static int xMin = 0;
+	private final int xMin = 0;
 	
 	/**
 	 * The minimum y value of the field of the game 
 	 */
-	private static int yMin = 0;
+	private final int yMin = 0;
 
 	/**
 	 * The maximum x value of the field of the game.
 	 */
-	private int xMax;
+	private final int xMax;
 	
 	/**
 	 * The maximum y value of the field of the game. 
 	 */
-	private int yMax;
+	private final int yMax;
 	
 	/**
 	 * The real maximum x value.
 	 */
-	private int X;
+	private final int X;
 	
 	/**
 	 * The real maximum y value.
 	 */
-	private int Y;
+	private final int Y;
 	
 	/**
 	 * An array of coordinates of tiles that are in the world. 
 	 */
 	int[][] inWorldTiles;
-	
-	int [][] featureTiles;
 
 	/**
 	 * The width of the visible window.
 	 */
-	private int visibleWindowWidth;
+	private final int visibleWindowWidth;
 	
 	/**
 	 * The height of the visible window.
 	 */
-	private int visibleWindowHeight;
+	private final int visibleWindowHeight;
 	
 	/**
 	 * An arraylist of the creatures in the world.
@@ -518,17 +558,17 @@ public class World {
 	/**
 	 * The length of the side of a tile.
 	 */
-	private int tileLength;
+	private final int tileLength;
 	
 	/**
 	 * The x coordinate of the target tile. 
 	 */
-	private int targetTileX;
+	private final int targetTileX;
 	
 	/**
 	 * The y coordinate of the target tile.
 	 */
-	private int targetTileY;
+	private final int targetTileY;
 	
 	/**
 	 * A boolean that shows whether the player is alive or not.
