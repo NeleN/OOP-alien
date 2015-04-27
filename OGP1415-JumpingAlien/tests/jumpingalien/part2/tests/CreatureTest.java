@@ -30,6 +30,7 @@ public class CreatureTest {
 		world = new World(70, 20, 12, 1024, 769, 18, 9);
 		alien = new Mazub(50, 70, sprites, 300, 100);
 		world.setCreatureInWorld(alien);
+		world.setCreatureInWorld(alien);
 		alien.world = world;
 		world.startGame();
 	}	
@@ -66,6 +67,19 @@ public class CreatureTest {
 		}
 	}
 	
+	
+	@Test
+	public final void testContstructor(){
+		Sprite[] sprites = TestUtils.spriteArrayForSize(2, 2);
+		Creature creature = new Mazub(0, 0, sprites, 300, 100);
+		final double DELTA = 1e-15;
+		assertEquals(0, creature.getPositionX(),DELTA);
+		assertEquals(0, creature.getPositionY(),DELTA);
+//		assertEquals(sprites, creature.images);
+		assertEquals((sprites.length-10)/2, creature.m);
+		assertEquals(300, creature.maxSpeedX,DELTA);
+		assertEquals(100, creature.getHitpoints());
+	}
 
 	@Test
 	public final void testGetHitpoints() {
@@ -73,10 +87,30 @@ public class CreatureTest {
 	}
 	
 	@Test
-	public final void testEndMoveCaseOneMovement(){
-		alien.startMove(Direction.RIGHT);
+	public final void endMove_Speed(){
 		alien.endMove();
-		assert fuzzyEquals(0, alien.getSpeedX());
+		final double DELTA = 1e-15;
+		assertEquals(0,alien.getSpeedX(),DELTA);
+	}
+
+	@Test
+	public final void endMove_Acceleration(){
+		alien.endMove();
+		final double DELTA = 1e-15;
+		assertEquals(0,alien.getAccelerationX(),DELTA);
+	}
+	
+	@Test
+	public final void endMove_timeLastMoved(){
+		alien.endMove();
+		final double DELTA = 1e-15;
+		assertEquals(0,alien.timeLastMovedX,DELTA);
+	}
+	
+	@Test
+	public final void endMove_isMoving(){
+		alien.endMove();
+		assertFalse(alien.isMovingX());
 	}
 	
 	@Test

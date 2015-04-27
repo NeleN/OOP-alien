@@ -48,6 +48,10 @@ public class School {
 	int getNbSlimesInSchool(){
 		return slimesInSchool.size();
 	}
+	
+	public List<Slime> getSlimesInSchool(){
+		return slimesInSchool;
+	}
 
 	List<Slime> slimesInSchool = new ArrayList<Slime>();
 	

@@ -357,7 +357,7 @@ public class World {
 	 * 		The minimal horizontal pixel value.
 	 */
 	@Basic @Immutable
-	public int getXMin(){
+	public static int getXMin(){
 		return xMin;
 	}
 	
@@ -367,7 +367,7 @@ public class World {
 	 * 		The minimal vertical pixel value.
 	 */
 	@Basic @Immutable
-	public int getYMin(){
+	public static int getYMin(){
 		return yMin;
 	}
 	
@@ -377,7 +377,7 @@ public class World {
 	 * 		The maximal horizontal pixel value.
 	 */
 	@Basic @Immutable
-	public int getXMax(){
+	public static int getXMax(){
 		return xMax;
 	}
 	
@@ -387,7 +387,7 @@ public class World {
 	 * 		The maximal vertical pixel value.
 	 */
 	@Basic @Immutable
-	public int getYMax(){
+	public static int getYMax(){
 		return yMax;
 	}
 	
@@ -447,6 +447,16 @@ public class World {
 		return this.inWorldCreatures;
 	}
 	
+	/**
+	 * Returns the list of all the creatures to be added in the world.
+	 * @return
+	 * 		A list addCreatures of creatures.
+	 */
+	@Basic 
+	public List <Creature> getAddCreatures(){
+		return this.addCreatures;
+	}
+	
 	
 /****************************************************************************************************
  * 																									*
@@ -458,22 +468,22 @@ public class World {
 	/**
 	 * The minimum x value of the field of the game.
 	 */
-	private final int xMin = 0;
+	private static int xMin = 0;
 	
 	/**
 	 * The minimum y value of the field of the game 
 	 */
-	private final int yMin = 0;
+	private static int yMin = 0;
 
 	/**
 	 * The maximum x value of the field of the game.
 	 */
-	private final int xMax;
+	private static int xMax;
 	
 	/**
 	 * The maximum y value of the field of the game. 
 	 */
-	private final int yMax;
+	private static int yMax;
 	
 	/**
 	 * The real maximum x value.

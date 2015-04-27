@@ -52,6 +52,14 @@ public class WorldTest {
 	}
 	
 	@Test
+	public final void testConstructor(){
+		world = new World(70, 20, 12, 1024, 769, 18, 9);
+		assertEquals(70, world.getTileLength());
+		assertEquals(1399, world.getXMax());
+		assertEquals(839,world.getYMax());
+	}
+	
+	@Test
 	public final void testAdvanceTime(){
 		
 	}
@@ -86,62 +94,34 @@ public class WorldTest {
 	
 	@Test
 	public final void testPlayerOnTargetTileFalseCase(){
-		
+		assert(! world.playerOnTargetTile());
 	}
 	
 	@Test
 	public final void testPlayerOnTargetTileTrueCase(){
-		
+		Sprite[] sprites = TestUtils.spriteArrayForSize(2, 2);
+		alien = new Mazub(0, 0, sprites, 18, 9);
+		assert (world.playerOnTargetTile());
+	}
+	
+	
+	@Test
+	public final void testSetGeologicalFeatureFirstCase(){
+		world.setGeologicalFeature(0, 0, 1);
+		assertEquals(1,world.getGeologicalFeature(0*world.getTileLength(), 0*world.getTileLength()));
 	}
 	
 	@Test
-	public final void testGetTilePositions(){
-		
+	public final void testSetGeologicalFeatureMiddleCase(){
+		world.setGeologicalFeature(7, 3, 1);
+		assertEquals(1,world.getGeologicalFeature(7*world.getTileLength(), 3*world.getTileLength()));
 	}
 	
-	@Test
-	public final void testGetGeologicalFeature(){
-		
-	}
-	
-	@Test
-	public final void testSetGeologicalFeature(){
-		
-	}
-	
-	@Test
-	public final void testGetSlimesInWorld(){
-		
-	}
-	
-	@Test
-	public final void testGetPlantsInWorld(){
-		
-	}
-
-	@Test
-	public final void testGetSharksInWorld(){
-		
-	}
-	
-	@Test
-	public final void testGetMazubsInWorld(){
-		
-	}
-	
-	@Test
-	public final void testGetVisibleWindow(){
-		
-	}
-	
-	@Test
-	public final void testGetTileLength(){
-		
-	}
 	
 	@Test
 	public final void testSetCreatureInWorld(){
-		
+		world.setCreatureInWorld(plant);
+		assert world.getAddCreatures().contains(alien);
 	}
 	
 	

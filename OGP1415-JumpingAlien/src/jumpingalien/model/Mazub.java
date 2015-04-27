@@ -150,7 +150,7 @@ public class Mazub extends Creature{
 	 * 			| this.isDucking
 	 */
 	@Basic
-	boolean isDucking(){
+	public boolean isDucking(){
 		return this.isDucking;
 	}
 	
@@ -158,7 +158,9 @@ public class Mazub extends Creature{
 		if (lastCollisionEnemy <= 0.6) {
 				return true;
 		}
-		return false;
+		else {
+			return false;
+		}
 	}
 	
 	/**
