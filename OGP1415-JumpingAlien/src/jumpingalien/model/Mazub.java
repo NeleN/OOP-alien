@@ -103,7 +103,10 @@ public class Mazub extends Creature{
 	}
 	
 	public void startJump(){
-		super.startJump(800);
+		if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 1)
+				|| (world.getGeologicalFeature((int)this.getPositionX()-2 + this.getWidthSprite(), (int)newPositionY) == 1)){
+			super.startJump(800);
+		}
 	}
 	
 	/**
