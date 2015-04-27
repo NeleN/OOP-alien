@@ -1,6 +1,7 @@
 package jumpingalien.model;
 
 import java.util.*;
+
 import be.kuleuven.cs.som.annotate.*;
 
 
@@ -67,7 +68,6 @@ public class World {
 	 * Counts how many times a given int appears in the matrix inWorldTiles.
 	 * @param d
 	 * 		An integer number that represent a feature. (0, 1, 2 or 3).
-	 * @post count equals the number of occurences of d in the matrix inWorldTiles.
 	 * @return
 	 * 		Returns the number of times d appears in the matrix inWorldTiles.
 	 */
@@ -165,11 +165,13 @@ public class World {
 	 * Returns a two dimensional matrix (or an array of arrays) that contains the coordinates of pixels of tiles that
 	 * have the given feature.
 	 * @param feature
+	 * 		An integer that represents a feature of a tile.
 	 * @return
+	 * 		An integer array of coordinates of the tiles that have the given feature.
 	 */
 	int[][] getFeatureTiles(int feature){
 		int matrixLength = countOccurrences(feature);
-		featureTiles = new int [matrixLength][2];
+		int[][] featureTiles = new int [matrixLength][2];
 		int k = 0;
 		for (int i= 0; i < (inWorldTiles.length); i+=1){
 			for (int j = 0; j < (inWorldTiles[1].length); j+=1){
@@ -237,6 +239,8 @@ public class World {
 	 * @param feature
 	 * 			An integer that represents a geological feature: 0 = air;   1 = solid ground;
 	 * 															 2 = water; 3 = magma.
+	 * @post ...
+	 * 		| new.inWorldTiles[pixelX][pixelY] = feature;
 	 */
 	public void setGeologicalFeature(int pixelX, int pixelY, int feature){
 		inWorldTiles[pixelX][pixelY] = feature;
@@ -307,11 +311,19 @@ public class World {
 	 * Sets the vissible window with the creature as center.
 	 * @param creature
 	 * 			The alien the player controls.
+	 * @post ...
+	 * 		|new.leftWindow = Math.max(xMin, Math.min((int)(creature.getPositionX()-(visibleWindowWidth/2)), xMax-visibleWindowWidth));
+	 * @post ...
+	 * 		|new.bottomWindow = Math.max(yMin,Math.min((int)(creature.getPositionY()-(visibleWindowHeight/2)), yMax-visibleWindowHeight));
+	 * @post ...
+	 * 		|new.rightWindow = leftWindow + visibleWindowWidth + 2*getTileLength();
+	 * @post ...
+	 * 		|new.topWindow = bottomWindow + visibleWindowHeight + 2*getTileLength();
 	 */
 	private void setVisibleWindow(Creature creature){
 		this.leftWindow = Math.max(xMin, Math.min((int)(creature.getPositionX()-(visibleWindowWidth/2)), xMax-visibleWindowWidth));
 		this.bottomWindow = Math.max(yMin,Math.min((int)(creature.getPositionY()-(visibleWindowHeight/2)), yMax-visibleWindowHeight) );
-		this.rightWindow = leftWindow + visibleWindowWidth + 2*getTileLength() ;
+		this.rightWindow = leftWindow + visibleWindowWidth + 2*getTileLength();
 		this.topWindow = bottomWindow + visibleWindowHeight + 2*getTileLength();
 	}
 	
@@ -374,6 +386,8 @@ public class World {
 	 * Sets a creature in the world by adding it to the list addCreatures.
 	 * @param creature
 	 * 			The creature that is created and should be in the world.
+	 * @post ...
+	 * 		|new.addCreatures == this.addCreatures.add(creature);
 	 */
 	public void setCreatureInWorld(Creature creature){
 		 this.addCreatures.add(creature);
@@ -401,6 +415,11 @@ public class World {
 		return (pixelY/this.tileLength);
 	}
 	
+	/**
+	 * Returns the list of all the creatures in world.
+	 * @return
+	 * 		A list inWorldCreatures of creatures.
+	 */
 	public List <Creature> getInWorldCreatures(){
 		return this.inWorldCreatures;
 	}
@@ -447,8 +466,6 @@ public class World {
 	 * An array of coordinates of tiles that are in the world. 
 	 */
 	int[][] inWorldTiles;
-	
-	int [][] featureTiles;
 
 	/**
 	 * The width of the visible window.
