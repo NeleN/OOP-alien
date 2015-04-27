@@ -13,10 +13,27 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @author Nele Nauwelaers and Melanie Nijs
  *
  */
+/**
+ * @author Nele
+ *
+ */
 public class Slime extends Creature {
 
 	/**
+	 * Constructor of a slime
 	 * 
+	 * @effect	...
+	 * 			| super.advancetime(dt)
+	 * @post	...
+	 * 			| new.belongsToSchool = school
+	 * @post	...
+	 * 			| school.new.getSlimesInSchool().contains(this)
+	 * @effect	...
+	 * 			| if (Math.random()>0.5)
+	 *				startMove(Direction.RIGHT);
+	 * @effect	...
+	 * 			| if (Math.random()<=0.5)
+	 *				startMove(Direction.RIGHT);
 	 */
 	@Raw
 	public Slime (int positionX, int positionY, Sprite[] sprites, School school) {
@@ -31,6 +48,9 @@ public class Slime extends Creature {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see jumpingalien.model.Creature#advanceTime(double)
+	 */
 	@Override
 	void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
@@ -84,14 +104,36 @@ public class Slime extends Creature {
 		}
 	}
 	
+	/**
+	 * @param 	direction
+	 * 			the direction of the creature
+	 * @effect	...
+	 * 			super.startMove(direction, 100, 70);
+	 */
 	void startMove(Direction direction){
 		super.startMove(direction, 100, 70);
 	}
 	
+	/**
+	 * @effect	...
+	 * 			super.startJump(0)
+	 */
 	void startJump(){
 		super.startJump(0);
 	}
 	
+	/**
+	 * @param 	newSchool
+	 * 			The school the creature will change to
+	 * @effect	...
+	 * 			| newSchool.pointsSchoolToSlime(this);
+	 * @post	...
+	 * 			| this.new.belongsToSchool = school
+	 * @effect	...
+	 * 			| newSchool.addSlime(this)
+	 * @effect	...
+	 * 			| oldSchool.poinsSlimeToSchool(this)
+	 */
 	void changeSchool(School newSchool){
 		School oldSchool = this.getSchool();
 		newSchool.pointsSchoolToSlime(this);
@@ -99,13 +141,23 @@ public class Slime extends Creature {
 		oldSchool.removeSlime(this);
 		newSchool.addSlime(this);
 		oldSchool.pointsSlimeToSchool(this);
-		// TODO hitpoints
 	}
 	 
+	/**
+	 * @return
+	 * 		The school the slime belongs to
+	 */
 	public School getSchool(){
 		return this.belongsToSchool;
 	}
 	
+	
+	/* (non-Javadoc)
+	 * @see jumpingalien.model.Creature#getCurrentSprite()
+	 * 
+	 * Returns the sprite corresponding to the current movement of the slime. This will be a slime facing the left if the slime is currently
+	 * moving to the left and a slime facing the right if the slime is currently moving to the right.
+	 */
 	public Sprite getCurrentSprite() {
 		if ( this.lastDirection == 1 )
 			return this.getImageAtIndex(1);
@@ -113,12 +165,23 @@ public class Slime extends Creature {
 			return this.getImageAtIndex(0);
 	}
 	
+	/* (non-Javadoc)
+	 * @see jumpingalien.model.Creature#loseHitpoints(int)
+	 * 
+	 * @effect	...
+	 * 			| super.loseHitpoints(points-1)
+	 * @effect	...
+	 * 			| getSchool().losePoints()
+	 */
 	@Override
 	void loseHitpoints(int points){
 		super.loseHitpoints(points-1);
 		getSchool().losePoints();
 	}
 	
+	/**
+	 * The school the slimes currently belongs to
+	 */
 	private School belongsToSchool;
 
 }

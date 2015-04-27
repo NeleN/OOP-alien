@@ -12,6 +12,18 @@ import be.kuleuven.cs.som.annotate.Raw;
  */
 public class Shark extends Creature {
 	
+	/**
+	 * Constructor of a plant
+	 * 
+	 * @effect	...
+	 * 			| super.advancetime(dt)
+	 * @effect	...
+	 * 			| if (Math.random()>0.5)
+	 *				startMove(Direction.RIGHT);
+	 * @effect	...
+	 * 			| if (Math.random()<=0.5)
+	 *				startMove(Direction.RIGHT);
+	 */
 	@Raw
 	public Shark (int positionX, int positionY, Sprite[] sprites) {
 		super (positionX, positionY, sprites, 400, 100);
@@ -21,6 +33,9 @@ public class Shark extends Creature {
 			startMove(Direction.LEFT);
 	}
 	
+	/* (non-Javadoc)
+	 * @see jumpingalien.model.Creature#advanceTime(double)
+	 */
 	@Override
 	void advanceTime(double dt) throws IllegalDeltaTimeException {
 		super.advanceTime(dt);
@@ -57,10 +72,31 @@ public class Shark extends Creature {
 		}
 	}
 	
+	/**
+	 * @param 	direction
+	 * 			the direction of the creature
+	 * @effect	...
+	 * 			super.startMove(direction, 100, 150);
+	 */
 	void startMove(Direction direction){
 		super.startMove(direction, 100, 150);
 	}
 	
+	/* (non-Javadoc)
+	 * @see jumpingalien.model.Creature#randomMovement(double, int, int, int, int)
+	 * 
+	 * @effect	...
+	 * 			| super.randomMovement(dt, speed, acceleration, minDuration, maxDuration);
+	 * @post	...
+	 * 			| if (lastJump >= randomCounter){
+	 * 				lastJump ==0 }
+	 * @effect	...
+	 * 			| if (lastJump >= randomCounter){
+	 * 				startJump()}
+	 * @effect	...
+	 * 			| if((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY + getHeightSprite()) == 2)){
+	 * 				this.setAccelerationY((double)(Math.random() * 40) - 20 )}
+	 */
 	@Override
 	void randomMovement(double dt, int speed, int acceleration, int minDuration, int maxDuration){
 		super.randomMovement(dt, speed, acceleration, minDuration, maxDuration);
@@ -74,6 +110,12 @@ public class Shark extends Creature {
 		}
 	}
 	
+	/**
+	 * @effect	...
+	 * 			if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 1)
+				|| (world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 2)){
+	 * 				super.startJump(200)}
+	 */
 	void startJump(){
 		if ((world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 1)
 				|| (world.getGeologicalFeature((int)this.getPositionX()+2, (int)newPositionY) == 2)){
@@ -81,6 +123,12 @@ public class Shark extends Creature {
 		}	
 	}
 	
+	/* (non-Javadoc)
+	 * @see jumpingalien.model.Creature#getCurrentSprite()
+	 * 
+	 * Returns the sprite corresponding to the current movement of the slime. This will be a slime facing the left if the slime is currently
+	 * moving to the left and a slime facing the right if the slime is currently moving to the right.
+	 */
 	public Sprite getCurrentSprite() {
 		if ( this.lastDirection == 1 )
 			return this.getImageAtIndex(1);
