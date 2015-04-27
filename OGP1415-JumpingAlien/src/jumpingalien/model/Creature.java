@@ -434,7 +434,7 @@ public abstract class Creature{
 	 * 			| (positionX>=xMin && positionX<=xMax) && (positionY>=yMin && positionY<=yMax)
 	 */
 	@Raw
-	boolean isValidPosition(double positionX, double positionY){
+	public boolean isValidPosition(double positionX, double positionY){
 		return (positionX>=world.getXMin() && positionX<=world.getXMax()) && (positionY>=world.getYMin() && positionY<=world.getYMax());
 	}
 	
