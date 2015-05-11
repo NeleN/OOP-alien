@@ -35,7 +35,7 @@ import org.antlr.v4.runtime.Recognizer;
  * 
  * <pre>
  * <code>
- * ProgramParser&lt;MyExpression, MyStatement, MyType, MyProgram&gt; parser = new ProgramParser<>(factory);
+ * ProgramParser&lt;MyExpression, MyStatement, MyType, MyProgram&gt; parser = new ProgramParser(factory);
  * </code>
  * </pre>
  * 
