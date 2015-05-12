@@ -21,7 +21,6 @@ import jumpingalien.common.sprites.JumpingAlienSprites;
 import jumpingalien.model.Buzam;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Plant;
-import jumpingalien.model.Program;
 import jumpingalien.model.School;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Slime;
@@ -41,6 +40,7 @@ import jumpingalien.util.Sprite;
 import ogp.framework.messages.Message;
 import ogp.framework.messages.MessageType;
 import ogp.framework.util.GUIUtils;
+import program.Program;
 
 public class JumpingAlienGamePart3 extends JumpingAlienGame {
 

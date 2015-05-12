@@ -2,12 +2,12 @@ package jumpingalien.part3.facade;
 
 import java.util.Collection;
 
+import program.Program;
 import jumpingalien.model.Buzam;
 import jumpingalien.model.Direction;
 import jumpingalien.model.IllegalDeltaTimeException;
 import jumpingalien.model.Mazub;
 import jumpingalien.model.Plant;
-import jumpingalien.model.Program;
 import jumpingalien.model.School;
 import jumpingalien.model.Shark;
 import jumpingalien.model.Slime;
