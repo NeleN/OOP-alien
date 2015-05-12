@@ -3,6 +3,13 @@ package program;
 import java.util.List;
 import java.util.Map;
 
+import jumpingalien.model.*;
+import jumpingalien.part3.programs.IProgramFactory;
+import Type.T;
+import program.*;
+import expression.*;
+import statement.*;
+
 public class ProgramFactory implements IProgramFactory<E, S, T, P> {
 
 	@Override
@@ -362,25 +369,22 @@ public class ProgramFactory implements IProgramFactory<E, S, T, P> {
 	@Override
 	public T getDoubleType() {
 		// TODO Auto-generated method stub
-		return null;
+		return T.DOUBLE;
 	}
 
 	@Override
 	public T getBoolType() {
-		// TODO Auto-generated method stub
-		return null;
+		return T.BOOLEAN;
 	}
 
 	@Override
 	public T getGameObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return T.CREATURE;
 	}
 
 	@Override
 	public T getDirectionType() {
-		// TODO Auto-generated method stub
-		return null;
+		return T.DIRECTION;
 	}
 
 	@Override

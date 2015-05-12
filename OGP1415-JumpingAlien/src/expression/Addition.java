@@ -7,9 +7,8 @@ public class Addition extends BinaryOperator {
 	}
 	
 	public E evaluate(){
-		return (getLeftOperand().evaluate() + getRightOperand().evaluate() );
+		return (getLeftOperand().evaluate() + getRightOperand().evaluate());
 	}
-	
 	
 
 }

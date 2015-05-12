@@ -1,6 +1,6 @@
 package expression;
 
-public class BinaryOperator extends Operator {
+public abstract class BinaryOperator extends Operator {
 	
 	public BinaryOperator(E left, E right){
 		this.left = left;

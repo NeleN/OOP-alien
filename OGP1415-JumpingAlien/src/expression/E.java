@@ -1,6 +1,7 @@
 package expression;
+import Type.T;
 
-public abstract class E {
+public abstract class E <exp extends T> {
 	
-	public abstract E evaluate();
+	public abstract exp evaluate();
 }

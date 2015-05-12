@@ -6,7 +6,7 @@ public class And extends BinaryOperator {
 		super(left, right);
 	}
 	
-	public E evaluate(){
+	public exp evaluate(){
 		return (getLeftOperand().evaluate() && getRightOperand().evaluate() );
 	}
 	
