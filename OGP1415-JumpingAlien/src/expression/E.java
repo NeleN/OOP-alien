@@ -1,9 +1,9 @@
 package expression;
 
-public abstract class E {
+public abstract class E <T>{
 	public void main(){
 		
 	}
 	
-	public abstract <T> T evaluate();
+	public T evaluate();
 }
