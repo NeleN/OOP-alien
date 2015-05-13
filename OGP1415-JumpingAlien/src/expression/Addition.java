@@ -6,7 +6,8 @@ public class Addition extends BinaryOperator {
 		super(left, right);
 	}
 	
-	public E evaluate(){
+	@Override
+	public <T> T evaluate(){
 		return (getLeftOperand().evaluate() + getRightOperand().evaluate());
 	}
 	

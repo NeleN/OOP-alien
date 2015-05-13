@@ -7,11 +7,11 @@ public abstract class BinaryOperator extends Operator {
 		this.right = right;
 	}
 	
-	public E getLeftOperand(){
+	public <T> E getLeftOperand(){
 		return this.left;
 	}
 	
-	public E getRightOperand(){
+	public <T> E getRightOperand(){
 		return this.right;
 	}
 	
