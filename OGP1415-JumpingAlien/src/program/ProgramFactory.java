@@ -5,7 +5,8 @@ import java.util.Map;
 
 import jumpingalien.model.*;
 import jumpingalien.part3.programs.IProgramFactory;
-import Type.T;
+import jumpingalien.part3.programs.SourceLocation;
+import type.T;
 import program.*;
 import expression.*;
 import statement.*;
@@ -44,7 +45,6 @@ public class ProgramFactory implements IProgramFactory<E, S, T, P> {
 
 	@Override
 	public E createSelf(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -52,19 +52,16 @@ public class ProgramFactory implements IProgramFactory<E, S, T, P> {
 	public E createDirectionConstant(
 			jumpingalien.part3.programs.IProgramFactory.Direction value,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public E createAddition(E left, E right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return expression.Addition.evaluate();
 	}
 
 	@Override
 	public E createSubtraction(E left, E right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -258,26 +255,22 @@ public class ProgramFactory implements IProgramFactory<E, S, T, P> {
 
 	@Override
 	public E createIsDucking(E expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public E createIsJumping(E expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createAssignment(String variableName, T variableType, E value,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createWhile(E condition, S body, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -289,86 +282,72 @@ public class ProgramFactory implements IProgramFactory<E, S, T, P> {
 			E sort,
 			jumpingalien.part3.programs.IProgramFactory.SortDirection sortDirection,
 			S body, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createBreak(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createIf(E condition, S ifBody, S elseBody,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createPrint(E value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createStartRun(E direction, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createStopRun(E direction, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createStartJump(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createStopJump(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createStartDuck(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createStopDuck(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createWait(E duration, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createSkip(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public S createSequence(List<S> statements, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public T getDoubleType() {
-		// TODO Auto-generated method stub
 		return T.DOUBLE;
 	}
 
