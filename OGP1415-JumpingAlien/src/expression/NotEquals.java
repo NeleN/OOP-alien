@@ -1,12 +1,12 @@
 package expression;
 
-public class NotEquals extends BinaryOperator {
+public class NotEquals extends BinaryOperator<Boolean> {
 
-	public NotEquals(E left, E right) {
+	public NotEquals(Expression left, Expression right) {
 		super(left, right);
 	}
 	
-	public E evaluate(){
+	public Object evaluate(){
 		return (getLeftOperand().evaluate() != getRightOperand().evaluate() );
 	}
 	

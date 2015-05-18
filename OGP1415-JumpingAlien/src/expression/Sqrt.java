@@ -1,13 +1,13 @@
 package expression;
 
-public class Sqrt extends UnaryOperator {
+public class Sqrt extends UnaryOperator<Double> {
 
-	public Sqrt(E operand) {
+	public Sqrt(Expression operand) {
 		super(operand);
 	}
 	
-	public E evaluate(){
-		return (getOperand()*getOperand());
+	public Object evaluate(){
+		return (Math.sqrt((double)getOperand().evaluate()));
 	}
 
 }

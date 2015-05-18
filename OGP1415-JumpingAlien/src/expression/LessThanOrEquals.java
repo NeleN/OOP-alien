@@ -6,8 +6,8 @@ public class LessThanOrEquals extends BinaryOperator<Boolean> {
 		super(left, right);
 	}
 	
-	public E evaluate(){
-		return ((getLeftOperand().evaluate() <= getRightOperand().evaluate() );
+	public Object evaluate(){
+		return ((double)getLeftOperand().evaluate() <= (double)getRightOperand().evaluate() );
 	}
 	
 	

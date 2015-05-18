@@ -1,13 +1,13 @@
 package expression;
 
-public class Multiplication extends BinaryOperator {
+public class Multiplication extends BinaryOperator<Double> {
 
-	public Multiplication (E left, E right){
+	public Multiplication (Expression left, Expression right){
 		super(left, right);
 	}
 	
-	public E evaluate(){
-		return (getLeftOperand().evaluate() * getRightOperand().evaluate() );
+	public Object evaluate(){
+		return ((double)getLeftOperand().evaluate() * (double)getRightOperand().evaluate() );
 	}
 	
 	

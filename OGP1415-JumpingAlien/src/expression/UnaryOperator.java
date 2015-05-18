@@ -1,22 +1,17 @@
 package expression;
 
-public class UnaryOperator extends Operator {
+public abstract class UnaryOperator<T> extends Operator<T> {
 	
-	public UnaryOperator(E operand){
+	public UnaryOperator(Expression operand){
 		this.operand = operand;
 	}
 	
-	public E getOperand(){
+	public Expression getOperand(){
 		return this.operand;
 	}
 
 	
-	private E operand;
+	private Expression operand;
 
-	@Override
-	public E evaluate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
