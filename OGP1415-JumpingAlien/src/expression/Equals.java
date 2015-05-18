@@ -1,14 +1,12 @@
 package expression;
 
-import Type.T;
-
-public class Equals extends BinaryOperator {
+public class Equals extends BinaryOperator<Boolean> {
 	
-	public Equals (E left, E right){
+	public Equals (Expression left, Expression right){
 		super(left, right);
 	}
 	
-	public T evaluate(){
+	public Object evaluate(){
 		return (getLeftOperand().evaluate() == getRightOperand().evaluate() );
 	}
 

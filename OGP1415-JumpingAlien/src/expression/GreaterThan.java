@@ -1,13 +1,13 @@
 package expression;
 
-public class GreaterThan extends BinaryOperator {
+public class GreaterThan extends BinaryOperator<Boolean> {
 
-	public GreaterThan (E left, E right){
+	public GreaterThan (Expression left, Expression right){
 		super(left, right);
 	}
 	
-	public E evaluate(){
-		return (getLeftOperand().evaluate() > getRightOperand().evaluate() );
+	public Object evaluate(){
+		return ((double)getLeftOperand().evaluate() > (double)getRightOperand().evaluate() );
 	}
 	
 }

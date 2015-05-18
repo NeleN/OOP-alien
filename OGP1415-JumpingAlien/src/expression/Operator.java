@@ -1,6 +1,6 @@
 package expression;
 
-public abstract class Operator extends E {
+public abstract class Operator<T> extends Expression<T>{
 	
 	//public abstract boolean hasValidInput();
 

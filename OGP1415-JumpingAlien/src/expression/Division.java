@@ -1,13 +1,13 @@
 package expression;
 
-public class Division extends BinaryOperator {
+public class Division extends BinaryOperator<Double> {
 	
-	public Division (E left, E right){
+	public Division (Expression left, Expression right){
 		super(left, right);
 	}
 	
-	public E evaluate(){
-		return (getLeftOperand().evaluate() / getRightOperand().evaluate() );
+	public Object evaluate(){
+		return ((double)getLeftOperand().evaluate() / (double)getRightOperand().evaluate() );
 	}
 	
 	

@@ -1,19 +1,16 @@
 package expression;
 
-public class Addition extends E<Double> {
+public class Addition extends BinaryOperator<Double> {
 	
-	public Addition (E left, E right){
-		this.left = left;
-		this.right = right;
+	public Addition (Expression left, Expression right){
+		super(left, right);
+		//evaluate();
 	}
-	
-
-	
-	private E <Double> left;
-	private E <Double> right;
 	
 	@Override
-	public Double evaluate(){
-		return (left.evaluate() + right.evaluate());
+	public Object evaluate(){
+		double result = ((double)left.evaluate() + (double)right.evaluate());
+		return result;
 	}
+
 }
