@@ -68,28 +68,24 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Expression createSubtraction(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Substraction(left, right);
 	}
 
 	@Override
 	public Expression createMultiplication(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Multiplication(left, right);
 	}
 
 	@Override
 	public Expression createDivision(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Division(left, right);
 	}
 
 	@Override
 	public Expression createSqrt(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Sqrt(expr);
 	}
 
 	@Override
@@ -102,63 +98,54 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Expression createAnd(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new And(left, right);
 	}
 
 	@Override
 	public Expression createOr(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Or(left, right);
 	}
 
 	@Override
 	public Expression createNot(Expression expr, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Not(expr);
 	}
 
 	@Override
 	public Expression createLessThan(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new LessThan(left, right);
 	}
 
 	@Override
 	public Expression createLessThanOrEqualTo(Expression left,
 			Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new LessThanOrEquals(left, right);
 	}
 
 	@Override
 	public Expression createGreaterThan(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GreaterThan(left, right);
 	}
 
 	@Override
 	public Expression createGreaterThanOrEqualTo(Expression left,
 			Expression right, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GreaterThanOrEquals(left, right);
 	}
 
 	@Override
 	public Expression createEquals(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Equals(left, right);
 	}
 
 	@Override
 	public Expression createNotEquals(Expression left, Expression right,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new NotEquals(left, right);
 	}
 
 	@Override
