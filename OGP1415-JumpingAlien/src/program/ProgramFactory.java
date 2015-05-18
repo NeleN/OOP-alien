@@ -6,7 +6,7 @@ import java.util.Map;
 import jumpingalien.model.*;
 import jumpingalien.part3.programs.IProgramFactory;
 import jumpingalien.part3.programs.SourceLocation;
-import type.T;
+import type.*;
 import program.*;
 import expression.*;
 import statement.*;
@@ -23,26 +23,22 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Expression createDoubleConstant(double value,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new DoubleConstant(value);
 	}
 
 	@Override
 	public Expression createTrue(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new True();
 	}
 
 	@Override
 	public Expression createFalse(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new False();
 	}
 
 	@Override
 	public Expression createNull(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Null();
 	}
 
 	@Override
@@ -91,8 +87,7 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Expression createRandom(Expression maxValue,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Random(maxValue);
 	}
 
 	@Override

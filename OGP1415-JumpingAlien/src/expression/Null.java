@@ -1,9 +1,9 @@
 package expression;
 
-public class Null extends E<exp> {
+public class Null extends Value<Null> {
 	
-	public E evaluate(){
-		return null;
+	public Null(){
+		this.value = null;
 	}
 
 }

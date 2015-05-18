@@ -1,12 +1,9 @@
 package expression;
 
-public class True extends Boolean {
+public class True extends Boolean<Boolean> {
 	
-	
-
-	@Override
-	public E evaluate() {
-		return true;
+	public True() {
+		this.value = true;
 	}
 
 }

@@ -1,10 +1,14 @@
 package expression;
 
-public class GetX extends Number {
+import jumpingalien.model.Creature;
+
+public class GetX extends Number <Double>{
 	
-	public GetX(E expr){
-		
+	public GetX(Expression<Creature> expr){
+		this.creature = (Creature)expr;
 	}
+	
+	private Creature creature;
 
 	@Override
 	public E evaluate() {

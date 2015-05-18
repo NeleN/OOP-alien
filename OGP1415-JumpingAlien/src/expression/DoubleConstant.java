@@ -1,16 +1,9 @@
 package expression;
 
-public class DoubleConstant extends Number {
+public class DoubleConstant extends Number<Double> {
 	
-	public E DoubleConstant(double value){
+	public DoubleConstant(double value){
 		this.value = value;
-	}
-	
-	private double value;
-	
-	@Override
-	public E evaluate() {
-		return value;
 	}
 
 }

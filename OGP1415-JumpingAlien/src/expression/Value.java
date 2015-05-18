@@ -1,9 +1,10 @@
 package expression;
 
-public abstract class Value extends E {
-
-	@Override
-	public abstract E evaluate();
-
-
+public class Value<T> extends Expression<T> {
+	
+	public Object evaluate() {
+		return value;
+	}
+	
+	Object value;
 }

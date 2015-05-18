@@ -1,5 +1,5 @@
 package expression;
 
-public abstract class Boolean extends Value {
+public abstract class Boolean<T> extends Value<T> {
 
 }

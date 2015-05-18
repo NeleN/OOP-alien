@@ -1,20 +1,20 @@
 package expression;
 
-public class Random extends Number {
+public class Random extends Number<Double> {
 	
-	public Random(E value){
-		this.maxValue = value;
+	public Random(Expression value){
+		this.maxValue = (double)value.evaluate();
+		this.value = calculateRandom();
 	}
 
-	private E maxValue;
+	private Double maxValue;
 	
-	@Override
-	public E evaluate() {
-		E value = Math.random()*maxValue;
-		if (value != maxValue)
-			return value;
-		else 
-			evaluate();
+	public double calculateRandom() {
+		double value = (double)Math.random()*maxValue;
+		if (value != maxValue){
+			return value;}
+		else {
+			return calculateRandom();}
 	}
 
 }

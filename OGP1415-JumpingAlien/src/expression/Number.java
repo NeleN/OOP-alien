@@ -1,5 +1,5 @@
 package expression;
 
-public class Number extends Value {
+public class Number<T> extends Value<T> {
 
 }

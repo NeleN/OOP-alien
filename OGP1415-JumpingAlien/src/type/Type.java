@@ -1,29 +1,29 @@
-package Type;
+package type;
 
-public enum T {
+public enum Type {
 	DOUBLE {
-		public T getType(){
+		public Type getType(){
 			return DOUBLE;
 		}
 	},
 	
 	BOOLEAN{
-		public T getType(){
+		public Type getType(){
 			return BOOLEAN;
 		}
 	},
 	
 	CREATURE {
-		public T getType(){
+		public Type getType(){
 			return CREATURE;
 		}
 	},
 	
 	DIRECTION {
-		public T getType(){
+		public Type getType(){
 			return DIRECTION;
 		}
 	};
 	
-	public abstract T getType();
+	public abstract Type getType();
 }
