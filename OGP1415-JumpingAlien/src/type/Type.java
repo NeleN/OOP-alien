@@ -1,29 +1,19 @@
 package type;
 
-public enum Type {
-	DOUBLE {
-		public Type getType(){
-			return DOUBLE;
-		}
-	},
+public class Type {
 	
-	BOOLEAN{
-		public Type getType(){
-			return BOOLEAN;
-		}
-	},
+	public Type(type value){
+		this.value = value;
+	}
 	
-	CREATURE {
-		public Type getType(){
-			return CREATURE;
-		}
-	},
+	public type getType(){
+		return value;
+	}
+
+	public enum type {
+		DOUBLE, BOOLEAN, CREATURE, DIRECTION
+	}
 	
-	DIRECTION {
-		public Type getType(){
-			return DIRECTION;
-		}
-	};
-	
-	public abstract Type getType();
+	private final type value;
+
 }

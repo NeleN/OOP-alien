@@ -348,33 +348,28 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 
 	@Override
 	public Type getDoubleType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Type(Type.type.DOUBLE);
 	}
 
 	@Override
 	public Type getBoolType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Type(Type.type.BOOLEAN);
 	}
 
 	@Override
 	public Type getGameObjectType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Type(Type.type.CREATURE);
 	}
 
 	@Override
 	public Type getDirectionType() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Type(Type.type.DIRECTION);
 	}
 
 	@Override
 	public Program createProgram(Statement mainStatement,
 			Map<String, Type> globalVariables) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Program(mainStatement, globalVariables);
 	}
 
 }
