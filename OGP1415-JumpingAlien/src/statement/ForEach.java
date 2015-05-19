@@ -1,6 +1,6 @@
 package statement;
 
-import java.nio.file.WatchEvent.Kind;
+import java.util.Iterator;
 
 import jumpingalien.part3.programs.IProgramFactory.*;
 import expression.Expression;
@@ -15,19 +15,21 @@ import expression.Expression;
 
 public class ForEach extends Statement {
 	
-	public ForEach(String variableName, jumpingalien.part3.programs.IProgramFactory.Kind variableKind, Expression<?> where, Expression<?> sort,
-			SortDirection sortDirection, Statement body){
+	public ForEach(String variableName, jumpingalien.part3.programs.IProgramFactory.Kind variableKind, Expression<?> where,
+			Expression<?> sort, SortDirection sortDirection, Statement body){
 		this.name = variableName;
 		this.kind = variableKind;
 		this.where = where;
 		this.sort = sort;
 		this.sortDirection = sortDirection;
 		this.body = body;
-	}
+	} 
 
 	@Override
 	public void execute() {
-		
+		forEach(a);
+			
+		}
 		
 		
 	}
