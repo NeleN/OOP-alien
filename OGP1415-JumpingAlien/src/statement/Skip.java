@@ -1,5 +1,16 @@
 package statement;
 
-public class Skip extends Statement {
+/** A statement that does nothing */ 
 
+public class Skip extends Statement {
+	
+	public Skip(){
+		
+	}
+
+	@Override
+	public void execute() {
+	}
+	
+	
 }

@@ -17,12 +17,14 @@ public class While extends Statement {
 	
 	private Statement body;
 	private Expression<Boolean> condition;
+	static boolean isLooping = true;
 	
 	@Override
 	public void execute() {
-		if ((boolean) condition.evaluate())
+		while ((boolean) condition.evaluate() && isLooping){
 			body.execute();
+			isLooping = true;	
 	}
 	
-	
+	}
 }
