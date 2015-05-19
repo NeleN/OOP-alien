@@ -421,7 +421,7 @@ public class World {
 	 * 		An integer that represents the x coordinate of the tile that belongs to pixel X.
 	 */
 	@Basic @Raw
-	int getTileNbX(int pixelX){
+	public int getTileNbX(int pixelX){
 		return (pixelX/this.tileLength);
 	}
 
@@ -433,7 +433,7 @@ public class World {
 	 * 		An integer that represents the y coordinate of the tile that belongs to pixelY.
 	 */
 	@Basic @Raw
-	int getTileNbY(int pixelY){
+	public int getTileNbY(int pixelY){
 		return (pixelY/this.tileLength);
 	}
 	

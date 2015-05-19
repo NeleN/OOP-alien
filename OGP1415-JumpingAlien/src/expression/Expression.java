@@ -1,12 +1,18 @@
 package expression;
 
+import program.Program;
+
 public abstract class Expression <T>{
 
 	public abstract Object evaluate();
 	
-	public String getName(Expression<?> e){
-		return this.name;
+	public void setProgram(Program program){
+		this.program = program;
 	}
 	
-	private String name;
+	public Program getProgram(){
+		return this.program;
+	}
+	
+	private Program program;
 }

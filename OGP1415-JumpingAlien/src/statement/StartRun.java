@@ -28,8 +28,6 @@ public class StartRun extends Statement {
 			((Mazub)getProgram().getUser()).startMove(direction);
 		if (getProgram().getUser().getClass() == Slime.class)
 			((Mazub)getProgram().getUser()).startMove(direction);
-		
+	}
 	
-	
-
 }

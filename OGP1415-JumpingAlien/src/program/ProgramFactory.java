@@ -154,29 +154,25 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Expression createGetWidth(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetWidth(expr);
 	}
 
 	@Override
 	public Expression createGetHeight(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetHeight(expr);
 	}
 
 	@Override
 	public Expression createGetHitPoints(Expression expr,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetHitpoints(expr);
 	}
 
 	@Override
 	public Expression createGetTile(Expression x, Expression y,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GetTile(x, y);
 	}
 
 	@Override
