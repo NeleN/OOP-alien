@@ -9,30 +9,19 @@ import expression.Expression;
  */
 public class Assignment extends Statement{
 	
-	public Assignment(String variableName, Type variableType, Expression<?> value){
+	public Assignment(String variableName, Type variableType, Expression<Type> value){
 		this.name = variableName;
 		this.type = variableType;
 		this.NewValue = value;
 	}
 	
-	private Object value;
 	private String name;
 	private Type type;
-	private Expression<?> NewValue;
+	private Expression<Type> NewValue;
 	
-	public Object getValue(String name){
-		value = String.valueOf(name);
-		return value;
-	}
-	
-	public void setValue(Expression<?> value){
-		this.value = value;
-		
-	}
+
 	@Override
 	public void execute(){
-		setValue(NewValue);
-		
-		
+		getProgram().getGlobalVariables().put(name, (Type)NewValue.evaluate());
 	}
 }

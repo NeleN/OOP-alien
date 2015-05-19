@@ -282,6 +282,10 @@ public abstract class Creature{
  * 																									*										
  ****************************************************************************************************/
 	
+	public World getWorld(){
+		return this.world;
+	}
+	
 	
 	/**
 	 * Adjusts the hitpoints after a collision between Mazub and a plant;

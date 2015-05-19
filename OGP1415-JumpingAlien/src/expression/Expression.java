@@ -1,9 +1,12 @@
 package expression;
 
 public abstract class Expression <T>{
-	public void main(){
-		
+
+	public abstract Object evaluate();
+	
+	public String getName(Expression<?> e){
+		return this.name;
 	}
 	
-	public abstract Object evaluate();
+	private String name;
 }
