@@ -9,7 +9,7 @@ public class StopJump extends Statement {
 	
 	@Override
 	public void execute() {
-		getProgram().getUser().;
+		getProgram().getUser().endJump();
 		
 	}
 }

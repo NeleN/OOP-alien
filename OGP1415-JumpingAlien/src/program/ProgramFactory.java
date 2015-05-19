@@ -266,15 +266,13 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 	@Override
 	public Statement createAssignment(String variableName, Type variableType,
 			Expression value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Assignment(variableName, variableType, value);
 	}
 
 	@Override
 	public Statement createWhile(Expression condition, Statement body,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new While(condition,body);
 	}
 
 	@Override
@@ -285,85 +283,72 @@ public class ProgramFactory implements IProgramFactory<Expression, Statement, Ty
 			Expression sort,
 			jumpingalien.part3.programs.IProgramFactory.SortDirection sortDirection,
 			Statement body, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ForEach(variableName, variableKind, where, sort, sortDirection, body);
 	}
 
 	@Override
 	public Statement createBreak(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Break();
 	}
 
 	@Override
 	public Statement createIf(Expression condition, Statement ifBody,
 			Statement elseBody, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new If(condition, ifBody, elseBody);
 	}
 
 	@Override
 	public Statement createPrint(Expression value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Print(value);
 	}
 
 	@Override
 	public Statement createStartRun(Expression direction,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StartRun(direction);
 	}
 
 	@Override
 	public Statement createStopRun(Expression direction,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StopRun(direction);
 	}
 
 	@Override
 	public Statement createStartJump(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StartJump();
 	}
 
 	@Override
 	public Statement createStopJump(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StopJump();
 	}
 
 	@Override
 	public Statement createStartDuck(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StartDuck();
 	}
 
 	@Override
 	public Statement createStopDuck(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StopDuck();
 	}
 
 	@Override
 	public Statement createWait(Expression duration,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Wait(duration);
 	}
 
 	@Override
 	public Statement createSkip(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Skip();
 	}
 
 	@Override
 	public Statement createSequence(List<Statement> statements,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Sequence(statements);
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package statement;
 
 import java.nio.file.WatchEvent.Kind;
 
-import jumpingalien.part3.programs.IProgramFactory.SortDirection;
+import jumpingalien.part3.programs.IProgramFactory.*;
 import expression.Expression;
 
 
@@ -15,7 +15,7 @@ import expression.Expression;
 
 public class ForEach extends Statement {
 	
-	public ForEach(String variableName, Kind<?> variableKind, Expression<?> where, Expression<?> sort,
+	public ForEach(String variableName, jumpingalien.part3.programs.IProgramFactory.Kind variableKind, Expression<?> where, Expression<?> sort,
 			SortDirection sortDirection, Statement body){
 		this.name = variableName;
 		this.kind = variableKind;
@@ -27,15 +27,13 @@ public class ForEach extends Statement {
 
 	@Override
 	public void execute() {
-		for(name instanceof kind){
-			
-		}
+		
 		
 		
 	}
 	
 	private String name;
-	private Kind<?> kind;
+	private jumpingalien.part3.programs.IProgramFactory.Kind kind;
 	private Expression<?> where;
 	private Expression<?> sort;
 	private SortDirection sortDirection;

@@ -18,7 +18,7 @@ public class StopRun extends Statement {
 
 	@Override
 	public void execute() {
-		getProgram().getUser().;
+		getProgram().getUser().endMove();
 		
 	}
 }

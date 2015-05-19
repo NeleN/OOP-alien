@@ -1,4 +1,5 @@
 package statement;
+import jumpingalien.model.*;
 
 /** A statement that makes the object executing the program start ducking */
 
@@ -9,7 +10,8 @@ public class StartDuck extends Statement {
 	
 	@Override
 	public void execute() {
-		getProgram().getUser().;
+			((Mazub)getProgram().getUser()).startDuck();
 		
 	}
 }
+
