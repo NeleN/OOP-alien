@@ -3,12 +3,18 @@ import jumpingalien.model.*;
 
 public class IsSlime extends Boolean {
 	
-	public boolean evaluate(E expression){
-		if (expression.class == Slime.class){
+	public IsSlime (Expression <Creature> expression){
+		this.creature = (Creature) expression.evaluate();
+	}
+	
+	public Object evaluate(){
+		if (creature.getClass() == Slime.class){
 			return true;
 		}
 		else {
 			return false;
 		}
 	}
+	
+	private Creature creature;
 }

@@ -2,12 +2,15 @@ package expression;
 
 public class IsAir extends Boolean<Boolean> {
 	
-	Public IsAir(Expression tile){
-		this.tileX = (int)tile[0];
-		this.tileY = (int)tile[1];
+	public IsAir(Expression<Integer> expression){
+		this.geologicalFeature = (int)expression.evaluate();
 	}
 	
-	private int tileX;
-	private int tileY;
+	@Override
+	public Object evaluate(){
+		return this.geologicalFeature == 0;
+	}
+	
+	private int geologicalFeature;
 
 }

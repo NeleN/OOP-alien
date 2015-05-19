@@ -237,6 +237,17 @@ public abstract class Creature{
 		return this.isJumping;
 	}
 	
+	/**
+	 * Checks if the creature is alive
+	 * 
+	 * @return	true if and only if the creature is alive.
+	 * 			| this.isAlive
+	 */
+	@Basic
+	public boolean isAlive(){
+		return this.isAlive;
+	}
+	
 	
 	/**
 	 * Checks whether the (x, y) position of  the creature is valid.

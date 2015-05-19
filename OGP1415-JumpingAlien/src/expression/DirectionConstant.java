@@ -1,7 +1,7 @@
 package expression;
 import jumpingalien.part3.programs.IProgramFactory.Direction;
 
-public class DirectionConstant extends E<exp> {
+public class DirectionConstant extends Expression<Integer> {
 	
 	public DirectionConstant(Direction value){
 		this.direction = value;
@@ -9,8 +9,13 @@ public class DirectionConstant extends E<exp> {
 	
 	private Direction direction;
 	
-	public E evaluate(){
-		return direction;
+	public Object evaluate(){
+		if (direction == Direction.RIGHT || direction == Direction.UP){
+			return 1;
+		}
+		else {
+			return -1;
+		}
 	}
 
 }

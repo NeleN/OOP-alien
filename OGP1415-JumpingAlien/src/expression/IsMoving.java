@@ -2,14 +2,14 @@ package expression;
 
 import jumpingalien.model.Creature;
 
-public class IsJumping extends Boolean <Boolean> {
-	public IsJumping(Expression<Creature> expression){
+public class IsMoving extends Boolean <Boolean> {
+	public IsMoving(Expression<Creature> expression){
 		this.creature = (Creature) expression.evaluate();
 	}
 	
 	@Override
 	public Object evaluate() {
-		return creature.isJumping();
+		return (creature.isMovingX() || (creature.getSpeedY() != 0));
 	}
 	
 	private Creature creature;
