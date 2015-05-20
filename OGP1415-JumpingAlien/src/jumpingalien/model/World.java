@@ -12,8 +12,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @author	Nele Nauwelaers, Melanie Nijs
  */
 public class World {
-	
-	
+
 	/**
 	 * Constructor of the class "World". Creates a world and gives a tile size, number of tiles,
 	 * the visible window and the target tile.
@@ -304,7 +303,7 @@ public class World {
 	}
 	
 	/**
-	 * Returns a collection of all the aliens in this world.
+	 * Returns a collection of all the Mazubs in this world.
 	 * @return
 	 * 		A collection of mazubs in the world.
 	 */
@@ -316,7 +315,26 @@ public class World {
 				this.mazubsInWorld.add(creature);
 			}
 		}
-		return (Collection)mazubsInWorld;
+		if (mazubsInWorld.removeAll(getBuzamsInWorld())){
+			return (Collection)mazubsInWorld;
+		}
+		return (Collection)mazubsInWorld ;
+	}
+	
+	/**
+	 * Returns a collection of all the aliens in this world.
+	 * @return
+	 * 		A collection of mazubs in the world.
+	 */
+	@Basic @Immutable
+	public Collection<Buzam> getBuzamsInWorld(){
+		this.buzamsInWorld = new ArrayList<Creature>();
+		for (Creature creature: inWorldCreatures){
+			if (creature instanceof Buzam ){
+				this.buzamsInWorld.add(creature);
+			}
+		}
+		return (Collection)buzamsInWorld;
 	}
 	
 	/**
@@ -534,6 +552,11 @@ public class World {
 	 * An arraylist of the Mazubs in the world.
 	 */
 	private List<Creature> mazubsInWorld = new ArrayList <Creature> ();
+	
+	/**
+	 * An arraylist of the Buzams in the world
+	 */
+	private List<Creature> buzamsInWorld= new ArrayList <Creature> ();
 	
 	/**
 	 * An arraylist of creatures that should be added to the world.
