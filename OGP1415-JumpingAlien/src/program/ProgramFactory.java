@@ -27,7 +27,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression<?> createTrue(SourceLocation sourceLocation) {
-		return new True();
+		return new TrueExpression();
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression<?> createAddition(Expression<Double> left, Expression<Double> right,
+	public Expression<Double> createAddition(Expression<Double> left, Expression<Double> right,
 			SourceLocation sourceLocation) {
 		return new Addition(left, right);
 	}
@@ -370,5 +370,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 			Map<String, Type> globalVariables) {
 		return new Program(mainStatement, globalVariables);
 	}
+
+
 
 }
