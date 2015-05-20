@@ -10,18 +10,20 @@ import expression.Expression;
 public class Assignment extends Statement{
 	
 	public Assignment(String variableName, Type variableType, Expression<Type> value){
+		super();
 		this.name = variableName;
-		this.type = variableType;
 		this.NewValue = value;
 	}
 	
 	private String name;
-	private Type type;
 	private Expression<Type> NewValue;
 	
 
 	@Override
 	public void execute(){
-		getProgram().getGlobalVariables().put(name, (Type)NewValue.evaluate());
+		if (time > 0.001){
+			getProgram().getGlobalVariables().put(name, (Type)NewValue.evaluate());
+			time-=0.001;
+		}
 	}
 }

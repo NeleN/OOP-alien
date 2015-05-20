@@ -25,7 +25,7 @@ public class IllegalDeltaTimeException extends Exception {
 	public double dt;
 	
 	/**
-	 * An error suggested this, but in our exercises we're told not to worry about this.
+	 * An error suggested this, but in our exercises we were told not to worry about this.
 	 */
 	private static final long serialVersionUID = 1L;
 

@@ -1,7 +1,6 @@
 package statement;
 
 import expression.Expression;
-import jumpingalien.part3.programs.SourceLocation;
 
 
 /**
@@ -13,6 +12,7 @@ import jumpingalien.part3.programs.SourceLocation;
 public class If extends Statement {
 	
 	public If(Expression<Boolean> condition, Statement ifBody, Statement elseBody){
+		super();
 		this.condition = condition;
 		this.ifBody = ifBody;
 		this.elseBody = elseBody;
@@ -24,18 +24,27 @@ public class If extends Statement {
 	
 	
 	@Override
-	public void execute() {
-		if ((boolean) condition.evaluate()){
-			ifBody.execute();
+	public void execute() throws BreakException{
+		if (time>0.001){
+			time -= 0.001;
+			if ((boolean) condition.evaluate()){
+				ifBody.execute();
+			}
+			else{
+				if (time > 0.001){
+					if (elseBody != null){
+					elseBody.execute();
+					}
+					time -=0.001;
+				}
+			}
 		}
-		else{
-			if (elseBody != null)
-				elseBody.execute();
-		}
-		
-			
 	}
+}
+
+			
+	
 	
 	
 
-}
+

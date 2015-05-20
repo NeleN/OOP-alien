@@ -3,12 +3,16 @@ package statement;
 
 public class Break extends Statement {
 	
-	public Break(){	
+	public Break(){
+		super();
 	}
 
 	@Override
-	public void execute() {
-		While.isLooping = false;
+	public void execute() throws BreakException {
+		if (time > 0.001){
+			throw new BreakException();
+		}
+		
 	}
 	
 	

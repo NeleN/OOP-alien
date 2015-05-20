@@ -16,10 +16,11 @@ import be.kuleuven.cs.som.annotate.Raw;
  *
  */
 public abstract class Creature{
-	
-	
-
-
+	//TODO documentatie en juist plaatsen in code
+	public double getTime(){
+		return this.time;
+	}
+	private double time = 0;
 
 	/**
 	 * Initializes the creature at a given position and its sprites.
@@ -73,8 +74,6 @@ public abstract class Creature{
 	}
 	
 	/**
-	 * TODO
-	 * No documentation needed?
 	 * @param dt
 	 * @post 	The new horizontal position of the creature achieved in a period of time dt
 	 * 			| new.newPositionX == (Math.max(getPositionX() + getTravelledDistanceX(dt), 0));
@@ -157,7 +156,9 @@ public abstract class Creature{
 					}
 				}
 			}
+		this.time = dt;
 		}
+		
 	}
 
 	
