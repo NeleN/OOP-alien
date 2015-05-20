@@ -3,6 +3,7 @@
  */
 package jumpingalien.model;
 
+import program.Program;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Raw;
 
@@ -25,8 +26,8 @@ public class Shark extends Creature {
 	 *				startMove(Direction.RIGHT);
 	 */
 	@Raw
-	public Shark (int positionX, int positionY, Sprite[] sprites) {
-		super (positionX, positionY, sprites, 400, 100);
+	public Shark (int positionX, int positionY, Sprite[] sprites, Program program) {
+		super (positionX, positionY, sprites, 400, 100, program);
 		if (Math.random()>0.5)
 			startMove(Direction.RIGHT);
 		else 

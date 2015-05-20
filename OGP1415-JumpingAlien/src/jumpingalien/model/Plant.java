@@ -3,6 +3,7 @@
  */
 package jumpingalien.model;
 
+import program.Program;
 import jumpingalien.util.*;
 import be.kuleuven.cs.som.annotate.Raw;
 
@@ -26,8 +27,8 @@ public class Plant extends Creature {
 	 *				startMove(Direction.RIGHT);
 	 */
 	@Raw
-	public Plant (int positionX, int positionY, Sprite[] sprites) {
-		super (positionX, positionY, sprites, 50, 1);
+	public Plant (int positionX, int positionY, Sprite[] sprites, Program program) {
+		super (positionX, positionY, sprites, 50, 1, program);
 		if (Math.random()>0.5)
 			startMove(Direction.RIGHT);
 		else 

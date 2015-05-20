@@ -12,7 +12,8 @@ public class Sequence extends Statement {
 	}
 	
 	private List<Statement> statements;
-
+	
+	// controleren of er tijd over is. 
 	@Override
 	public void execute() {
 		((Sequence) statements).execute();

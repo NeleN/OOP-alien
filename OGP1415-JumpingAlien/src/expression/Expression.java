@@ -4,11 +4,7 @@ import program.Program;
 
 public abstract class Expression <T>{
 
-	public abstract Object evaluate();
-	
-	public void setProgram(Program program){
-		this.program = program;
-	}
+	public abstract T evaluate();
 	
 	public Program getProgram(){
 		return this.program;

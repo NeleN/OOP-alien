@@ -3,6 +3,7 @@
  */
 package jumpingalien.model;
 
+import program.Program;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Raw;
@@ -34,8 +35,8 @@ public class Slime extends Creature {
 	 *				startMove(Direction.RIGHT);
 	 */
 	@Raw
-	public Slime (int positionX, int positionY, Sprite[] sprites, School school) {
-		super (positionX, positionY, sprites, 250, 100);
+	public Slime (int positionX, int positionY, Sprite[] sprites, School school, Program program) {
+		super (positionX, positionY, sprites, 250, 100, program);
 		this.setAccelerationY(gravity);
 		belongsToSchool = school;
 		school.addSlime(this);

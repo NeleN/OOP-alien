@@ -12,5 +12,5 @@ public class Break extends Statement {
 	}
 	
 	
-
+// break exception en while haalt die op !! (voor als er meerdere looops zijn!
 }

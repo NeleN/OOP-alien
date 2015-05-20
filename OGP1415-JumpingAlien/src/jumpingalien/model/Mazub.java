@@ -1,6 +1,7 @@
 package jumpingalien.model;
 
 
+import program.Program;
 import be.kuleuven.cs.som.annotate.*;
 import jumpingalien.util.Sprite;
 
@@ -44,8 +45,8 @@ public class Mazub extends Creature{
 	 * 		| this.setAccelerationY(gravity);
 	 */
 	@Raw 
-	public Mazub (int positionX, int positionY, Sprite[] sprites, double maxSpeedX, int hitpoints) {
-		super (positionX, positionY, sprites, 300,100);
+	public Mazub (int positionX, int positionY, Sprite[] sprites, double maxSpeedX, int hitpoints, Program program) {
+		super (positionX, positionY, sprites, 300,100, program);
 		this.setAccelerationY(gravity);
 	}
 	

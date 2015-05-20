@@ -19,6 +19,9 @@ public class While extends Statement {
 	private Expression<Boolean> condition;
 	static boolean isLooping = true;
 	
+	// tijd meegeven, zolang uitvoeren en tijd teruggeven, tijd over (double meegeven  of time object)
+	// drie toestanden( if, body, gedaan)
+	// bij body, als er tijd over is naar if en anders onthouden waar je zit in de body.
 	@Override
 	public void execute() {
 		while ((boolean) condition.evaluate() && isLooping){

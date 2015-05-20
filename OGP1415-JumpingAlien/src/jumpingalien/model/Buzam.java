@@ -3,6 +3,7 @@
  */
 package jumpingalien.model;
 
+import program.Program;
 import jumpingalien.util.Sprite;
 
 /**
@@ -12,8 +13,8 @@ import jumpingalien.util.Sprite;
 public class Buzam extends Mazub {
 
 	public Buzam(int positionX, int positionY, Sprite[] sprites,
-			double maxSpeedX, int hitpoints) {
-		super(positionX, positionY, sprites, maxSpeedX, 500);
+			double maxSpeedX, int hitpoints, Program program) {
+		super(positionX, positionY, sprites, maxSpeedX, 500, program);
 	}
 
 }

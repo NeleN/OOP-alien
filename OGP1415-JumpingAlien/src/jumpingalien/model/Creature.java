@@ -1,5 +1,6 @@
 package jumpingalien.model;
 
+import program.Program;
 import jumpingalien.util.Sprite;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
@@ -10,9 +11,16 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @author Nele Nauwelaers and Melanie Nijs
  *
  */
+/**
+ * @author Melanie Nijs
+ *
+ */
 public abstract class Creature{
 	
 	
+
+
+
 	/**
 	 * Initializes the creature at a given position and its sprites.
 	 * 
@@ -42,7 +50,7 @@ public abstract class Creature{
 	 * 			|new.maxSpeedX == maxSpeedX;
 	 */
 	@Raw
-	public Creature (int positionX, int positionY, Sprite[] sprites, double maxSpeedX, int hitpoints) {
+	public Creature (int positionX, int positionY, Sprite[] sprites, double maxSpeedX, int hitpoints, Program program) {
 		try {
 			setPositionX(positionX);
 			setPositionY(positionY);
@@ -54,6 +62,14 @@ public abstract class Creature{
 		m = (images.length-10)/2;
 		this.hitpoints = hitpoints;
 		this.maxSpeedX = maxSpeedX;
+		this.program = program;
+	}
+	
+	public Creature(int positionX, int positionY, Sprite[] sprites,
+			double maxSpeedX, int hitpoints){
+		this(positionX, positionY, sprites, maxSpeedX, hitpoints, null) ;
+			
+	
 	}
 	
 	/**
@@ -1085,5 +1101,10 @@ public abstract class Creature{
 	 */
 	int timeOfDeath;
 	
+	/**
+	 * The program of a creature.
+	 */
+	private Program program; 
+
 }
 

@@ -19,7 +19,7 @@ public class ForEach extends Statement {
 			Expression<?> sort, SortDirection sortDirection, Statement body){
 		this.name = variableName;
 		this.kind = variableKind;
-		this.where = where;
+		this.where = (boolean) where.evaluate();
 		this.sort = sort;
 		this.sortDirection = sortDirection;
 		this.body = body;
@@ -27,16 +27,18 @@ public class ForEach extends Statement {
 
 	@Override
 	public void execute() {
-		forEach(a);
-			
+//		for (name; kind)
+//			if (where)
+//				body.execute();
+//			return sorted(sort)
 		}
 		
 		
-	}
+	
 	
 	private String name;
 	private jumpingalien.part3.programs.IProgramFactory.Kind kind;
-	private Expression<?> where;
+	private boolean where;
 	private Expression<?> sort;
 	private SortDirection sortDirection;
 	private Statement body;

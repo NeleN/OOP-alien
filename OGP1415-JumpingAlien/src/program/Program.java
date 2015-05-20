@@ -2,6 +2,7 @@ package program;
 
 import java.util.Map;
 
+import jumpingalien.model.Buzam;
 import jumpingalien.model.Creature;
 import statement.Statement;
 import type.Type;
@@ -36,6 +37,10 @@ public class Program {
 	
 	public void execute(){
 		getMainStatement().execute();
+	}
+
+	public void setUser(Creature user) {
+		this.user = user;
 	}
 		
 }

@@ -20,24 +20,46 @@ import jumpingalien.util.Sprite;
 public class Facade implements IFacadePart3 {
 
 	public Buzam createBuzam(int pixelLeftX, int pixelBottomY, Sprite[] sprites){
-		return new Buzam(pixelLeftX, pixelBottomY, sprites, 300, 500);
+		return new Buzam(pixelLeftX, pixelBottomY, sprites, 300, 500, null);
 	}
 
 	public Buzam createBuzamWithProgram(int pixelLeftX, int pixelBottomY,
-			Sprite[] sprites, Program program);
+			Sprite[] sprites, Program program){
+		Buzam user = new Buzam(pixelLeftX, pixelBottomY, sprites, 300, 500, program);
+		program.setUser(user);
+		return user;
+	}
 
 	public Plant createPlantWithProgram(int x, int y, Sprite[] sprites,
-			Program program);
+			Program program){
+		Plant user = new Plant(x, y, sprites, program);
+		program.setUser(user);
+		return user;
+	}
 
 	public Shark createSharkWithProgram(int x, int y, Sprite[] sprites,
-			Program program);
+			Program program){
+		Shark user = new Shark(x, y, sprites, program);
+		program.setUser(user);
+		return user;
+	}
 
 	public Slime createSlimeWithProgram(int x, int y, Sprite[] sprites,
-			School school, Program program);
+			School school, Program program){
+		Slime user = new Slime(x, y, sprites, school, program);
+		program.setUser(user);
+		return user;
+	}
 
-	ParseOutcome<?> parse(String text);
-
-	boolean isWellFormed(Program program);
+	public ParseOutcome<?> parse(String text){
+		return new parser(new ProgramFactory()).parse(text);
+		
+	}
+	
+	//voor break checken 
+	public boolean isWellFormed(Program program){
+		return true;
+	}
 
 	public void addBuzam(World world, Buzam buzam){
 		world.setCreatureInWorld(buzam);
@@ -155,7 +177,7 @@ public class Facade implements IFacadePart3 {
 	}
 
 	public Plant createPlant(int x, int y, Sprite[] sprites){
-		return new Plant (x, y, sprites);
+		return new Plant (x, y, sprites, null);
 	}
 
 	public void addPlant(World world, Plant plant){
@@ -176,7 +198,7 @@ public class Facade implements IFacadePart3 {
 	}
 
 	public Shark createShark(int x, int y, Sprite[] sprites){
-		return new Shark (x, y, sprites);
+		return new Shark (x, y, sprites, null);
 	}
 
 	public void addShark(World world, Shark shark){
@@ -201,7 +223,7 @@ public class Facade implements IFacadePart3 {
 	}
 
 	public Slime createSlime(int x, int y, Sprite[] sprites, School school){
-		return new Slime(x, y, sprites, school);
+		return new Slime(x, y, sprites, school, null);
 	}
 
 	public void addSlime(World world, Slime slime){
@@ -238,7 +260,7 @@ public class Facade implements IFacadePart3 {
 	
 	
 	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
-		return new Mazub(pixelLeftX,pixelBottomY,sprites, 300, 100);
+		return new Mazub(pixelLeftX,pixelBottomY,sprites, 300, 100, null);
 	}
 	
 	public int[] getLocation(Mazub alien){
