@@ -1,5 +1,8 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+@Value
 public class Sqrt extends UnaryOperator<Double> {
 
 	public Sqrt(Expression<Double> operand) {

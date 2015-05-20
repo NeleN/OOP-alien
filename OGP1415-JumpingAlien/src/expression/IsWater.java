@@ -1,5 +1,9 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+
+@Value
 public class IsWater extends Bool {
 	
 	public IsWater(Expression<Integer> expression){

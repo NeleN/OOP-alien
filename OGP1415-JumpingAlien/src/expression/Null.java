@@ -1,6 +1,9 @@
 package expression;
 
-public class Null extends Value<Null> {
+import be.kuleuven.cs.som.annotate.Value;
+
+@Value
+public class Null extends ValueExpression<Null> {
 	
 	public Null(){
 	}

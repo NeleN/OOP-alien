@@ -1,6 +1,8 @@
 package expression;
+import be.kuleuven.cs.som.annotate.Value;
 import jumpingalien.part3.programs.IProgramFactory.Direction;
 
+@Value
 public class DirectionConstant extends Expression<Integer> {
 	
 	public DirectionConstant(Direction value){

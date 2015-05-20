@@ -1,5 +1,5 @@
 package expression;
 
-public abstract class Bool extends Value<Boolean> {
+public abstract class Bool extends ValueExpression<Boolean> {
 
 }

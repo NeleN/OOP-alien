@@ -1,5 +1,8 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+@Value
 public class DoubleConstant extends Number<Double> {
 	
 	public DoubleConstant(double value){

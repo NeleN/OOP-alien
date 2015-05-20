@@ -1,5 +1,8 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+@Value
 public class FalseExpression extends Bool {
 	public FalseExpression() {
 		this.value = false;

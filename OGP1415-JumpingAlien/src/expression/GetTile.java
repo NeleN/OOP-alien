@@ -1,5 +1,8 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+@Value
 public class GetTile extends Expression <int []>{
 	
 	public GetTile(Expression <Integer> x, Expression <Integer> y){

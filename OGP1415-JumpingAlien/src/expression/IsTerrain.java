@@ -1,5 +1,9 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+
+@Value
 public class IsTerrain extends Bool {
 	
 	public IsTerrain(Expression<Integer> expression){

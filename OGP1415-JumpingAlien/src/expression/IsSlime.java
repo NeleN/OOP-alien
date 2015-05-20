@@ -1,6 +1,8 @@
 package expression;
+import be.kuleuven.cs.som.annotate.Value;
 import jumpingalien.model.*;
 
+@Value
 public class IsSlime extends Bool {
 	
 	public IsSlime (Expression <Creature> expression){
