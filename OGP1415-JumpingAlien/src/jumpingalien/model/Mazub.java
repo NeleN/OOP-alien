@@ -69,6 +69,11 @@ public class Mazub extends Creature{
 			timeInMagma-=0.2;
 		}
 		if (! this.isImmune()){
+			for (Buzam alien: world.getBuzamsInWorld()){
+				if (this.collisionDetection(alien)){
+					collisionMazubBuzam(this, alien);
+				}
+			}
 			for (Slime slime: world.getSlimesInWorld()){
 				if (this.collisionDetection( slime)){
 					collisionMazubSlime(this, slime);

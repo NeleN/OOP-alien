@@ -314,6 +314,19 @@ public abstract class Creature{
 		return this.world;
 	}
 	
+	/**
+	 * Adjusts the hitpoints after a collision between Mazub and a plant;
+	 * @param alien
+	 * @param plant
+	 * @effect ...
+	 * 		| alien.gainHitpoints(50);
+	 * @effect..
+	 * 		| plant.dies();
+	 */
+	void collisionMazubBuzam(Mazub alien, Buzam alien2){
+		alien.loseHitpoints(50);
+		alien2.loseHitpoints(50);
+	}
 	
 	/**
 	 * Adjusts the hitpoints after a collision between Mazub and a plant;
