@@ -1,5 +1,5 @@
 package expression;
 
-public abstract class Number<T> extends Value<T> {
+public abstract class Number<T> extends ValueExpression<T> {
 
 }

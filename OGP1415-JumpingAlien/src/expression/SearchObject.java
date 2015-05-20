@@ -1,8 +1,10 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
 import jumpingalien.model.Creature;
 import jumpingalien.part3.programs.IProgramFactory.Direction;
 
+@Value
 public class SearchObject extends Expression<Creature> {
 	
 	public SearchObject(Expression <Direction> direction){

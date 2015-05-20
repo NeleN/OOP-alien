@@ -1,7 +1,9 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
 import jumpingalien.model.*;
 
+@Value
 public class IsDucking extends Bool {
 	public IsDucking(Expression<Creature> expression){
 		this.creature = (Mazub) expression.evaluate();

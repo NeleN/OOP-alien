@@ -1,5 +1,8 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+@Value
 public class Not extends UnaryOperator<Boolean> {
 
 	public Not(Expression operand) {

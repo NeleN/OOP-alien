@@ -1,5 +1,8 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+@Value
 public class And extends BinaryOperator<Boolean,Boolean> {
 	
 	public And (Expression<Boolean> left, Expression<Boolean> right){

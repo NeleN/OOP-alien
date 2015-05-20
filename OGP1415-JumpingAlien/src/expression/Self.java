@@ -1,8 +1,10 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
 import jumpingalien.model.Creature;
 import program.Program;
 
+@Value
 public class Self extends Expression<Creature> {
 	
 	public Creature evaluate(){

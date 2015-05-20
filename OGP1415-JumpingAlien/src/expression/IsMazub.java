@@ -1,6 +1,7 @@
 package expression;
 import jumpingalien.model.*;
 
+@Value
 public class IsMazub extends Bool {
 	
 	public IsMazub (Expression <Creature> expression){

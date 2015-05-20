@@ -1,5 +1,8 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+@Value
 public class Random extends Number<Double> {
 	
 	public Random(Expression<Double> value){

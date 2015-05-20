@@ -1,5 +1,8 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+@Value
 public class IsPassable extends Bool {
 	
 	public IsPassable(Expression<Integer> expression){

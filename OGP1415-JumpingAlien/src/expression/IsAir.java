@@ -1,5 +1,8 @@
 package expression;
 
+import be.kuleuven.cs.som.annotate.Value;
+
+@Value
 public class IsAir extends Bool {
 	
 	public IsAir(Expression<Integer> expression){
