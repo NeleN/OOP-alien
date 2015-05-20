@@ -1,7 +1,7 @@
 package expression;
 
-public class False extends Bool {
-	public False() {
+public class FalseExpression extends Bool {
+	public FalseExpression() {
 		this.value = false;
 	}
 	

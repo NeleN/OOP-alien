@@ -1,6 +1,6 @@
 package expression;
 
-public class Addition extends BinaryOperator<Double> {
+public class Addition extends BinaryOperator<Double,Double> {
 	
 	public Addition (Expression<Double> left, Expression<Double> right){
 		super(left, right);

@@ -1,13 +1,13 @@
 package expression;
 
-public class GreaterThanOrEquals extends BinaryOperator<Boolean> {
+public class GreaterThanOrEquals extends BinaryOperator<Boolean, Double> {
 	
-	public GreaterThanOrEquals (Expression left, Expression right){
+	public GreaterThanOrEquals (Expression<Double> left, Expression<Double> right){
 		super(left, right);
 	}
 	
-	public Object evaluate(){
-		return ((double)getLeftOperand().evaluate() >= (double)getRightOperand().evaluate() );
+	public Boolean evaluate(){
+		return (getLeftOperand().evaluate() >= getRightOperand().evaluate() );
 	}
 
 }

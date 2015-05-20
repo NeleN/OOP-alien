@@ -2,13 +2,13 @@ package expression;
 
 import jumpingalien.model.Creature;
 
-public class IsDead extends Boolean <Boolean> {
+public class IsDead extends Bool {
 	public IsDead(Expression<Creature> expression){
 		this.creature = (Creature) expression.evaluate();
 	}
 	
 	@Override
-	public Object evaluate() {
+	public Boolean evaluate() {
 		return ! creature.isAlive();
 	}
 	

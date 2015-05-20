@@ -1,6 +1,6 @@
 package expression;
 
-public class And extends BinaryOperator<Boolean> {
+public class And extends BinaryOperator<Boolean,Boolean> {
 	
 	public And (Expression<Boolean> left, Expression<Boolean> right){
 		super(left, right);

@@ -1,13 +1,13 @@
 package expression;
 
-public class IsMagma extends Boolean<Boolean> {
+public class IsMagma extends Bool {
 	
 	public IsMagma(Expression<Integer> expression){
 		this.geologicalFeature = (int)expression.evaluate();
 	}
 	
 	@Override
-	public Object evaluate(){
+	public Boolean evaluate(){
 		return this.geologicalFeature == 3;
 	}
 	

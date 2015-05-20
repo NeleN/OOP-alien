@@ -1,8 +1,8 @@
 package expression;
 
-public class Equals extends BinaryOperator<Boolean> {
+public class Equals extends BinaryOperator<Boolean,Double> {
 	
-	public Equals (Expression<Boolean> left, Expression<Boolean> right){
+	public Equals (Expression<Double> left, Expression<Double> right){
 		super(left, right);
 	}
 	

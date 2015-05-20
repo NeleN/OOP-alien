@@ -6,11 +6,11 @@ public class Not extends UnaryOperator<Boolean> {
 		super(operand);
 	}
 	
-	public Object evaluate(){
+	public Boolean evaluate(){
 		this.value = ! (boolean)getOperand().evaluate();
 		return this.value;
 	}
 	
-	private Object value;
+	private Boolean value;
 
 }

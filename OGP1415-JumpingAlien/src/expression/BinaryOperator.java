@@ -1,20 +1,20 @@
 package expression;
 
-public abstract class BinaryOperator<T> extends Operator<T> {
+public abstract class BinaryOperator<T,S> extends Operator<T> {
 	
-	public BinaryOperator(Expression<T> left, Expression<T> right){
+	public BinaryOperator(Expression<S> left, Expression<S> right){
 		this.left = left;
 		this.right = right;
 	}
 	
-	public Expression<T> getLeftOperand(){
+	public Expression<S> getLeftOperand(){
 		return this.left;
 	}
 	
-	public Expression<T> getRightOperand(){
+	public Expression<S> getRightOperand(){
 		return this.right;
 	}
 	
-	protected Expression<T> left;
-	protected Expression<T> right;
+	protected Expression<S> left;
+	protected Expression<S> right;
 }

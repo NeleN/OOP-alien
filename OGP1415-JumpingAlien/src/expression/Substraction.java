@@ -1,13 +1,13 @@
 package expression;
 
-public class Substraction extends BinaryOperator<Double> {
+public class Substraction extends BinaryOperator<Double, Double> {
 	
 	public Substraction (Expression<Double> left, Expression<Double> right){
 		super(left, right);
 	}
 	
 	public Double evaluate(){
-		return ((double)getLeftOperand().evaluate() - (double)getRightOperand().evaluate() );
+		return (getLeftOperand().evaluate() - getRightOperand().evaluate() );
 	}
 	
 	

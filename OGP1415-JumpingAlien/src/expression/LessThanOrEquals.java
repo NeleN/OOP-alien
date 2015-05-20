@@ -1,13 +1,13 @@
 package expression;
 
-public class LessThanOrEquals extends BinaryOperator<Boolean> {
+public class LessThanOrEquals extends BinaryOperator<Boolean, Double> {
 	
-	public LessThanOrEquals (Expression left, Expression right){
+	public LessThanOrEquals (Expression<Double> left, Expression<Double> right){
 		super(left, right);
 	}
 	
-	public Object evaluate(){
-		return ((double)getLeftOperand().evaluate() <= (double)getRightOperand().evaluate() );
+	public Boolean evaluate(){
+		return (getLeftOperand().evaluate() <= getRightOperand().evaluate() );
 	}
 	
 	

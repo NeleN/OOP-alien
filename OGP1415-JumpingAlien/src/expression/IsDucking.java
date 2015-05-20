@@ -2,13 +2,13 @@ package expression;
 
 import jumpingalien.model.*;
 
-public class IsDucking extends Boolean <Boolean> {
+public class IsDucking extends Bool {
 	public IsDucking(Expression<Creature> expression){
 		this.creature = (Mazub) expression.evaluate();
 	}
 	
 	@Override
-	public Object evaluate() {
+	public Boolean evaluate() {
 		return creature.isDucking();
 	}
 	

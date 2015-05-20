@@ -1,13 +1,13 @@
 package expression;
 
-public class Or extends BinaryOperator<Boolean> {
+public class Or extends BinaryOperator<Boolean, Boolean> {
 	
-	public Or (Expression left, Expression right){
+	public Or (Expression<Boolean> left, Expression<Boolean> right){
 		super(left, right);
 	}
 	
-	public Object evaluate(){
-		return ((boolean)getLeftOperand().evaluate() || (boolean)getRightOperand().evaluate() );
+	public Boolean evaluate(){
+		return (getLeftOperand().evaluate() || getRightOperand().evaluate() );
 	}
 	
 	

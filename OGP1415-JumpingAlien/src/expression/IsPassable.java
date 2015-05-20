@@ -1,13 +1,13 @@
 package expression;
 
-public class IsPassable extends Boolean<Boolean> {
+public class IsPassable extends Bool {
 	
 	public IsPassable(Expression<Integer> expression){
 		this.geologicalFeature = (int)expression.evaluate();
 	}
 	
 	@Override
-	public Object evaluate(){
+	public Boolean evaluate(){
 		return this.geologicalFeature != 1;
 	}
 	

@@ -1,6 +1,6 @@
 package expression;
 
-public class Division extends BinaryOperator<Double> {
+public class Division extends BinaryOperator<Double,Double> {
 	
 	public Division (Expression<Double> left, Expression<Double> right){
 		super(left, right);

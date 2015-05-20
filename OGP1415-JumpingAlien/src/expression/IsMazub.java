@@ -1,13 +1,13 @@
 package expression;
 import jumpingalien.model.*;
 
-public class IsMazub extends Boolean {
+public class IsMazub extends Bool {
 	
 	public IsMazub (Expression <Creature> expression){
 		this.creature = (Creature) expression.evaluate();
 	}
 	
-	public Object evaluate(){
+	public Boolean evaluate(){
 		if (creature.getClass() == Mazub.class){
 			return true;
 		}

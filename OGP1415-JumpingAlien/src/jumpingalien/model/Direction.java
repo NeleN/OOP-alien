@@ -1,5 +1,7 @@
 package jumpingalien.model;
 
+import be.kuleuven.cs.som.annotate.Value;
+
 
 /**
  * A class of the possible directions Mazub can move in.
@@ -7,6 +9,7 @@ package jumpingalien.model;
  * @author Melanie Nijs and Nele Nauwelaers
  *
  */
+@Value
 public enum Direction {
 	
 	RIGHT {
