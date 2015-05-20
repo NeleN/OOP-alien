@@ -322,9 +322,9 @@ public class World {
 	}
 	
 	/**
-	 * Returns a collection of all the aliens in this world.
+	 * Returns a collection of all the buzams in this world.
 	 * @return
-	 * 		A collection of mazubs in the world.
+	 * 		A collection of buzams in the world.
 	 */
 	@Basic @Immutable
 	public Collection<Buzam> getBuzamsInWorld(){
