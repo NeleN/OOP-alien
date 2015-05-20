@@ -253,7 +253,6 @@ public class World {
 		inWorldTiles[pixelX][pixelY] = feature;
 	}
 	
-
 	/**
 	 * Returns a collection of all the slimes in this world.
 	 * @return
@@ -318,7 +317,9 @@ public class World {
 		if (mazubsInWorld.removeAll(getBuzamsInWorld())){
 			return (Collection)mazubsInWorld;
 		}
-		return (Collection)mazubsInWorld ;
+		else{
+			return (Collection)mazubsInWorld ;
+		}
 	}
 	
 	/**
