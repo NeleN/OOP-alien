@@ -1,8 +1,13 @@
 package jumpingalien.part3.facade;
 
 import java.util.Collection;
+import java.util.Optional;
 
+import expression.Expression;
 import program.Program;
+import program.ProgramFactory;
+import statement.Statement;
+import type.Type;
 import jumpingalien.model.Buzam;
 import jumpingalien.model.Direction;
 import jumpingalien.model.IllegalDeltaTimeException;
@@ -52,13 +57,17 @@ public class Facade implements IFacadePart3 {
 	}
 
 	public ParseOutcome<?> parse(String text){
-		return new parser(new ProgramFactory()).parse(text);
+		ProgramParser<Expression<?>, Statement, Type, Program> parser = new ProgramParser<Expression<?>, Statement, Type, Program>(new ProgramFactory());
+		Optional <Program> outcome = parser.parseString(text);
+		if (outcome.isPresent())
+			return ParseOutcome.success(outcome.get());
+		else
+			return ParseOutcome.failure(parser.getErrors());
 		
 	}
-	
-	//voor break checken 
+	 
 	public boolean isWellFormed(Program program){
-		return true;
+		return program.isWellFormed();
 	}
 
 	public void addBuzam(World world, Buzam buzam){

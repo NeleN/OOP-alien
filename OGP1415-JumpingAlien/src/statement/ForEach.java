@@ -17,6 +17,7 @@ public class ForEach extends Statement {
 	
 	public ForEach(String variableName, jumpingalien.part3.programs.IProgramFactory.Kind variableKind, Expression<?> where,
 			Expression<?> sort, SortDirection sortDirection, Statement body){
+		super();
 		this.name = variableName;
 		this.kind = variableKind;
 		this.where = (boolean) where.evaluate();

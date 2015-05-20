@@ -13,6 +13,7 @@ import expression.Expression;
 public class StartRun extends Statement {
 	
 	public StartRun(Expression<?> direction){
+		super();
 		this.direction = (Direction) direction.evaluate();
 	}
 	
@@ -20,14 +21,34 @@ public class StartRun extends Statement {
 
 	@Override
 	public void execute() {
-		if (getProgram().getUser().getClass() == Mazub.class)
-			((Mazub)getProgram().getUser()).startMove(direction);
-		if (getProgram().getUser().getClass() == Shark.class)
-			((Mazub)getProgram().getUser()).startMove(direction);
-		if (getProgram().getUser().getClass() == Plant.class)
-			((Mazub)getProgram().getUser()).startMove(direction);
-		if (getProgram().getUser().getClass() == Slime.class)
-			((Mazub)getProgram().getUser()).startMove(direction);
+		if (time > 0.001){
+			if (getProgram().getUser().getClass() == Mazub.class){
+				((Mazub)getProgram().getUser()).startMove(direction);
+			}
+			time -= 0.001;
+		}
+		time -= 0.001;
+		if (time > 0.001){
+			if (getProgram().getUser().getClass() == Shark.class){
+				((Mazub)getProgram().getUser()).startMove(direction);
+			}
+			time -= 0.001;
+		}
+		time -= 0.001;
+		if (time > 0.001){
+			if (getProgram().getUser().getClass() == Plant.class){
+				((Mazub)getProgram().getUser()).startMove(direction);
+			}
+			time -= 0.001;
+		}
+		time -=0.001;
+		if (time > 0.001){
+			if (getProgram().getUser().getClass() == Slime.class){
+				((Mazub)getProgram().getUser()).startMove(direction);
+			}
+			time -= 0.001;
+		}
+		time -= 0.001;
 	}
 	
 }

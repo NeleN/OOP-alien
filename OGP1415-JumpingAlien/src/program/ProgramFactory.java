@@ -11,13 +11,12 @@ import program.*;
 import expression.*;
 import statement.*;
 
-public class ProgramFactory implements IProgramFactory<Expression, Statement, Type, Program> {
+public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Type, Program> {
 
 	@Override
 	public Expression createReadVariable(String variableName,
 			Type variableType, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ReadVariable(variableName, variableType);
 	}
 
 	@Override

@@ -8,16 +8,27 @@ import java.util.List;
 public class Sequence extends Statement {
 	
 	public Sequence(List<Statement> statements){
+		super();
 		this.statements = statements;
+		this.length = statements.size();
+		this.i = 0;
 	}
 	
 	private List<Statement> statements;
 	
 	// controleren of er tijd over is. 
 	@Override
-	public void execute() {
-		((Sequence) statements).execute();
+	public void execute() throws BreakException {
+		while ((i < length) && (time > 0.001)){
+			time -= 0.001;
+			statements.get(i).execute();
+			i+=1;
+		}
+		time -= 0.001;
 	}
 
+	
+	int length;
+	int i;
 
 }

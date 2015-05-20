@@ -8,6 +8,7 @@ import expression.Expression;
 public class Print extends Statement {
 	
 	public Print (Expression<?> value){
+		super();
 		this.value = value;
 		
 	}
@@ -17,5 +18,6 @@ public class Print extends Statement {
 	@Override
 	public void execute() {
 		System.out.println(value.evaluate());
+		time -= 0.001;
 	}
 }

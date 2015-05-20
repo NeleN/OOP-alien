@@ -4,6 +4,7 @@ import java.util.Map;
 
 import jumpingalien.model.Buzam;
 import jumpingalien.model.Creature;
+import statement.BreakException;
 import statement.Statement;
 import type.Type;
 /**
@@ -35,12 +36,23 @@ public class Program {
 		return this.globalVariables;		
 	}
 	
-	public void execute(){
+	public void execute() throws BreakException {
 		getMainStatement().execute();
 	}
 
 	public void setUser(Creature user) {
 		this.user = user;
 	}
+	
+	public boolean isWellFormed(){
+		try {
+			this.execute();
+		} catch (BreakException exc) {
+			this.isWellFormed = false;
+		}
+		return this.isWellFormed;
+	}
+	
+	private boolean isWellFormed = true;
 		
 }
