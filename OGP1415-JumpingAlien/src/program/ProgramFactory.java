@@ -32,7 +32,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 
 	@Override
 	public Expression<?> createFalse(SourceLocation sourceLocation) {
-		return new False();
+		return new FalseExpression();
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class ProgramFactory implements IProgramFactory<Expression<?>, Statement,
 	}
 
 	@Override
-	public Expression<Double> createAddition(Expression<Double> left, Expression<Double> right,
+	public Expression<?> createAddition(Expression left, Expression right,
 			SourceLocation sourceLocation) {
 		return new Addition(left, right);
 	}
