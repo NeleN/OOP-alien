@@ -2,11 +2,11 @@ package expression;
 
 public class Substraction extends BinaryOperator<Double> {
 	
-	public Substraction (Expression left, Expression right){
+	public Substraction (Expression<Double> left, Expression<Double> right){
 		super(left, right);
 	}
 	
-	public Object evaluate(){
+	public Double evaluate(){
 		return ((double)getLeftOperand().evaluate() - (double)getRightOperand().evaluate() );
 	}
 	

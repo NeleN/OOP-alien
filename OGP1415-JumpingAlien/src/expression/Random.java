@@ -2,7 +2,7 @@ package expression;
 
 public class Random extends Number<Double> {
 	
-	public Random(Expression value){
+	public Random(Expression<Double> value){
 		this.maxValue = (double)value.evaluate();
 		this.value = calculateRandom();
 	}
@@ -15,6 +15,11 @@ public class Random extends Number<Double> {
 			return value;}
 		else {
 			return calculateRandom();}
+	}
+
+	@Override
+	public Double evaluate() {
+		return calculateRandom();
 	}
 
 }

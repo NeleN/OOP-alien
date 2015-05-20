@@ -14,245 +14,245 @@ import statement.*;
 public class ProgramFactory implements IProgramFactory<Expression<?>, Statement, Type, Program> {
 
 	@Override
-	public Expression createReadVariable(String variableName,
+	public Expression<?> createReadVariable(String variableName,
 			Type variableType, SourceLocation sourceLocation) {
 		return new ReadVariable(variableName, variableType);
 	}
 
 	@Override
-	public Expression createDoubleConstant(double value,
+	public Expression<?> createDoubleConstant(double value,
 			SourceLocation sourceLocation) {
 		return new DoubleConstant(value);
 	}
 
 	@Override
-	public Expression createTrue(SourceLocation sourceLocation) {
+	public Expression<?> createTrue(SourceLocation sourceLocation) {
 		return new True();
 	}
 
 	@Override
-	public Expression createFalse(SourceLocation sourceLocation) {
+	public Expression<?> createFalse(SourceLocation sourceLocation) {
 		return new False();
 	}
 
 	@Override
-	public Expression createNull(SourceLocation sourceLocation) {
+	public Expression<?> createNull(SourceLocation sourceLocation) {
 		return new Null();
 	}
 
 	@Override
-	public Expression createSelf(SourceLocation sourceLocation) {
+	public Expression<?> createSelf(SourceLocation sourceLocation) {
 		return new Self();
 	}
 
 	@Override
-	public Expression createDirectionConstant(
+	public Expression<?> createDirectionConstant(
 			jumpingalien.part3.programs.IProgramFactory.Direction value,
 			SourceLocation sourceLocation) {
 		return new DirectionConstant(value);
 	}
 
 	@Override
-	public Expression createAddition(Expression left, Expression right,
+	public Expression<?> createAddition(Expression<Double> left, Expression<Double> right,
 			SourceLocation sourceLocation) {
 		return new Addition(left, right);
 	}
 
 	@Override
-	public Expression createSubtraction(Expression left, Expression right,
+	public Expression<?> createSubtraction(Expression left, Expression right,
 			SourceLocation sourceLocation) {
 		return new Substraction(left, right);
 	}
 
 	@Override
-	public Expression createMultiplication(Expression left, Expression right,
+	public Expression<?> createMultiplication(Expression left, Expression right,
 			SourceLocation sourceLocation) {
 		return new Multiplication(left, right);
 	}
 
 	@Override
-	public Expression createDivision(Expression left, Expression right,
+	public Expression<?> createDivision(Expression left, Expression right,
 			SourceLocation sourceLocation) {
 		return new Division(left, right);
 	}
 
 	@Override
-	public Expression createSqrt(Expression expr, SourceLocation sourceLocation) {
+	public Expression<?> createSqrt(Expression expr, SourceLocation sourceLocation) {
 		return new Sqrt(expr);
 	}
 
 	@Override
-	public Expression createRandom(Expression maxValue,
+	public Expression<?> createRandom(Expression maxValue,
 			SourceLocation sourceLocation) {
 		return new Random(maxValue);
 	}
 
 	@Override
-	public Expression createAnd(Expression left, Expression right,
+	public Expression<?> createAnd(Expression left, Expression right,
 			SourceLocation sourceLocation) {
 		return new And(left, right);
 	}
 
 	@Override
-	public Expression createOr(Expression left, Expression right,
+	public Expression<?> createOr(Expression left, Expression right,
 			SourceLocation sourceLocation) {
 		return new Or(left, right);
 	}
 
 	@Override
-	public Expression createNot(Expression expr, SourceLocation sourceLocation) {
+	public Expression<?> createNot(Expression expr, SourceLocation sourceLocation) {
 		return new Not(expr);
 	}
 
 	@Override
-	public Expression createLessThan(Expression left, Expression right,
+	public Expression<?> createLessThan(Expression left, Expression right,
 			SourceLocation sourceLocation) {
 		return new LessThan(left, right);
 	}
 
 	@Override
-	public Expression createLessThanOrEqualTo(Expression left,
+	public Expression<?> createLessThanOrEqualTo(Expression left,
 			Expression right, SourceLocation sourceLocation) {
 		return new LessThanOrEquals(left, right);
 	}
 
 	@Override
-	public Expression createGreaterThan(Expression left, Expression right,
+	public Expression<?> createGreaterThan(Expression left, Expression right,
 			SourceLocation sourceLocation) {
 		return new GreaterThan(left, right);
 	}
 
 	@Override
-	public Expression createGreaterThanOrEqualTo(Expression left,
+	public Expression<?> createGreaterThanOrEqualTo(Expression left,
 			Expression right, SourceLocation sourceLocation) {
 		return new GreaterThanOrEquals(left, right);
 	}
 
 	@Override
-	public Expression createEquals(Expression left, Expression right,
+	public Expression<?> createEquals(Expression left, Expression right,
 			SourceLocation sourceLocation) {
 		return new Equals(left, right);
 	}
 
 	@Override
-	public Expression createNotEquals(Expression left, Expression right,
+	public Expression<?> createNotEquals(Expression left, Expression right,
 			SourceLocation sourceLocation) {
 		return new NotEquals(left, right);
 	}
 
 	@Override
-	public Expression createGetX(Expression expr, SourceLocation sourceLocation) {
+	public Expression<?> createGetX(Expression expr, SourceLocation sourceLocation) {
 		return new GetX(expr);
 	}
 
 	@Override
-	public Expression createGetY(Expression expr, SourceLocation sourceLocation) {
+	public Expression<?> createGetY(Expression expr, SourceLocation sourceLocation) {
 		return new GetY(expr);
 	}
 
 	@Override
-	public Expression createGetWidth(Expression expr,
+	public Expression<?> createGetWidth(Expression expr,
 			SourceLocation sourceLocation) {
 		return new GetWidth(expr);
 	}
 
 	@Override
-	public Expression createGetHeight(Expression expr,
+	public Expression<?> createGetHeight(Expression expr,
 			SourceLocation sourceLocation) {
 		return new GetHeight(expr);
 	}
 
 	@Override
-	public Expression createGetHitPoints(Expression expr,
+	public Expression<?> createGetHitPoints(Expression expr,
 			SourceLocation sourceLocation) {
 		return new GetHitpoints(expr);
 	}
 
 	@Override
-	public Expression createGetTile(Expression x, Expression y,
+	public Expression<?> createGetTile(Expression x, Expression y,
 			SourceLocation sourceLocation) {
 		return new GetTile(x, y);
 	}
 
 	@Override
-	public Expression createSearchObject(Expression direction,
+	public Expression<?> createSearchObject(Expression direction,
 			SourceLocation sourceLocation) {
 		return new SearchObject(direction);
 	}
 
 	@Override
-	public Expression createIsMazub(Expression expr,
+	public Expression<?> createIsMazub(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsMazub(expr);
 	}
 
 	@Override
-	public Expression createIsShark(Expression expr,
+	public Expression<?> createIsShark(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsShark(expr);
 	}
 
 	@Override
-	public Expression createIsSlime(Expression expr,
+	public Expression<?> createIsSlime(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsSlime(expr);
 	}
 
 	@Override
-	public Expression createIsPlant(Expression expr,
+	public Expression<?> createIsPlant(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsPlant(expr);
 	}
 
 	@Override
-	public Expression createIsDead(Expression expr,
+	public Expression<?> createIsDead(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsDead(expr);
 	}
 
 	@Override
-	public Expression createIsTerrain(Expression expr,
+	public Expression<?> createIsTerrain(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsTerrain(expr);
 	}
 
 	@Override
-	public Expression createIsPassable(Expression expr,
+	public Expression<?> createIsPassable(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsPassable(expr);
 	}
 
 	@Override
-	public Expression createIsWater(Expression expr,
+	public Expression<?> createIsWater(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsWater(expr);
 	}
 
 	@Override
-	public Expression createIsMagma(Expression expr,
+	public Expression<?> createIsMagma(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsMagma(expr);
 	}
 
 	@Override
-	public Expression createIsAir(Expression expr, SourceLocation sourceLocation) {
+	public Expression<?> createIsAir(Expression expr, SourceLocation sourceLocation) {
 		return new IsAir(expr);
 	}
 
 	@Override
-	public Expression createIsMoving(Expression expr, Expression direction,
+	public Expression<?> createIsMoving(Expression expr, Expression direction,
 			SourceLocation sourceLocation) {
 		return new IsMoving(expr);
 	}
 
 	@Override
-	public Expression createIsDucking(Expression expr,
+	public Expression<?> createIsDucking(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsDucking(expr);
 	}
 
 	@Override
-	public Expression createIsJumping(Expression expr,
+	public Expression<?> createIsJumping(Expression expr,
 			SourceLocation sourceLocation) {
 		return new IsJumping(expr);
 	}

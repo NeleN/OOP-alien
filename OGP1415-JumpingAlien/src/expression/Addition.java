@@ -9,7 +9,7 @@ public class Addition extends BinaryOperator<Double> {
 	
 	@Override
 	public Double evaluate(){
-		double result = ((double)left.evaluate() + (double)right.evaluate());
+		double result = ((double)getLeftOperand().evaluate() + (double)getRightOperand().evaluate());
 		return result;
 	}
 

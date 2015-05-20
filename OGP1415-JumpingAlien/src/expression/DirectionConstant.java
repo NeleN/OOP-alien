@@ -9,7 +9,7 @@ public class DirectionConstant extends Expression<Integer> {
 	
 	private Direction direction;
 	
-	public Object evaluate(){
+	public Integer evaluate(){
 		if (direction == Direction.RIGHT || direction == Direction.UP){
 			return 1;
 		}

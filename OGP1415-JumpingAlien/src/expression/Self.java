@@ -5,7 +5,7 @@ import program.Program;
 
 public class Self extends Expression<Creature> {
 	
-	public Object evaluate(){
+	public Creature evaluate(){
 		return getProgram().getUser();
 	}
 	

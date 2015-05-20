@@ -12,7 +12,7 @@ public class SearchObject extends Expression<Creature> {
 	}
 
 	@Override
-	public Object evaluate() {
+	public Creature evaluate() {
 		if (direction == Direction.LEFT){
 			for (Creature creature: getProgram().getUser().getWorld().getInWorldCreatures()){
 				if (positionX > creature.getPositionX() && ((positionX - creature.getPositionX()) < distanceClosestCreature)){

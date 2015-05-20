@@ -6,4 +6,11 @@ public class DoubleConstant extends Number<Double> {
 		this.value = value;
 	}
 
+	@Override
+	public Double evaluate() {
+		return value;
+	}
+	
+	double value;
+
 }

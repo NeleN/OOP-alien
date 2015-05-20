@@ -2,11 +2,11 @@ package expression;
 
 public class Multiplication extends BinaryOperator<Double> {
 
-	public Multiplication (Expression left, Expression right){
+	public Multiplication (Expression<Double> left, Expression<Double> right){
 		super(left, right);
 	}
 	
-	public Object evaluate(){
+	public Double evaluate(){
 		return ((double)getLeftOperand().evaluate() * (double)getRightOperand().evaluate() );
 	}
 	

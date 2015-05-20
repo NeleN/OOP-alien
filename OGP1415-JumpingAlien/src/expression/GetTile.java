@@ -1,6 +1,6 @@
 package expression;
 
-public class GetTile extends Expression <Integer []>{
+public class GetTile extends Expression <int []>{
 	
 	public GetTile(Expression <Integer> x, Expression <Integer> y){
 		pixelX = (Integer) x.evaluate();
@@ -8,7 +8,7 @@ public class GetTile extends Expression <Integer []>{
 	}
 	
 	@Override
-	public Object evaluate(){
+	public int[] evaluate(){
 		tileX = this.getProgram().getUser().getWorld().getTileNbX(pixelX);
 		tileY = this.getProgram().getUser().getWorld().getTileNbY(pixelY);
 		int[] array = {tileX, tileY};

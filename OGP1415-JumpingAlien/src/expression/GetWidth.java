@@ -2,14 +2,14 @@ package expression;
 
 import jumpingalien.model.Creature;
 
-public class GetWidth extends Number<Double> {
+public class GetWidth extends Number<Integer> {
 	
 	public GetWidth (Expression <Creature> expression){
 		this.creature = (Creature) expression.evaluate();
 	}
 	
 	@Override
-	public Object evaluate() {
+	public Integer evaluate() {
 		return creature.getWidthSprite();
 	}
 	

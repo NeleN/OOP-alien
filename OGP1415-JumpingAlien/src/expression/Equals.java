@@ -2,11 +2,11 @@ package expression;
 
 public class Equals extends BinaryOperator<Boolean> {
 	
-	public Equals (Expression left, Expression right){
+	public Equals (Expression<Boolean> left, Expression<Boolean> right){
 		super(left, right);
 	}
 	
-	public Object evaluate(){
+	public Boolean evaluate(){
 		return (getLeftOperand().evaluate() == getRightOperand().evaluate() );
 	}
 

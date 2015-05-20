@@ -9,7 +9,7 @@ public class GetY extends Number <Double>{
 	}
 
 	@Override
-	public Object evaluate() {
+	public Double evaluate() {
 		return creature.getPositionY();
 	}
 	

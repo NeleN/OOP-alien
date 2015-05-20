@@ -9,7 +9,7 @@ public class GetHitpoints extends Number<Integer> {
 	}
 	
 	@Override
-	public Object evaluate(){
+	public Integer evaluate(){
 		return creature.getHitpoints();
 	}
 	
