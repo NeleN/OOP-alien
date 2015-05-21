@@ -13,12 +13,7 @@ public class ReadVariable extends Expression<Type> {
 	
 	@Override
 	public Type evaluate() {
-		if (getProgram() != null){
-			return (Type) getProgram().getGlobalVariables().get(name);
-		}
-		else{
-			return null;
-		}
+		return getProgram().getGlobalVariables().get(name);
 	}
 	
 	String name;

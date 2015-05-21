@@ -13,15 +13,14 @@ import expression.Expression;
 public class StartRun extends Statement {
 	
 	public StartRun(Expression<Integer> direction){
-		System.out.println(direction.evaluate());
-		if ((int) direction.evaluate() == 1){
-			this.direction = Direction.RIGHT;
-		}
-		if (direction.evaluate() == null){
+		if (direction.evaluate() != null){
+			if ((int) direction.evaluate() == 1){
+				this.direction = Direction.RIGHT;
+			}
 			
-		}
-		else{
-			this.direction = Direction.LEFT;
+			else{
+				this.direction = Direction.LEFT;
+			}
 		}
 	}
 	
