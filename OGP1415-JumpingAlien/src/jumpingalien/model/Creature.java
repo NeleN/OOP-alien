@@ -151,14 +151,15 @@ public abstract class Creature{
 					}
 				}
 			}
-		if (dt > 0.001){
-			this.program.time = dt;
-		}
-		else {
-			this.program.time = 0.001;
-		}
-		}
-		
+			if (this.program != null){
+				if (dt > 0.001){
+					this.program.time = dt;
+				}
+				else {
+					this.program.time = 0.001;
+				}
+				}
+		}	
 	}
 
 	

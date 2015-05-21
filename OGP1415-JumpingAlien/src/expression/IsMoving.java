@@ -11,7 +11,7 @@ public class IsMoving extends Bool {
 	
 	@Override
 	public Boolean evaluate() {
-		return (creature.isMovingX() || (creature.getSpeedY() != 0));
+		return ((creature.getSpeedX() != 0) || (creature.getSpeedY() != 0));
 	}
 	
 	private Creature creature;
