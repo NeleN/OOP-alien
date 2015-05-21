@@ -1,6 +1,7 @@
 package statement;
 
 import java.util.*;
+
 import program.Program;
 import jumpingalien.model.Creature;
 import jumpingalien.part3.programs.IProgramFactory.*;
@@ -18,8 +19,8 @@ import type.Type.type;
 
 public class ForEach extends Statement {
 	
-	public ForEach(String variableName, jumpingalien.part3.programs.IProgramFactory.Kind variableKind, Expression<?> where,
-			Expression<?> sort, SortDirection sortDirection, Statement body){
+	public ForEach(String variableName, jumpingalien.part3.programs.IProgramFactory.Kind variableKind, Expression<Boolean> where,
+			Expression<Double> sort, SortDirection sortDirection, Statement body){
 		super();
 		this.name = variableName;
 		this.kind = variableKind;
@@ -29,6 +30,7 @@ public class ForEach extends Statement {
 		this.body = body;
 	} 
 
+	
 	public List <?> objectsOfKind(){
 		if (this.kind == Kind.MAZUB){
 			this.objects = (List<?>) getProgram().getUser().getWorld().getMazubsInWorld();
@@ -50,73 +52,37 @@ public class ForEach extends Statement {
 		if (this.kind == Kind.ANY){
 			this.objects = (List<?>) getProgram().getUser().getWorld().getInWorldCreatures();	
 		}	
-		return this.objects;
+		return objects;
 	}
-	
-//	public static <T> void sort(List<T> objects,
-//            Comparator<? super T> c){
-//		c.compare(o1, o2)
-//	}
-	
-//	public int compareTo(Object o) {
-//		 
-//		double compare = (double) sort.evaluate(); 
-// 
-//		//ascending order
-//		return this.quantity - compareQuantity;
-// 
-//		//descending order
-//		return compareQuantity - this.quantity;
-// 
-//	}
-	
 	
 	@Override
 	public void execute() throws BreakException {
 		objects = objectsOfKind();
 		objects.stream()
-			   .filter(a -> {if (where.evaluate() != null)
+			   .filter(e -> {if (where.evaluate() != null)
 				   				return (boolean) where.evaluate();
 			   				return false;})
-			   //.map(o -> new Type((type)o))
-			   .sorted();
-		for(Object name : objects) {
-			if (getProgram().getGlobalVariables().containsKey(name)){
-				this.name = name.toString();
-				body.execute();
-			}
+			  // .map(e -> new Type((type) e))
+			   .sorted()
+//			   .sorted((e1, e2) ->{if (this.sortDirection == SortDirection.ASCENDING){
+//				   						Double.compare((double) e1.hashCode(),(double)e2.hashCode());}
+//			   					   else{
+//					   					Double.compare((double) e2.hashCode(), (double)e1.hashCode());}})
+			   .forEach(e -> {if (getProgram().getGlobalVariables().containsKey(e)){
+										this.name = e.toString();
+										try {
+											body.execute();
+										} catch (Exception e1) {
+											e1.printStackTrace();
+										}}});
 		}
-	}
 
 	private String name;
 	private jumpingalien.part3.programs.IProgramFactory.Kind kind;
-	private Expression<?> where;
-	private Expression<?> sort;
+	private Expression<Boolean> where;
+	private Expression<Double> sort;
 	private SortDirection sortDirection;
 	private Statement body;
 	private List<?> objects;
 
-//	/** Kind enum */
-//	public enum Kind {
-//		MAZUB, BUZAM, SLIME, SHARK, PLANT, TERRAIN, ANY
-//	}
-//	objects.stream()
-//	.filter(a -> {
-//		if (where.evaluate() != null)
-//			return true;
-//		return false;
-//	})
-//	.sorted((a,b) -> {
-//		getProgram().getGlobalVariables().put(getVariableName(), a);
-//		Double first = (Double) sort().evaluate();
-//		
-//		getProgram().getGlobalVariables().put(getVariableName(), b);
-//		Double second = (Double) sort().evaluate();
-//		
-//		if (this.sortDirection == SortDirection.ASCENDING)
-//			return Double.compare(first, second);
-//		else
-//			return Double.compare(second, first);
-//	})
-//	.collect(Collectors.toSet());
 }
