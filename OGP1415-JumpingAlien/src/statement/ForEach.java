@@ -57,24 +57,27 @@ public class ForEach extends Statement {
 	
 	@Override
 	public void execute() throws BreakException {
-		objects = objectsOfKind();
-		objects.stream()
-			   .filter(e -> {if (where.evaluate() != null)
-				   				return (boolean) where.evaluate();
-			   				return false;})
-			  // .map(e -> new Type((type) e))
-			   .sorted()
-//			   .sorted((e1, e2) ->{if (this.sortDirection == SortDirection.ASCENDING){
-//				   						Double.compare((double) e1.hashCode(),(double)e2.hashCode());}
-//			   					   else{
-//					   					Double.compare((double) e2.hashCode(), (double)e1.hashCode());}})
-			   .forEach(e -> {if (getProgram().getGlobalVariables().containsKey(e)){
-										this.name = e.toString();
-										try {
-											body.execute();
-										} catch (Exception e1) {
-											e1.printStackTrace();
-										}}});
+		if (getProgram().getTime() >= 0.001){
+			objects = objectsOfKind();
+			objects.stream()
+				   .filter(e -> {if (where.evaluate() != null)
+					   				return (boolean) where.evaluate();
+				   				return false;})
+//				  .map(e -> new Type((type) e))
+				  .sorted()
+//			 	  .sorted((e1, e2) ->{if (this.sortDirection == SortDirection.ASCENDING){
+//					   						Double.compare((double) e1.hashCode(),(double)e2.hashCode());}
+//			   						   else{
+//					   						Double.compare((double) e2.hashCode(), (double)e1.hashCode());}})
+				   .forEach(e -> {if (getProgram().getGlobalVariables().containsKey(e)){
+											this.name = e.toString();
+											try {
+												body.execute();
+											} catch (Exception e1) {
+												e1.printStackTrace();
+											}}});
+		getProgram().timeUsed(0.001);
+		}
 		}
 
 	private String name;
