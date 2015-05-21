@@ -12,17 +12,14 @@ public class StartJump extends Statement {
 	
 	@Override
 	public void execute() {
-		if (time > 0.001){
+		if (getProgram().getTime() >= 0.001){
 			if (getProgram().getUser().getClass() == Mazub.class)
 				((Mazub)getProgram().getUser()).startJump();
-			time -= 0.001;
 		}
-		time -= 0.001;
-		if (time > 0.001){
+		if (getProgram().getTime() >= 0.001){
 			if (getProgram().getUser().getClass() == Shark.class)
 				((Mazub)getProgram().getUser()).startJump();
-			time -= 0.001;
 		}
-		time -= 0.001;		
+		getProgram().timeUsed(0.001);		
 	}
 }

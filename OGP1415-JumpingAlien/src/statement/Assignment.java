@@ -21,9 +21,9 @@ public class Assignment extends Statement{
 
 	@Override
 	public void execute(){
-		if (getTime() > 0.001){
+		if (getProgram().getTime() >= 0.001){
 			getProgram().getGlobalVariables().put(name, (Type)NewValue.evaluate());
-//			getTime()-=0.001;
+			getProgram().timeUsed(0.001);
 		}
 	}
 }

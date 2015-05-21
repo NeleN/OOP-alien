@@ -5,12 +5,13 @@ import jumpingalien.model.*;
 public class StopDuck extends Statement {
 	
 	public StopDuck(){
-		super();
 	}
 	
 	@Override
 	public void execute() {
-		((Mazub)getProgram().getUser()).endDuck();	
-		time -= 0.001;
+		if (getProgram().getTime() >= 0.001){
+			((Mazub)getProgram().getUser()).endDuck();	
+			getProgram().timeUsed(0.001);
+		}
 	}
 }

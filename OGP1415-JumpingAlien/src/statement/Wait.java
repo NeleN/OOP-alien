@@ -11,7 +11,6 @@ import jumpingalien.part3.programs.SourceLocation;
 public class Wait extends Statement {
 
 	public Wait(Expression<Long> duration){
-		super();
 		this.duration = duration.evaluate();
 	}
 	
@@ -19,7 +18,7 @@ public class Wait extends Statement {
 
 	@Override
 	public void execute() {
-		if (time >= duration){
+		if (getProgram().getTime() >= duration){
 			try {
 				getProgram().wait(duration);
 			} catch (InterruptedException e) {
@@ -27,8 +26,8 @@ public class Wait extends Statement {
 			}
 		}
 		else {
-			duration = (long)time;
+			duration = (long)getProgram().getTime();
 		}
-		time -= 0.001;
+		getProgram().timeUsed(0.1);
 	}
 }

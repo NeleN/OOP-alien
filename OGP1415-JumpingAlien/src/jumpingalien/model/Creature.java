@@ -16,11 +16,6 @@ import be.kuleuven.cs.som.annotate.Raw;
  *
  */
 public abstract class Creature{
-	//TODO documentatie en juist plaatsen in code
-	public double getTime(){
-		return this.time;
-	}
-	private double time = 0;
 
 	/**
 	 * Initializes the creature at a given position and its sprites.
@@ -156,7 +151,12 @@ public abstract class Creature{
 					}
 				}
 			}
-		this.time = dt;
+		if (dt > 0.001){
+			this.program.time = dt;
+		}
+		else {
+			this.program.time = 0.001;
+		}
 		}
 		
 	}

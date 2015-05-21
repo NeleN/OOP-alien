@@ -17,7 +17,9 @@ public class Print extends Statement {
 
 	@Override
 	public void execute() {
-		System.out.println(value.evaluate());
-		time -= 0.001;
+		if (getProgram().getTime() >= 0.001){
+			System.out.println(value.evaluate());
+			getProgram().timeUsed(0.001);
+		}
 	}
 }

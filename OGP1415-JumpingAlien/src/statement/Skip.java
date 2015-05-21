@@ -10,9 +10,9 @@ public class Skip extends Statement {
 
 	@Override
 	public void execute() {
-		if (time > 0.001){	
+		if (getProgram().getTime() >= 0.001){
 		}
-		time -=0.001;
+		getProgram().timeUsed(0.001);
 	}
 	
 	

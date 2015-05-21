@@ -11,10 +11,10 @@ public class StartDuck extends Statement {
 	
 	@Override
 	public void execute() {
-		if (time > 0.001){
+		if (getProgram().getTime() >= 0.001){
 			((Mazub)getProgram().getUser()).startDuck();
 		}
-		time -= 0.001;
+		getProgram().timeUsed(0.001);
 	}
 }
 

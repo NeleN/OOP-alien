@@ -25,19 +25,18 @@ public class If extends Statement {
 	
 	@Override
 	public void execute() throws BreakException{
-		if (time>0.001){
-			time -= 0.001;
+		if (getProgram().getTime() >= 0.001){
 			if ((boolean) condition.evaluate()){
 				ifBody.execute();
 			}
 			else{
-				if (time > 0.001){
+				if (getProgram().getTime() >= 0.001){
 					if (elseBody != null){
 					elseBody.execute();
 					}
-					time -=0.001;
 				}
 			}
+			getProgram().timeUsed(0.001);
 		}
 	}
 }

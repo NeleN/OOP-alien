@@ -6,15 +6,6 @@ public abstract class Statement {
 	
 	public Statement(){
 	}
-	
-//	if (this.getProgram() != null)
-//		time = ;
-	
-	double time ;
-	
-	double getTime(){
-		return this.getProgram().getUser().getTime();
-	}
 
 	public abstract void execute() throws BreakException;
 	

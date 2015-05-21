@@ -51,6 +51,18 @@ public class Program {
 			this.isWellFormed = false;
 		}
 		return this.isWellFormed;
+		
+		
+	}
+	
+	public double time ;
+	
+	public double getTime(){
+		return time;
+	}
+	
+	public double timeUsed(Double time){
+		return this.time -= time;
 	}
 	
 	private boolean isWellFormed = true;

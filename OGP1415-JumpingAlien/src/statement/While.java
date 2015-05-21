@@ -28,7 +28,7 @@ public class While extends Statement {
 	public void execute() {
 		try{		
 			if (state == "if"){
-				if (time > 0.001){
+				if (getProgram().getTime() >= 0.001){
 					if ((boolean) condition.evaluate()){
 						state = "body";
 						this.execute();
@@ -36,14 +36,12 @@ public class While extends Statement {
 					else{
 						state = "finish";
 					}
-					time -= 0.001;
 				}
 			}
 			if (state == "body"){
-				if (time > 0.001){
+				if (getProgram().getTime() >= 0.001){
 					body.execute();
 					state = "if";
-					time -= 0.001;
 					this.execute();
 				}
 				
@@ -51,6 +49,7 @@ public class While extends Statement {
 			if (state == "finish"){
 				
 			}
+			getProgram().timeUsed(0.001);
 		} catch (BreakException exc){
 			state = "finish";
 			}

@@ -10,7 +10,6 @@ import expression.Expression;
 public class StopRun extends Statement {
 	
 	public StopRun(Expression<?> direction){
-		super();
 		this.direction = direction;
 	}
 	
@@ -19,7 +18,9 @@ public class StopRun extends Statement {
 
 	@Override
 	public void execute() {
-		getProgram().getUser().endMove();
-		time -= 0.001;
+		if (getProgram().getTime() >= 0.001){
+			getProgram().getUser().endMove();
+			getProgram().timeUsed(0.001);
+		}
 	}
 }

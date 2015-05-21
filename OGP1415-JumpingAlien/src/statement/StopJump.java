@@ -5,12 +5,13 @@ package statement;
 public class StopJump extends Statement {
 	
 	public StopJump(){
-		super();
 	}
 	
 	@Override
 	public void execute() {
-		getProgram().getUser().endJump();
-		time -= 0.001;
+		if (getProgram().getTime() >= 0.001){
+			getProgram().getUser().endJump();
+			getProgram().timeUsed(0.001);
+		}
 	}
 }

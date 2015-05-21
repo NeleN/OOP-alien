@@ -19,12 +19,11 @@ public class Sequence extends Statement {
 	// controleren of er tijd over is. 
 	@Override
 	public void execute() throws BreakException {
-		while ((i < length) && (time > 0.001)){
-			time -= 0.001;
+		while ((i < length) && (getProgram().getTime() > 0.001)){
 			statements.get(i).execute();
 			i+=1;
 		}
-		time -= 0.001;
+		getProgram().timeUsed(0.001);
 	}
 
 	

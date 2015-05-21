@@ -9,7 +9,8 @@ public class Break extends Statement {
 
 	@Override
 	public void execute() throws BreakException {
-		if (time > 0.001){
+		if (getProgram().getTime() >= 0.001){
+			getProgram().timeUsed(0.001);
 			throw new BreakException();
 		}
 		

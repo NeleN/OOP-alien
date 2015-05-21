@@ -28,34 +28,27 @@ public class StartRun extends Statement {
 
 	@Override
 	public void execute() {
-		if (time > 0.001){
+		if (getProgram().getTime() >= 0.001){
 			if (getProgram().getUser().getClass() == Mazub.class){
 				((Mazub)getProgram().getUser()).startMove(direction);
 			}
-			time -= 0.001;
 		}
-		time -= 0.001;
-		if (time > 0.001){
+		if (getProgram().getTime() >= 0.001){
 			if (getProgram().getUser().getClass() == Shark.class){
 				((Mazub)getProgram().getUser()).startMove(direction);
 			}
-			time -= 0.001;
 		}
-		time -= 0.001;
-		if (time > 0.001){
+		if (getProgram().getTime() >= 0.001){
 			if (getProgram().getUser().getClass() == Plant.class){
 				((Mazub)getProgram().getUser()).startMove(direction);
 			}
-			time -= 0.001;
 		}
-		time -=0.001;
-		if (time > 0.001){
+		if (getProgram().getTime() >= 0.001){
 			if (getProgram().getUser().getClass() == Slime.class){
 				((Mazub)getProgram().getUser()).startMove(direction);
 			}
-			time -= 0.001;
 		}
-		time -= 0.001;
+		getProgram().timeUsed(0.001);
 	}
 	
 }
