@@ -1,15 +1,12 @@
 package statement;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import program.Program;
 import jumpingalien.model.Creature;
 import jumpingalien.part3.programs.IProgramFactory.*;
 import expression.Expression;
 import type.Type;
+import type.Type.type;
 
 
 /**
@@ -31,64 +28,64 @@ public class ForEach extends Statement {
 		this.sortDirection = sortDirection;
 		this.body = body;
 	} 
-	
-	public List <?> objectsOfKindWithRestriction(jumpingalien.part3.programs.IProgramFactory.Kind kind){
-		if (kind == Kind.MAZUB){
-			objects = (List<?>) getProgram().getUser().getWorld().getMazubsInWorld();
-		}
-		if (kind == Kind.BUZAM){
-			objects = (List<?>) getProgram().getUser().getWorld().getBuzamsInWorld();
-		}
-		if (kind == Kind.SLIME){
-			objects = (List<?>) getProgram().getUser().getWorld().getSlimesInWorld();
-		}
-		if (kind == Kind.SHARK){
-			objects = (List<?>) getProgram().getUser().getWorld().getSharksInWorld();
-		}
-		if (kind == Kind.PLANT){
-			objects = (List<?>) getProgram().getUser().getWorld().getPlantsInWorld();
-		}
-		if (kind == Kind.TERRAIN){			
-		}
-		if (kind == Kind.ANY){
-			objects = (List<?>) getProgram().getUser().getWorld().getInWorldCreatures();	
-		}
-		objects.stream()
-		.filter(a -> {
-			if (where.evaluate() != null)
-				return objects;
-			return false;
-		})
-		.sorted((a,b) -> {
-			getProgram().getGlobalVariables().put(getVariableName(), a);
-			Double first = (Double) sort().evaluate();
-			
-			getProgram().getGlobalVariables().put(getVariableName(), b);
-			Double second = (Double) sort().evaluate();
-			
-			if (getSortDirection() == SortDirection.ASCENDING)
-				return Double.compare(first, second);
-			else
-				return Double.compare(second, first);
-		})
-		.collect(Collectors.toSet());
 
-return gameobjects;
-		return objects;
+	public List <?> objectsOfKind(){
+		if (this.kind == Kind.MAZUB){
+			this.objects = (List<?>) getProgram().getUser().getWorld().getMazubsInWorld();
+		}
+		if (this.kind == Kind.BUZAM){
+			this.objects = (List<?>) getProgram().getUser().getWorld().getBuzamsInWorld();
+		}
+		if (this.kind == Kind.SLIME){
+			this.objects = (List<?>) getProgram().getUser().getWorld().getSlimesInWorld();
+		}
+		if (this.kind == Kind.SHARK){
+			this.objects = (List<?>) getProgram().getUser().getWorld().getSharksInWorld();
+		}
+		if (this.kind == Kind.PLANT){
+			this.objects = (List<?>) getProgram().getUser().getWorld().getPlantsInWorld();
+		}
+		if (this.kind == Kind.TERRAIN){			
+		}
+		if (this.kind == Kind.ANY){
+			this.objects = (List<?>) getProgram().getUser().getWorld().getInWorldCreatures();	
+		}	
+		return this.objects;
 	}
 	
-
+//	public static <T> void sort(List<T> objects,
+//            Comparator<? super T> c){
+//		c.compare(o1, o2)
+//	}
+	
+//	public int compareTo(Object o) {
+//		 
+//		double compare = (double) sort.evaluate(); 
+// 
+//		//ascending order
+//		return this.quantity - compareQuantity;
+// 
+//		//descending order
+//		return compareQuantity - this.quantity;
+// 
+//	}
+	
+	
 	@Override
-	public void execute() {
-//		for (name; kind)
-//			if (where)
-//				body.execute();
-//			return sorted(sort)
+	public void execute() throws BreakException {
+		objects = objectsOfKind();
+		objects.stream()
+			   .filter(o -> (boolean) where.evaluate())
+			   //.map(o -> new Type((type)o))
+			   .sorted();
+		for(Object name : objects) {
+			if (getProgram().getGlobalVariables().containsKey(name)){
+				this.name = name.toString();
+				body.execute();
+			}
 		}
-		
-		
-	
-	
+	}
+
 	private String name;
 	private jumpingalien.part3.programs.IProgramFactory.Kind kind;
 	private Expression<?> where;
@@ -101,5 +98,23 @@ return gameobjects;
 //	public enum Kind {
 //		MAZUB, BUZAM, SLIME, SHARK, PLANT, TERRAIN, ANY
 //	}
-
+//	objects.stream()
+//	.filter(a -> {
+//		if (where.evaluate() != null)
+//			return true;
+//		return false;
+//	})
+//	.sorted((a,b) -> {
+//		getProgram().getGlobalVariables().put(getVariableName(), a);
+//		Double first = (Double) sort().evaluate();
+//		
+//		getProgram().getGlobalVariables().put(getVariableName(), b);
+//		Double second = (Double) sort().evaluate();
+//		
+//		if (this.sortDirection == SortDirection.ASCENDING)
+//			return Double.compare(first, second);
+//		else
+//			return Double.compare(second, first);
+//	})
+//	.collect(Collectors.toSet());
 }
