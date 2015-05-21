@@ -237,25 +237,25 @@ public class Mazub extends Creature{
 	 * 
 	 */
 	public Sprite getCurrentSprite() {
-		if (! isMovingX() && ! hasMovedX() && ! isDucking())
+		if (! (isMovingLeft() || isMovingRight()) && ! hasMovedX() && ! isDucking())
 			return this.getImageAtIndex(0);
-		if (! isMovingX() && ! hasMovedX() && isDucking())
+		if (! (isMovingLeft() || isMovingRight()) && ! hasMovedX() && isDucking())
 			return this.getImageAtIndex(1);
-		if (! isMovingX() && hasMovedX() && this.lastDirection == 1 && ! isDucking())
+		if (! (isMovingLeft() || isMovingRight()) && hasMovedX() && this.lastDirection == 1 && ! isDucking())
 			return this.getImageAtIndex(2);
-		if (! isMovingX() && hasMovedX() && this.lastDirection == -1 && ! isDucking())
+		if (! (isMovingLeft() || isMovingRight()) && hasMovedX() && this.lastDirection == -1 && ! isDucking())
 			return this.getImageAtIndex(3);
-		if ( isMovingX() && this.lastDirection == 1 && isJumping() && ! isDucking())
+		if ( (isMovingLeft() || isMovingRight()) && this.lastDirection == 1 && isJumping() && ! isDucking())
 			return this.getImageAtIndex(4);
-		if ( isMovingX() && this.lastDirection == -1 && isJumping() && ! isDucking())
+		if ( (isMovingLeft() || isMovingRight()) && this.lastDirection == -1 && isJumping() && ! isDucking())
 			return this.getImageAtIndex(5);
-		if ( (isMovingX() || hasMovedX())  && this.lastDirection == 1 && isDucking())
+		if ( (isMovingRight() || hasMovedX())  && this.lastDirection == 1 && isDucking())
 			return this.getImageAtIndex(6);
-		if ( (isMovingX() || hasMovedX())  && this.lastDirection == -1 && isDucking())
+		if ( (isMovingLeft() || hasMovedX())  && this.lastDirection == -1 && isDucking())
 			return this.getImageAtIndex(7);
-		if ( isMovingX() && this.lastDirection == 1 && ! isJumping() && ! isDucking())
+		if ( getSpeedX()>0 && ! isJumping() && ! isDucking())
 			return this.getImageAtIndex(8+alternatingIndex);
-		if ( isMovingX() && this.lastDirection == -1 && ! isJumping() && ! isDucking())
+		if ( getSpeedX()<0 && ! isJumping() && ! isDucking())
 			return this.getImageAtIndex(9+m+alternatingIndex);
 		else return this.getImageAtIndex(0);
 		

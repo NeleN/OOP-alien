@@ -235,12 +235,23 @@ public abstract class Creature{
 	/**
 	 * Checks if  the creature is moving horizontally.
 	 * 
-	 * @return	true if and only if the creature is moving horizontally.
-	 * 			| this.isMovingX
+	 * @return	true if and only if the creature is moving to the left.
+	 * 			| this.isMovingLeft
 	 */
 	@Basic 
-	public boolean isMovingX(){
-		return this.isMovingX;
+	public boolean isMovingLeft(){
+		return this.isMovingLeft;
+	}
+	
+	/**
+	 * Checks if  the creature is moving horizontally.
+	 * 
+	 * @return	true if and only if the creature is moving to the right.
+	 * 			| this.isMovingLeft
+	 */
+	@Basic 
+	public boolean isMovingRight(){
+		return this.isMovingRight;
 	}
 
 	/**
@@ -572,10 +583,15 @@ public abstract class Creature{
 	void startMove(Direction direction, int speed, int acceleration){
 		setSpeedX(speed*direction.getDirection());
 		setAccelerationX(acceleration*direction.getDirection());
-		this.isMovingX = true;
 		this.lastDirection = direction.getDirection();
 		changedIndex = 0;
 		alternatingIndex = 0;
+		if (direction == Direction.LEFT){
+			this.isMovingLeft = true;
+		}
+		if (direction == Direction.RIGHT){
+			this.isMovingRight = true;
+		}
 	}
 	
 	/**
@@ -594,11 +610,33 @@ public abstract class Creature{
 	 *	ongoing movements at the same time, e.g. startMove(left) has been invoked while Mazub was already moving to the right, the horizontal velocity
 	 *	shall not be set to zero before all ongoing movements are terminated.
 	 */
-	public void endMove(){
-		setSpeedX(0);
-		setAccelerationX(0);
-		timeLastMovedX = 0;
-		this.isMovingX = false;
+	public void endMove(Direction direction){
+		if (direction.getDirection() == -1){
+			this.isMovingLeft = false;
+		}
+		if (direction.getDirection() == 1){
+			this.isMovingRight = false;
+		}
+		if (direction.getDirection() == -1 && this.getSpeedX() < 0){
+			if (this.isMovingRight){
+				this.startMove(Direction.RIGHT, 200, 0);
+			}
+			else {
+				setSpeedX(0);
+				setAccelerationX(0);
+				timeLastMovedX = 0;
+			}
+		}
+		if (direction.getDirection() == 1 && this.getSpeedX() > 0){
+			if (this.isMovingLeft){
+				this.startMove(Direction.LEFT, 200, 0);
+			}
+			else {
+				setSpeedX(0);
+				setAccelerationX(0);
+				timeLastMovedX = 0;
+			}
+		}
 	}
 	
 	/**
@@ -1021,9 +1059,14 @@ public abstract class Creature{
 	public double timeLastMovedX = 0;
 	
 	/**
-	 * A boolean which shows whether the creature is moving or not.
+	 * A boolean which shows whether the creature is moving to the left or not.
 	 */
-	private boolean isMovingX = false;
+	private boolean isMovingLeft = false;
+	
+	/**
+	 * A boolean which shows whether the creature is moving to the right or not.
+	 */
+	private boolean isMovingRight = false;
 	
 	/**
 	 * A boolean which shows whether the creature is jumping or not.

@@ -309,7 +309,7 @@ public class Facade implements IFacadePart3 {
 	}
 	
 	public void endMoveLeft(Mazub alien){
-		alien.endMove();
+		alien.endMove(Direction.LEFT);
 	}
 	
 	public void startMoveRight(Mazub alien){
@@ -317,7 +317,7 @@ public class Facade implements IFacadePart3 {
 	}
 	
 	public void endMoveRight(Mazub alien){
-		alien.endMove();
+		alien.endMove(Direction.RIGHT);
 	}
 	
 	public void startDuck(Mazub alien){
