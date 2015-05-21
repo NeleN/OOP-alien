@@ -10,9 +10,9 @@ import jumpingalien.part3.programs.SourceLocation;
 
 public class Wait extends Statement {
 
-	public Wait(Expression<?> duration){
+	public Wait(Expression<Long> duration){
 		super();
-		this.duration = (long) duration.evaluate();
+		this.duration = duration.evaluate();
 	}
 	
 	private long duration;

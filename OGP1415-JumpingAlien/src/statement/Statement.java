@@ -5,10 +5,16 @@ import program.Program;
 public abstract class Statement {
 	
 	public Statement(){
-		time = this.getProgram().getUser().getTime();
 	}
 	
-	double time;
+//	if (this.getProgram() != null)
+//		time = ;
+	
+	double time ;
+	
+	double getTime(){
+		return this.getProgram().getUser().getTime();
+	}
 
 	public abstract void execute() throws BreakException;
 	

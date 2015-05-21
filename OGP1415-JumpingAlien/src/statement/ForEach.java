@@ -75,7 +75,9 @@ public class ForEach extends Statement {
 	public void execute() throws BreakException {
 		objects = objectsOfKind();
 		objects.stream()
-			   .filter(o -> (boolean) where.evaluate())
+			   .filter(a -> {if (where.evaluate() != null)
+				   				return (boolean) where.evaluate();
+			   				return false;})
 			   //.map(o -> new Type((type)o))
 			   .sorted();
 		for(Object name : objects) {
